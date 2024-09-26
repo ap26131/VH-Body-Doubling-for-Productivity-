@@ -1,0 +1,22 @@
+{
+  "name": "VH-Body-Doubling-for-Productivity-",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ap26131/VH-Body-Doubling-for-Productivity-"
+  },
+  "scripts": {
+    "serve": "browser-sync start --server --files *"
+  },
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "browser-sync": "^3.0.2",
+    "d3": "^5.16.0",
+    "heatmap.js": "^2.0.5",
+    "sweetalert": "^2.1.2",
+    "three": "^0.168.0"
+  },
+  "overrides": {
+    "d3-color": "3.1.0"
+  }
+}
