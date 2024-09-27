@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Compatibility Check</title>
+    <script>
+        function isBrowserCompatible() {
+            // Check for WebGazer requirements: WebRTC, getUserMedia, requestAnimationFrame, and WebWorker
+            return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia &&
+                      window.requestAnimationFrame &&
+                      window.Worker);
+        }
+
+        window.onload = function() {
+            if (isBrowserCompatible()) {
+                // Redirect to ParticipantForm.html if browser is compatible
+                window.location.href = "ParticipantForm.html";
+            } else {
+                // Display incompatibility message
+                document.getElementById("message").innerText = "Your browser is not compatible with this program. Please use a modern browser that supports WebRTC and other required APIs.";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Browser Compatibility Check</h1>
+    <p id="message"></p>
+</body>
+</html>
