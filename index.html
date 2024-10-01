@@ -6,8 +6,57 @@
     <title>Unity WebGL Player | ProjectOne</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+   
+
+    <script src="./webgazer.js"></script>
+
+
+
+    <style>
+     
+      #unity-container {
+          width: 40%; 
+          height: 100%; 
+          float: left;
+      }
+      #unity-canvas {
+          width: 100% !important; 
+          height: 100% !important;
+          float: left;
+      }
+
+      .button-container {
+          float:right 
+      }
+
+      .button {
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 16px;
+      }
+
+
+
+    </style>
+
+
+
+
+
+
+
   </head>
   <body>
+
+    <script src="./js/main.js"></script>
+    <script src="./js/calibration.js"></script>
+    <script src="./js/precision_calculation.js"></script>
+    <script src="./js/precision_store_points.js"></script>
+
+
+
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=960 height=800 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
@@ -23,6 +72,15 @@
         <div id="unity-build-title">ProjectOne</div>
       </div>
     </div>
+
+  
+    <!-- Button to start and stop storing gaze points -->
+
+    <div class="button-container">
+      <button onclick="store_points_variable()">Start Storing Points</button>
+      <button onclick="stop_storing_points_variable()">Stop Storing Points</button>
+  </div>
+
     <script>
 
       var container = document.querySelector("#unity-container");
