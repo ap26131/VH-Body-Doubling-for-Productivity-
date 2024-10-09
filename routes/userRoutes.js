@@ -1,8 +1,9 @@
 const express = require('express');
-const router = express.Router();
-const formController = require('../controllers/formController');
+const router = express.Router({ mergeParams: true });
 
-router.post('/', formController.createUser);
+router.post('/', async (res, req) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 router.get('/', async (res, req) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
