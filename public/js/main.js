@@ -1,8 +1,6 @@
 
 window.onload = async function() {
-    var xprediction;
-    var yprediction;
-
+  
     //start the webgazer tracker
     await webgazer.setRegression('ridge') /* currently must set regression and tracker */
         //.setTracker('clmtrackr')

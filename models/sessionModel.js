@@ -8,4 +8,4 @@ const sessionSchema = new mongoose.Schema({
     user : {type: Schema.Types.ObjectId, ref: 'User'}
 });
 
-module.exports = mongoose.model('Session', SessionSchema);
+module.exports = mongoose.model('Session', sessionSchema);

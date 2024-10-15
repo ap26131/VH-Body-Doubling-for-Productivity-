@@ -4,6 +4,14 @@
     <title>Login Page</title>
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script> 
+        var socket = io();  
+        socket.on('login', (args) => {
+           swal(args);
+        });
+    </script>
     <h2>Login</h2>
     <form action="/validate" method="post">
         <label for="email">E-mail:</label>
@@ -12,6 +20,6 @@
         <input type="password" id="password" name="password" required><br><br>
         <input type="submit" value="Login">
     </form>
-    <button onclick="window.location='registration.html'">Register</button>
+    <button onclick="location.href='/register'">Register</button>
 </body>
 </html>
