@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<!--DOES NOT CONTAIN UNITY/ BUT DOES HAVE A WORKING QUIZ / DOES HAVE OFF SCREEN FUNCTION-->
+<!--TESTING GROUNDS FOR OFF SCREEN FUNCTION / DOES NOT CONTAIN UNITY/ BUT DOES HAVE A WORKING QUIZ -->
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
@@ -331,7 +331,8 @@
     
 <!--SUMBIT-->
 <script>
-    function checkAnswers() {
+
+  function checkAnswers() {
     let score = 0;
 
     const q1 = document.querySelector('input[name="q1"]:checked');
@@ -342,10 +343,10 @@
     const q6 = document.querySelector('input[name="q6"]:checked');
     const q7 = document.querySelector('input[name="q7"]:checked');
     const q8 = document.querySelector('input[name="q8"]:checked');
-    
-       
-    if (q1 && q1.value === 'correct') score++ 
-    if (q2 && q2.value === 'correct') score++; 
+
+    // Increment score for correct answers
+    if (q1 && q1.value === 'correct') score++;
+    if (q2 && q2.value === 'correct') score++;
     if (q3 && q3.value === 'correct') score++;
     if (q4 && q4.value === 'correct') score++;
     if (q5 && q5.value === 'correct') score++;
@@ -353,33 +354,13 @@
     if (q7 && q7.value === 'correct') score++;
     if (q8 && q8.value === 'correct') score++;
 
-    // Check text area length
-    const textBox1 = document.getElementById('textBox1');
-        if (textBox1.value.length >= 600) {
-          score++;
-        }
+    // Display result using an alert
+    alert(`You scored ${score} out of 8.`);
+  }
+  
+</script>
 
-    const textBox2 = document.getElementById('textBox1');
-    if (textBox2.value.length >= 600) {
-        score++;
-    }
-
-     // Display result in the modal
-     const resultText = `You scored ${score} out of 10.`;
-        document.getElementById('modalResult').innerText = resultText;
-
-        // Show the modal
-        const modal = document.getElementById("resultModal");
-        modal.style.display = "block";
-      }
-
-      // Close modal function
-      function closeModal() {
-        const modal = document.getElementById("resultModal");
-        modal.style.display = "none";
-      }
-
-    </script>
+    
 
 
 <!--WEBGAZER OFF SCREEN-->

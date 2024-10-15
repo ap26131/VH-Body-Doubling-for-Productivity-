@@ -1,17 +1,19 @@
+<!DOCTYPE html>
 
- <!DOCTYPE html>
- <!--CONTAINS BOTH THE HTML & UNITY/ THE QUIZ IS REFUSING TO WORK RN-->
+<!--UNITY + WORKSHEET + WORKING QUIZ ALL ON ONE PAGE/ NO IFRAME/  / VIDEOFEED IS NOT ACCESSIBLE-->
+
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Work Sheet with Virtual Human and WebGazer</title>
+    <title>Worksheet with Virtual Human and WebGazer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <style>
 
-    /* SPLIT SCREEN */ 
-    body{
+    <script src="./webgazer.js"></script>
+   
+    <style>
+      /* SPLIT SCREEN */ 
+      body {
         margin: 0;
         padding: 0;
         height: 100vh;
@@ -23,41 +25,42 @@
         height: 100%;
         overflow-y: scroll; 
         border: 1px solid #ccc;
+        position: relative; 
       }
 
       .panel-left {
         background-color: #f0f0f0;
+        z-index: 5; 
       }
 
       .panel-right {
         background-color: #d0e0f0;
+        position: relative;
+        z-index: 10; 
       }
 
       button {
         display: block;
         margin-top: 20px;
-        padding: 10px 15px 20px;
+        padding: 10px 15px;
         background-color: #4CAF50;
         color: white;
         border: none;
         cursor: pointer;
         margin-bottom: 20px;
-
       }
 
       button:hover {
         background-color: #45a049;
       }
-        
-    .button-container {
+
+      .button-container {
         display: flex; 
         justify-content: flex-start; 
         gap: 10px; 
-    }
+      }
 
-
-      /*WORKSHEET*/
-.text-box {
+      .text-box {
         border: 2px solid #333; 
         padding: 20px; 
         width: 90%; 
@@ -67,37 +70,31 @@
         resize: none; 
         overflow-y: scroll; 
         margin-bottom: 20px;
-        margin-left: 5px;
       }
 
       .question {
         margin-bottom: 20px;
-       padding-left: 100px;
-       margin-left: 5px;
       }
 
       .question h3 {
         margin-bottom: 10px;
-        margin-left: 5px;
       }
 
       .fill-in-box {
-    width: 300px;
-    height: 150px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    resize: none; 
-    overflow-y: scroll; 
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    margin-left: 5px;
-    background-color: white; 
-    color: black; 
-    pointer-events: auto; 
-    position: relative; 
-}
-
-
+        width: 300px;
+        height: 150px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        resize: none; 
+        overflow-y: scroll; 
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        background-color: white; 
+        color: black; 
+        pointer-events: auto; 
+        z-index: 11; /* Keep input fields in front */
+        position: relative;
+      }
 
       .char-count {
         margin-top: 10px;
@@ -105,84 +102,48 @@
         color: #555;
       }
 
-/* Modal popup */
-.modal {
-        display: none; 
-        position: fixed; 
-        z-index: 1; 
-        padding-top: 100px; 
-        left: 0;
-        top: 0;
+     
+    
+
+      /* UNITY CONTAINER */
+      #unity-container.unity-desktop {
         width: 100%; 
         height: 100%; 
-        background-color: rgba(0,0,0,0.4); 
+        position: relative; 
+        z-index: 4; 
       }
 
-      .modal-content {
-        background-color: white;
-        margin: auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        max-width: 500px;
-        text-align: center;
+      #unity-canvas {
+        width: 100%;
+        height: 100%;
+        background: #231F20;
+        z-index: 4;
       }
 
-      .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
+      #unity-loading-bar {
+        position: absolute; 
+        left: 50%; 
+        top: 50%; 
+        transform: translate(-50%, -50%);
+        display: none;
+        z-index: 4;
       }
 
-      .close:hover,
-      .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-      }
-
-     
-      /*UNITY + AVATAR */ 
-    
-#unity-container.unity-desktop { position: fixed; left: 0; top: 50%; transform: translateY(-50%); }
-            #unity-container.unity-mobile { position: fixed; width: 100%; height: 100%; }
-            .unity-mobile #unity-canvas { width: 100%; height: 100%; }
-            #unity-loading-bar { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: none; }
-            #unity-logo { width: 154px; height: 130px; background: url('unity-logo-dark.png') no-repeat center; }
-            #unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; margin-left: 6.5px; background: url('progress-bar-empty-dark.png') no-repeat center; }
-            #unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('progress-bar-full-dark.png') no-repeat center; }
-            #unity-footer { position: relative; }
-            .unity-mobile #unity-footer { display: none; }
-            #unity-webgl-logo { float: left; width: 204px; height: 38px; background: url('webgl-logo.png') no-repeat center; }
-            #unity-build-title { float: right; margin-right: 10px; line-height: 38px; font-family: Arial; font-size: 18px; }
-            #unity-fullscreen-button { cursor: pointer; float: right; width: 38px; height: 38px; background: url('fullscreen-button.png') no-repeat center; }
-            #unity-warning { position: absolute; left: 0; top: 5%; transform: translateY(0); background: white; padding: 10px; display: none; }
-         
-          #unity-container {
-              width: 70%; 
-              height: 100%; 
-              float: left;
-              position: absolute; 
-              left: 0; 
-              top: 50%; 
-              transform: translateY(-50%);
-          }
-          #unity-canvas {
-              width: 70% !important; 
-              height: 100% !important;
-              float: left;
-              background: #231F20;
-          }
+      #unity-logo { width: 154px; height: 130px; }
+      #unity-progress-bar-empty { width: 141px; height: 18px; }
+      #unity-progress-bar-full { width: 0%; height: 18px; }
+      #unity-footer { position: relative; z-index: 4; }
     </style>
   </head>
 
   <body>
-    
-    <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+
+   
+   
+    <script src="./js/main.js"></script>
     <script src="./js/precision_calculation.js"></script>
     <script src="./js/precision_store_points.js"></script>
-    
+    <script src="./js/store_points.js"></script>
 
 
     <!-- LEFT SIDE: Unity and Virtual Human -->
@@ -195,30 +156,22 @@
             <div id="unity-progress-bar-full"></div>
           </div>
         </div>
-        <div id="unity-footer">
-          <div id="unity-webgl-logo"></div>
-        
-        </div>
+        <div id="unity-footer"></div>
       </div>
     </div>
 
     <!-- RIGHT SIDE: Worksheet -->
     <div class="panel panel-right">
-     
-     
-     
-    <!-- TOP BUTTONS -->
-  <div class="button-container">
-    <button onclick="store_points_variable()">Start Storing Points</button>
-    <button onclick="stop_storing_points_variable()">Stop Storing Points</button>
-  </div>
+      <!-- TOP BUTTONS -->
+      <div class="button-container">
+        <button onclick="store_points_variable()">Start Storing Points</button>
+        <button onclick="stop_storing_points_variable()">Stop Storing Points</button>
+      </div>
 
-
-        <!--The Story-->
-        <div class="text-box">
-
-            <h4>The Great Bread Revolution </h4>
-            
+      <!-- The Story -->
+      <div class="text-box">
+        <h4>The Great Bread Revolution</h4>
+                
             <p> Once upon a time in France, there was a boy named Pierre who lived in a tiny village called Montclair. His family ran the local bakery, famous for their delicious bread. The secret ingredient? "Lots of love and a sprinkle of flour," Pierre’s father would say, though Pierre was pretty sure it was just butter. Anyway, people from all over the village came for the bread—until one day, they stopped. 
             
                It all started when the price of flour shot up like a rocket. Suddenly, Pierre’s father could barely afford enough flour to make even a baguette. "We’re being taxed more than a fancy cheese at a rich man's party!" his father grumbled, tossing his hat onto the table.
@@ -268,206 +221,182 @@
                "Long live the bread!" Pierre’s father would shout every morning, and Pierre would just shake his head, chuckling. "Papa, I think you mean, 'Long live the revolution!'"
                
                "Eh, same thing," his father would reply with a wink.
-            </p>
-            </div>
-
-            <div class="question" id="question1">
-                <h3>What was the name of Pierre’s village?</h3>
-                <label><input type="radio" name="q1" value="incorrect"> Paris</label><br>
-                <label><input type="radio" name="q1" value="correct"> Montclair</label><br>
-                <label><input type="radio" name="q1" value="incorrect"> Berlin</label><br>
-                <label><input type="radio" name="q1" value="incorrect"> Savannah</label><br>
-              </div>
-              
-              <div class="question" id="question2">
-                <h3>What did Pierre NOT make bread of?</h3>
-                <label><input type="radio" name="q2" value="correct"> Almonds</label><br>
-                <label><input type="radio" name="q2" value="incorrect"> Corn</label><br>
-                <label><input type="radio" name="q2" value="incorrect"> Potatoes</label><br>
-                <label><input type="radio" name="q2" value="incorrect"> Flour</label><br>
-              </div>
-              
-              <div class="question" id="question3">
-                <h3>What was the name of the King in the story?</h3>
-                <label><input type="radio" name="q3" value="incorrect"> Henry VII</label><br>
-                <label><input type="radio" name="q3" value="incorrect"> George II</label><br>
-                <label><input type="radio" name="q3" value="incorrect"> Francis I</label><br>
-                <label><input type="radio" name="q3" value="correct"> Louis XVI</label><br>
-              </div>
-              
-              <div class="question" id="question4">
-                <h3>What was the name of the prison the villagers stormed?</h3>
-                <label><input type="radio" name="q4" value="incorrect"> La Santé</label><br>
-                <label><input type="radio" name="q4" value="correct"> Bastille</label><br>
-                <label><input type="radio" name="q4" value="incorrect"> Alcatraz</label><br>
-                <label><input type="radio" name="q4" value="incorrect"> Guantanamo Bay</label><br>
-              </div>
-              
-              <div class="question" id="question5">
-                <h3>What did the villagers chant in the street?</h3>
-                <label><input type="radio" name="q5" value="incorrect"> "Long Live the Revolution!"</label><br>
-                <label><input type="radio" name="q5" value="incorrect"> "Enough is Enough!"</label><br>
-                <label><input type="radio" name="q5" value="correct"> "Liberty! Equality! And Bread!"</label><br>
-                <label><input type="radio" name="q5" value="incorrect"> "Down with the Monarchy!"</label><br>
-              </div>
-              
-              <div class="question" id="question6">
-                <h3>What’s one thing that goes well with bread?</h3>
-                <label><input type="radio" name="q6" value="correct"> Hope</label><br>
-                <label><input type="radio" name="q6" value="incorrect"> Butter</label><br>
-                <label><input type="radio" name="q6" value="incorrect"> Love</label><br>
-                <label><input type="radio" name="q6" value="incorrect"> Freedom</label><br>
-              </div>
-              
-              <div class="question" id="question7">
-                <h3>What did Pierre’s dad steal from a vendor?</h3>
-                <label><input type="radio" name="q7" value="incorrect"> A bag of flour</label><br>
-                <label><input type="radio" name="q7" value="incorrect"> A small satchel of coins</label><br>
-                <label><input type="radio" name="q7" value="correct"> A baguette</label><br>
-                <label><input type="radio" name="q7" value="incorrect"> A flag</label><br>
-              </div>
-              
-              <div class="question" id="question8">
-                <h3>How long did the loaf of bread have to last?</h3>
-                <label><input type="radio" name="q8" value="incorrect"> A month</label><br>
-                <label><input type="radio" name="q8" value="correct"> A week</label><br>
-                <label><input type="radio" name="q8" value="incorrect"> A year</label><br>
-                <label><input type="radio" name="q8" value="incorrect"> The weekend</label><br>
-              </div>
-              
             
-            <!--FILL IN THE BLANK-->
-            <div class="question">
-            <h3>Using at least 600 characters, summarize the story.</h3>
-            
-            <textarea id="textBox1" class="fill-in-box" maxlength="2000" oninput="updateCharCount('textBox1', 'charCount1')"></textarea>
-            <div id="charCount1" class="char-count">600 characters remaining</div>
-            
-            <h3>Using at least 600 characters, write about the time you ate bread.</h3>
-            
-            <textarea id="textBox2" class="fill-in-box" maxlength="2000" oninput="updateCharCount('textBox2', 'charCount2')"></textarea>
-            <div id="charCount2" class="char-count">600 characters remaining</div>
-            
-            </div>
+        </p>
+      </div>
 
-  <!-- Submit and Exit Buttons -->
-  <div class="button-container">
-    <button onclick="checkAnswers()">Submit</button>
-    <button onclick="window.location.href='home.html'">Exit</button>
-    <div id="result"></div>
-  </div>
+      <div class="question" id="question1">
+        <h3>What was the name of Pierre’s village?</h3>
+        <label><input type="radio" name="q1" value="incorrect"> Paris</label><br>
+        <label><input type="radio" name="q1" value="correct"> Montclair</label><br>
+        <label><input type="radio" name="q1" value="incorrect"> Berlin</label><br>
+        <label><input type="radio" name="q1" value="incorrect"> Savannah</label><br>
+      </div>
+      
+      <div class="question" id="question2">
+        <h3>What did Pierre NOT make bread of?</h3>
+        <label><input type="radio" name="q2" value="correct"> Almonds</label><br>
+        <label><input type="radio" name="q2" value="incorrect"> Corn</label><br>
+        <label><input type="radio" name="q2" value="incorrect"> Potatoes</label><br>
+        <label><input type="radio" name="q2" value="incorrect"> Flour</label><br>
+      </div>
+      
+      <div class="question" id="question3">
+        <h3>What was the name of the King in the story?</h3>
+        <label><input type="radio" name="q3" value="incorrect"> Henry VII</label><br>
+        <label><input type="radio" name="q3" value="incorrect"> George II</label><br>
+        <label><input type="radio" name="q3" value="incorrect"> Francis I</label><br>
+        <label><input type="radio" name="q3" value="correct"> Louis XVI</label><br>
+      </div>
+      
+      <div class="question" id="question4">
+        <h3>What was the name of the prison the villagers stormed?</h3>
+        <label><input type="radio" name="q4" value="incorrect"> La Santé</label><br>
+        <label><input type="radio" name="q4" value="correct"> Bastille</label><br>
+        <label><input type="radio" name="q4" value="incorrect"> Alcatraz</label><br>
+        <label><input type="radio" name="q4" value="incorrect"> Guantanamo Bay</label><br>
+      </div>
+      
+      <div class="question" id="question5">
+        <h3>What did the villagers chant in the street?</h3>
+        <label><input type="radio" name="q5" value="incorrect"> "Long Live the Revolution!"</label><br>
+        <label><input type="radio" name="q5" value="incorrect"> "Enough is Enough!"</label><br>
+        <label><input type="radio" name="q5" value="correct"> "Liberty! Equality! And Bread!"</label><br>
+        <label><input type="radio" name="q5" value="incorrect"> "Down with the Monarchy!"</label><br>
+      </div>
+      
+      <div class="question" id="question6">
+        <h3>What’s one thing that goes well with bread?</h3>
+        <label><input type="radio" name="q6" value="correct"> Hope</label><br>
+        <label><input type="radio" name="q6" value="incorrect"> Butter</label><br>
+        <label><input type="radio" name="q6" value="incorrect"> Love</label><br>
+        <label><input type="radio" name="q6" value="incorrect"> Freedom</label><br>
+      </div>
+      
+      <div class="question" id="question7">
+        <h3>What did Pierre’s dad steal from a vendor?</h3>
+        <label><input type="radio" name="q7" value="incorrect"> A bag of flour</label><br>
+        <label><input type="radio" name="q7" value="incorrect"> A small satchel of coins</label><br>
+        <label><input type="radio" name="q7" value="correct"> A baguette</label><br>
+        <label><input type="radio" name="q7" value="incorrect"> A flag</label><br>
+      </div>
+      
+      <div class="question" id="question8">
+        <h3>How long did the loaf of bread have to last?</h3>
+        <label><input type="radio" name="q8" value="incorrect"> A month</label><br>
+        <label><input type="radio" name="q8" value="correct"> A week</label><br>
+        <label><input type="radio" name="q8" value="incorrect"> A year</label><br>
+        <label><input type="radio" name="q8" value="incorrect"> The weekend</label><br>
+      </div>
 
-</div>
 
-<!-- Modal for Results -->
-<div id="resultModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <p id="modalResult">You scored X out of Y.</p>
-  </div>
-</div>
+      <!-- Submit and Exit Buttons -->
+      <div class="button-container">
+        <button onclick="checkAnswers()">Submit</button>
+        <button onclick="window.location.href='home.html'">Exit</button>
+        <div id="result"></div>
+      </div>
+    </div>
+
+ 
 
 
+ 
 
-
-<!-- JavaScript -->
-
-<!--WORKSHEET-->
 <script>
+  function checkAnswers() {
+    let score = 0;
 
-function updateCharCount(textBoxId, charCountId) {
-const textBox = document.getElementById(textBoxId);
-const charCount = document.getElementById(charCountId);
-const remaining = 600 - textBox.value.length;
-charCount.textContent = remaining + ' characters remaining';
-}
+    const q1 = document.querySelector('input[name="q1"]:checked');
+    const q2 = document.querySelector('input[name="q2"]:checked');
+    const q3 = document.querySelector('input[name="q3"]:checked');
+    const q4 = document.querySelector('input[name="q4"]:checked');
+    const q5 = document.querySelector('input[name="q5"]:checked');
+    const q6 = document.querySelector('input[name="q6"]:checked');
+    const q7 = document.querySelector('input[name="q7"]:checked');
+    const q8 = document.querySelector('input[name="q8"]:checked');
 
-</script>
+    // Increment score for correct answers
+    if (q1 && q1.value === 'correct') score++;
+    if (q2 && q2.value === 'correct') score++;
+    if (q3 && q3.value === 'correct') score++;
+    if (q4 && q4.value === 'correct') score++;
+    if (q5 && q5.value === 'correct') score++;
+    if (q6 && q6.value === 'correct') score++;
+    if (q7 && q7.value === 'correct') score++;
+    if (q8 && q8.value === 'correct') score++;
 
-<!--SUMBIT-->
-<script>
-function checkAnswers() {
-let score = 0;
-
-const q1 = document.querySelector('input[name="q1"]:checked');
-const q2 = document.querySelector('input[name="q2"]:checked');
-const q3 = document.querySelector('input[name="q3"]:checked');
-const q4 = document.querySelector('input[name="q4"]:checked');
-const q5 = document.querySelector('input[name="q5"]:checked');
-const q6 = document.querySelector('input[name="q6"]:checked');
-const q7 = document.querySelector('input[name="q7"]:checked');
-const q8 = document.querySelector('input[name="q8"]:checked');
-
-   
-if (q1 && q1.value === 'correct') score++ 
-if (q2 && q2.value === 'correct') score++; 
-if (q3 && q3.value === 'correct') score++;
-if (q4 && q4.value === 'correct') score++;
-if (q5 && q5.value === 'correct') score++;
-if (q6 && q6.value === 'correct') score++;
-if (q7 && q7.value === 'correct') score++;
-if (q8 && q8.value === 'correct') score++;
-
-// Check text area length
-const textBox1 = document.getElementById('textBox1');
-    if (textBox1.value.length >= 600) {
-      score++;
-    }
-
-const textBox2 = document.getElementById('textBox1');
-if (textBox2.value.length >= 600) {
-    score++;
-}
-
- // Display result in the modal
- const resultText = `You scored ${score} out of 10.`;
-    document.getElementById('modalResult').innerText = resultText;
-
-    // Show the modal
-    const modal = document.getElementById("resultModal");
-    modal.style.display = "block";
-  }
-
-  // Close modal function
-  function closeModal() {
-    const modal = document.getElementById("resultModal");
-    modal.style.display = "none";
+    // Display result using an alert
+    alert(`You scored ${score} out of 8.`);
   }
 
 </script>
 
-<!-- UNITY SCRIPTS -->
+    </script>
+
+    <!-- UNITY SCRIPTS -->
+    <script>
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/Unity.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/Unity.data",
+        frameworkUrl: buildUrl + "/Unity.framework.js",
+        codeUrl: buildUrl + "/Unity.wasm",
+        companyName: "DefaultCompany",
+        productName: "ProjectOne",
+      };
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+        }).catch((message) => alert(message));
+      };
+      document.body.appendChild(script);
+    </script>
+
+    <!--WEBGAZER OFF SCREEN-->
+  
+
+
+<!--
 <script>
-    var container = document.querySelector("#unity-container");
-    var canvas = document.querySelector("#unity-canvas");
-    var loadingBar = document.querySelector("#unity-loading-bar");
-    var progressBarFull = document.querySelector("#unity-progress-bar-full");
+  
+        webgazer.setGazeListener(function(data) { 
+          if (data == null) {
+            return;
+          }
 
-    var buildUrl = "Build";
-    var loaderUrl = buildUrl + "/Unity.loader.js";
-    var config = {
-      dataUrl: buildUrl + "/Unity.data",
-      frameworkUrl: buildUrl + "/Unity.framework.js",
-      codeUrl: buildUrl + "/Unity.wasm",
-      companyName: "DefaultCompany",
-      productName: "ProjectOne",
-    };
+          webgazer.showVideo(true);  // Show the webcam vide
+      
+          var xprediction = data.x; 
+          var yprediction = data.y; 
+      
+          
+          var viewportWidth = window.innerWidth;
+          var viewportHeight = window.innerHeight;
+      
+          var minX = viewportWidth * 0.1; 
+          var maxX = viewportWidth * 0.9; 
+          var minY = viewportHeight * 0.1; 
+          var maxY = viewportHeight * 0.9; 
+      
+        
+          if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
+            alert('Get Back To Work!');
+          }
+        }).begin();
 
-    var script = document.createElement("script");
-    script.src = loaderUrl;
-    script.onload = () => {
-      createUnityInstance(canvas, config, (progress) => {
-        progressBarFull.style.width = 100 * progress + "%";
-      }).then((unityInstance) => {
-        loadingBar.style.display = "none";
-      }).catch((message) => alert(message));
-    };
-    document.body.appendChild(script);
-  </script>
-
-
-<!--WEBGAZER HERE-->
-
-
-</body>
+        -->
+      </script>
+    
+  </body>
 </html>
