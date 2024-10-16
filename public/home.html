@@ -59,13 +59,21 @@
 
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script> 
+        var socket = io();  
+        socket.on('home', (args) => {
+            swal(args);
+        });
+    </script>
     <nav>
-        <a href="calibration.html">Calibration</a>  <!--REROUTE TO CALLIBRATION PAGE-->
-        <a href="index.html">Log Out</a>  <!--REROUTE TO LOGIN PAGE--> 
+        <a href="/calibration">Calibration</a>  <!--REROUTE TO CALLIBRATION PAGE-->
+        <a href="/index">Log Out</a>  <!--REROUTE TO LOGIN PAGE--> 
     </nav>
 
-        <a href="worksheet.html" class="button" target="_blank"> Quiz One </a> 
-
-   
+        <a href="/quiz" class="button" target="_blank"> Quiz One </a> 
+  
 </body>
 </html>
+
