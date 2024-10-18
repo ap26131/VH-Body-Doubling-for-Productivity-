@@ -165,6 +165,16 @@ app.get('/quiz', async (req, res) =>{
     }
 });
 
+// Route to clear session variables
+app.get('/clear-session', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ message: 'Failed to clear session' });
+        }
+        res.clearCookie('connect.sid'); // Optional: Clear session cookie
+        res.sendStatus(200); // Send success status without a message
+    });
+});
 
 // Start server
 server.listen(PORT, () => {

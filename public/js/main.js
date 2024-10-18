@@ -42,3 +42,21 @@ function Restart(){
     ClearCalibration();
     PopUpInstruction();
 }
+
+// Functiont to clear session variables when logging out, then navigate after
+document.getElementById('clearSessionLink').addEventListener('click', async (event) => {
+    event.preventDefault(); // Prevent immediate navigation
+
+    try {
+        const response = await fetch('/clear-session');
+        if (response.ok) {
+            console.log('Session cleared');
+            // Redirect to the target page after the session is cleared
+            window.location.href = event.target.href;
+        } else {
+            console.error('Failed to clear session');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
