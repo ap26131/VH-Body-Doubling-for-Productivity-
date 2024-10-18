@@ -24,7 +24,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Function for connecting to database
 async function connect(){
     try{
-       await mongoose.connect(process.env.MONGO_URI);
+       await mongoose.connect(process.env.MONGO_URI, {
+       ssl: true // Ensure SSL is enforced
+       });
         console.log('Successful connection...');
     } catch (err){
         console.log(err);
