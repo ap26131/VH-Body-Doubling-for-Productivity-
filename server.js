@@ -19,7 +19,14 @@ const userModel = require('./models/userModel');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
-app.use(express.static(path.join(__dirname, 'public'))); 
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use((req, res, next) => {
+    if (req.path.includes('.') || req.path === '/') {
+        return next(); // Allow only valid files and root route
+    }
+    res.status(404).send('Not Found'); // Prevent directory listing
+});
 
 // Function for connecting to database
 async function connect(){
@@ -39,7 +46,7 @@ connect();
 // Start session for client
 app.use(session);
 
-// Login page for user
+// Route for the login page
 app.get('/', async (req, res) => {
     if(req.session.logged_in) {
         res.redirect("/home")
@@ -167,16 +174,17 @@ app.get('/quiz', async (req, res) =>{
     }
 });
 
-// Route to clear session variables
+// Route to clear session variables and redirect to the login page
 app.get('/clear-session', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).json({ message: 'Failed to clear session' });
         }
-        res.clearCookie('connect.sid'); // Optional: Clear session cookie
-        res.sendStatus(200); // Send success status without a message
+        res.clearCookie('connect.sid'); //Clear session cookie
+        res.redirect('/'); // Redirect to the root route after session is cleared
     });
 });
+
 
 // Start server
 server.listen(PORT, () => {

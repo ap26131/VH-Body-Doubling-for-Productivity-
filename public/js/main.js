@@ -43,16 +43,14 @@ function Restart(){
     PopUpInstruction();
 }
 
-// Functiont to clear session variables when logging out, then navigate after
+// Function to clear session variables when logging out, then navigate after
 document.getElementById('clearSessionLink').addEventListener('click', async (event) => {
-    event.preventDefault(); // Prevent immediate navigation
+    event.preventDefault(); // Prevent default link behavior
 
     try {
         const response = await fetch('/clear-session');
         if (response.ok) {
             console.log('Session cleared');
-            // Redirect to the target page after the session is cleared
-            window.location.href = event.target.href;
         } else {
             console.error('Failed to clear session');
         }
