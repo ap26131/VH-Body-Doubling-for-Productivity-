@@ -18,15 +18,9 @@ const bcrypt = require("bcryptjs")
 const userModel = require('./models/userModel');
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use((req, res, next) => {
-    if (req.path.includes('.') || req.path === '/') {
-        return next(); // Allow only valid files and root route
-    }
-    res.status(404).send('Not Found'); // Prevent directory listing
-});
+app.use('/public', express.static('public'));
 
 // Function for connecting to database
 async function connect(){
@@ -185,6 +179,23 @@ app.get('/clear-session', (req, res) => {
     });
 });
 
+//server side quiz submission
+app.post('/submit-quiz', (req, res) => {
+    const answers = req.body;
+    // Process the quiz answers and calculate the score
+    let score = 0;
+  
+    if (answers.q1 === 'correct') score++;
+    if (answers.q2 === 'correct') score++;
+    if (answers.q3 === 'correct') score++;
+    if (answers.q4 === 'correct') score++;
+    if (answers.q5 === 'correct') score++;
+    if (answers.q6 === 'correct') score++;
+    if (answers.q7 === 'correct') score++;
+    if (answers.q8 === 'correct') score++;
+
+    res.json({ score });
+});
 
 // Start server
 server.listen(PORT, () => {
