@@ -1,101 +1,65 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <style>
-         body
-         input[type=text], input[type=email], input[type=number], select, textarea {
-         width: 100%;
-         padding: 12px;
-         border: 1px solid #ccc;
-         border-radius: 4px;
-         box-sizing: border-box;
-         margin-top: 6px;
-         margin-bottom: 16px;
-         resize: vertical;
-         }
-         input[type=submit] {
-         background-color: #04AA6D;
-         color: white;
-         padding: 12px 20px;
-         border: none;
-         border-radius: 4px;
-         }
-         input[type=submit]:hover {
-         background-color: #45a049;
-         }
-         .container {
-         border-radius: 5px;
-         background-color: #f2f2f2;
-         padding: 20px;
-         }
-         button {
-         background-color: #04AA6D;
-         color: white;
-         padding: 12px 20px;
-         border: none;
-         border-radius: 4px;
-         }
-         button:hover{
-            background-color: #45a049;
-         }
-
-      </style>
-   </head>
-   <body>
-      <h3>Participant Form</h3>
-      <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
-      <script src="/socket.io/socket.io.js"></script>
-      <script>
-         var socket = io();  
-         socket.on('email', (args) => {
-            swal(args);
-         });
-      </script>
-      <div class="ParticipantForm">
-         <form action="/register" method="POST">
+<head>
+    <title>Participant Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .container { padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: left; width: 300px; }
+        input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, input[type="submit"], button {
+            width: 100%; padding: 10px; border-radius: 4px; box-sizing: border-box; margin-bottom: 15px; border: 1px solid #ccc; }
+        input[type="submit"], button { background-color: #4CAF50; color: white; font-size: 16px; cursor: pointer; border: none; }
+        button:hover { background-color: #398529; }
+        input[type="submit"]:hover { background-color: #398529; }
+    </style>
+    <script> 
+        var socket = io();  
+        socket.on('email', (args) => swal(args));
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h3>Participant Form</h3>
+        <form action="/register" method="POST">
             <!-- Text input fields -->
             <label for="fname">First Name</label>
-            <input type="text" size="15" maxlength="40" name="fname" placeholder ="Enter your first name here" required/>
+            <input type="text" id="fname" name="fname" maxlength="40" placeholder="Enter your first name" required>
             <label for="lname">Last Name</label>
-            <input type="text" size="15" maxlength="40" name="lname" placeholder="Enter Your last name here" required/>
+            <input type="text" id="lname" name="lname" maxlength="40" placeholder="Enter your last name" required>
             <label for="email">E-mail</label>
-            <input type="email" size="15" maxlength="40" name="email" placeholder ="Enter your e-mail here" required/>
-            <label for="password">Password</label><br>
-            <input type="password" id="password" name="password" required><br><br>
+            <input type="email" id="email" name="email" maxlength="40" placeholder="Enter your e-mail" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Create a password" required>
             <label for="age">Age</label>
-            <input type="number" maxlength="3" name="age" placeholder="Enter your age here" required min="1" max="120"/>
-            <!-- Drop down menu for gender-->
+            <input type="number" id="age" name="age" min="1" max="120" placeholder="Enter your age" required>
+            
+            <!-- Dropdown for gender -->
             <label for="gender">Gender</label>
-            <select name="gender" required>
-               <option value="" selected>Select Gender</option>
-               <option value="Male">Male</option>
-               <option value="Female">Female</option>
+            <select id="gender" name="gender" required>
+                <option value="" selected>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
             </select>
+            
             <!-- Disability radio buttons -->
-            <label for="disability">Do you have a disability</label> 
-            <input type="radio" name="disabilityOption" value="Yes" required>
-            <label for="disabilityYes">Yes</label>
-            <input type="radio" name="disabilityOption" value="No">
-            <label for="disabilityNo">No</label>
-            </br></br>
+            <label>Do you have a disability?</label> 
+            <input type="radio" id="disabilityYes" name="disabilityOption" value="Yes" required><label for="disabilityYes">Yes</label>
+            <input type="radio" id="disabilityNo" name="disabilityOption" value="No"><label for="disabilityNo">No</label><br /><br />
+            
             <!-- Glasses radio buttons -->
-            <label for="glasses">Are you wearing glasses</label> 
-            <input type="radio" name="glassesOption" value="Yes" required>
-            <label for="glassesYes">Yes</label>
-            <input type="radio" name="glassesOption" value="No">
-            <label for="glassesNo">No</label>
-            </br></br>
+            <label>Do you wear glasses?</label> 
+            <input type="radio" id="glassesYes" name="glassesOption" value="Yes" required><label for="glassesYes">Yes</label>
+            <input type="radio" id="glassesNo" name="glassesOption" value="No"><label for="glassesNo">No</label><br /><br />
+            
             <!-- Medicated radio buttons -->
-            <label for="medicated">Are you currently medicated</label> 
-            <input type="radio" name="medicatedOption" value="Yes" required>
-            <label for="medicatedYes">Yes</label>
-            <input type="radio" name="medicatedOption" value="No">
-            <label for="medicatedNo">No</label>
-            <input type="hidden" name="validation" value="true" />
-            </br></br>
+            <label>Are you medicated?</label> 
+            <input type="radio" id="medicatedYes" name="medicatedOption" value="Yes" required><label for="medicatedYes">Yes</label>
+            <input type="radio" id="medicatedNo" name="medicatedOption" value="No"><label for="medicatedNo">No</label><br /><br />
+            
             <input type="submit" value="Submit">
          </form>
          <button onclick="location.href='/'">Login</button>
       </div>
-   </body>
+</body>
 </html>
