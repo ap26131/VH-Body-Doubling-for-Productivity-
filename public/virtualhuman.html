@@ -1,52 +1,54 @@
+
+
+
 <!DOCTYPE html>
+<!--NO LONGER USING BUT IS TEH IFRAME THAT LINKS TO worksheet.html -->
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | ProjectOne</title>
+    <title>Virtual Human</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    
-   
-
-    <script src="./webgazer.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/brownhci/WebGazer@master/www/webgazer.js"></script>
 
 
+<style>
+/*UNITY + AVATAR */ 
+    
+#unity-container.unity-desktop { position: fixed; left: 0; top: 50%; transform: translateY(-50%); }
+            #unity-container.unity-mobile { position: fixed; width: 100%; height: 100%; }
+            .unity-mobile #unity-canvas { width: 100%; height: 100%; }
+            #unity-loading-bar { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: none; }
+            #unity-logo { width: 154px; height: 130px; background: url('unity-logo-dark.png') no-repeat center; }
+            #unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; margin-left: 6.5px; background: url('progress-bar-empty-dark.png') no-repeat center; }
+            #unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('progress-bar-full-dark.png') no-repeat center; }
+            #unity-footer { position: relative; }
+            .unity-mobile #unity-footer { display: none; }
+            #unity-webgl-logo { float: left; width: 204px; height: 38px; background: url('webgl-logo.png') no-repeat center; }
+            #unity-build-title { float: right; margin-right: 10px; line-height: 38px; font-family: Arial; font-size: 18px; }
+            #unity-fullscreen-button { cursor: pointer; float: right; width: 38px; height: 38px; background: url('fullscreen-button.png') no-repeat center; }
+            #unity-warning { position: absolute; left: 0; top: 5%; transform: translateY(0); background: white; padding: 10px; display: none; }
+         
+          #unity-container {
+              width: 100%; 
+              height: 100%; 
+              float: left;
+              position: absolute; 
+              left: 0; 
+              top: 50%; 
+              transform: translateY(-50%);
+          }
+          #unity-canvas {
+              width: 100% !important; 
+              height: 100% !important;
+              float: left;
+              background: #231F20;
+          }
 
-    <style>
-     
-      #unity-container {
-          width: 40%; 
-          height: 100%; 
-          float: left;
-      }
-      #unity-canvas {
-          width: 100% !important; 
-          height: 100% !important;
-          float: left;
-      }
 
-      .button-container {
-          float:right 
-      }
-
-      .button {
-        padding: 10px 20px;
-        margin: 10px;
-        font-size: 16px;
-      }
-
-
-
-    </style>
-
-
-
-
-
-
-
+</style>
   </head>
   <body>
 
@@ -54,34 +56,27 @@
     <script src="./js/calibration.js"></script>
     <script src="./js/precision_calculation.js"></script>
     <script src="./js/precision_store_points.js"></script>
-    <script src="./js/store_point.js"></script>
 
-
-
-    <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=960 height=800 tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
-      </div>
-      <div id="unity-warning"> </div>
-      <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">ProjectOne</div>
+    <!-- LEFT SIDE -->
+    <div class="panel panel-left">
+        <div id="unity-container" class="unity-desktop">
+            <canvas id="unity-canvas" width=960 height=800 ></canvas>
+            <div id="unity-loading-bar">
+              <div id="unity-logo"></div>
+              <div id="unity-progress-bar-empty">
+                <div id="unity-progress-bar-full"></div>
+              </div>
+            </div>
+            <div id="unity-warning"> </div>
+            <div id="unity-footer">
+              <div id="unity-webgl-logo"></div>
+              <div id="unity-fullscreen-button"></div>
+              <div id="unity-build-title">ProjectOne</div>
       </div>
     </div>
+    </div>
 
-  
-    <!-- Button to start and stop storing gaze points -->
-
-    <div class="button-container">
-      <button onclick="call_Point()">Start Storing Points</button>
-      <button onclick="stop_storing_points_variable()">Stop Storing Points</button>
-  </div>
-
+  <!--UNITY PROVIDED-->
     <script>
 
       var container = document.querySelector("#unity-container");
@@ -187,4 +182,6 @@
 
     </script>
   </body>
-</html>
+<!--hello-->
+  </html>
+
