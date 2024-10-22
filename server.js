@@ -18,13 +18,16 @@ const bcrypt = require("bcryptjs")
 const userModel = require('./models/userModel');
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}))
-app.use(express.static(path.join(__dirname, 'public'))); 
+app.use(express.urlencoded({extended: true}));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static('public'));
 
 // Function for connecting to database
 async function connect(){
     try{
-       await mongoose.connect(process.env.MONGO_URI);
+       await mongoose.connect(process.env.MONGO_URI, {
+       ssl: true // Ensure SSL is enforced
+       });
         console.log('Successful connection...');
     } catch (err){
         console.log(err);
@@ -37,7 +40,7 @@ connect();
 // Start session for client
 app.use(session);
 
-// Login page for user
+// Route for the login page
 app.get('/', async (req, res) => {
     if(req.session.logged_in) {
         res.redirect("/home")
@@ -159,16 +162,42 @@ app.get('/quiz', async (req, res) =>{
 
     // Check if form was submitted else redirect to form
     if(req.session.logged_in) {
-        res.sendFile(path.join(__dirname, 'public', 'Try1.html'));
+        res.sendFile(path.join(__dirname, 'public', 'Try3.html'));
     } else {
         res.redirect('/');
     }
 });
 
+// Route to clear session variables and redirect to the login page
+app.get('/clear-session', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ message: 'Failed to clear session' });
+        }
+        res.clearCookie('connect.sid'); //Clear session cookie
+        res.redirect('/'); // Redirect to the root route after session is cleared
+    });
+});
+
+//server side quiz submission
+app.post('/submit-quiz', (req, res) => {
+    const answers = req.body;
+    // Process the quiz answers and calculate the score
+    let score = 0;
+  
+    if (answers.q1 === 'correct') score++;
+    if (answers.q2 === 'correct') score++;
+    if (answers.q3 === 'correct') score++;
+    if (answers.q4 === 'correct') score++;
+    if (answers.q5 === 'correct') score++;
+    if (answers.q6 === 'correct') score++;
+    if (answers.q7 === 'correct') score++;
+    if (answers.q8 === 'correct') score++;
+
+    res.json({ score });
+});
 
 // Start server
 server.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 });
-
-

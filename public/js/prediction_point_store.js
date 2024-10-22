@@ -39,5 +39,6 @@ function stopGazeTracking(){
 
 // Start tracking gaze when the window loads
 window.onload = async function() {
-    startGazeTracking();
+        // Start gaze tracking when swal is closed
+        startGazeTracking();
 };
