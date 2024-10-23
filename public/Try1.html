@@ -300,7 +300,34 @@
       <div id="result"></div>
     </div>
  
+    <script>
+      function validateQuiz() {
+        const questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8']; // List of question names
+        let allAnswered = true;
 
+        for (let i = 0; i < questions.length; i++) {
+          const q = questions[i];
+          const radios = document.getElementsByName(q);
+          let answered = false;
+
+          // Check if at least one radio button in the group is checked
+          for (const radio of radios) {
+            if (radio.checked) {
+              answered = true;
+              break;
+            }
+          }
+
+          if (!answered) {
+            alert(`Please answer Question ${i + 1}.`); // Use i + 1 for the correct question number
+            allAnswered = false;
+            break; // Stop checking after finding the first unanswered question
+          }
+        }
+
+        return allAnswered; // Return true if all questions are answered
+      }
+    </script>
 
     <script>
       const form = document.getElementById('quiz-form');
@@ -308,6 +335,12 @@
 
       form.addEventListener('submit', async (event) => {
         event.preventDefault(); // Prevent the page from reloading
+
+        // Validate the quiz before submitting
+        const allAnswered = validateQuiz();
+        if (!allAnswered) {
+          return; // Stop here if not all questions are answered
+        }
 
         const formData = new FormData(form);
         const data = new URLSearchParams(formData);
@@ -318,10 +351,6 @@
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: data,
           });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
 
           const result = await response.json();
           resultDiv.innerHTML = `<h2>Your Score: ${result.score}/8</h2>`;

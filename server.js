@@ -56,24 +56,26 @@ app.post('/validate', async (req, res) => {
        if(user != null) {
         console.log("User found");
          bcrypt.compare(req.body.password, user.password, function(err, result) {
-           if (err) {
-             res.status(400).json({ error: err.message });
-           }
+            if (err) {
+                res.status(400).json({ error: err.message });
+            }
    
-           if (result) {
-            console.log("Password matches");
-            // Track login session with user and store email for later use
-             req.session.logged_in = true;
-             req.session.email = req.body.email;
-             req.session.id
+            if (result) {
+                console.log("Password matches");
+                // Track login session with user and store email for later use
+                req.session.logged_in = true;
+                req.session.email = req.body.email;
+                req.session.id;
 
-             // Redirect user to home page and emit a successful login message
-             res.redirect("/home");
-             io.on('connection', (socket) => {
-                console.log("Connected success");
-                socket.emit('home', "Successfully logged in!");
-              });
-           } else {
+                // Redirect user to home page and emit a successful login message
+                res.redirect("/home");
+                io.on('connection', (socket) => {
+                    console.log("Connected success");
+                    socket.emit('home', "Successfully logged in!");
+                });
+                //Save login date
+                req.session.loginDate = new Date();
+            } else {
             console.log("Password does not match");
             // Redirect back to home page and show error message for incorrect password
             res.redirect("/");
@@ -126,7 +128,7 @@ app.post('/register',  async (req, res) => {
            await newUser.save();
            result = "Registered successfully.";
         } else {
-          result = "Email is already registered.";
+           result = "Email is already registered.";
         }
         res.redirect("/register");
         io.on('connection', (socket) => {
@@ -162,39 +164,39 @@ app.get('/quiz', async (req, res) =>{
 
     // Check if form was submitted else redirect to form
     if(req.session.logged_in) {
+        req.session.quizStart = new Date();
         res.sendFile(path.join(__dirname, 'public', 'Try1.html'));
     } else {
         res.redirect('/');
     }
 });
 
-// Route to clear session variables and redirect to the login page
-app.get('/clear-session', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return res.status(500).json({ message: 'Failed to clear session' });
-        }
-        res.clearCookie('connect.sid'); //Clear session cookie
-        res.redirect('/'); // Redirect to the root route after session is cleared
-    });
-});
-
 //server side quiz submission
 app.post('/submit-quiz', (req, res) => {
+    req.session.quizEnd = new Date();
     const answers = req.body;
     // Process the quiz answers and calculate the score
     let score = 0;
-  
-    if (answers.q1 === 'correct') score++;
-    if (answers.q2 === 'correct') score++;
-    if (answers.q3 === 'correct') score++;
-    if (answers.q4 === 'correct') score++;
-    if (answers.q5 === 'correct') score++;
-    if (answers.q6 === 'correct') score++;
-    if (answers.q7 === 'correct') score++;
-    if (answers.q8 === 'correct') score++;
+    for (const [key, value] of Object.entries(req.body)) {
+        if(value === 'correct') score++;
+    }
+    
+    req.session.quizScore = score;
 
     res.json({ score });
+});
+
+app.get('/log-out', async (req, res) => {
+    session.logoutDate = new Date();
+
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Failed to clear session:', err);
+            return res.status(500).send('Failed to clear session');
+        }
+        res.clearCookie('connect.sid'); // Clear session cookie
+        res.redirect('/'); // Redirect to root after session is cleared
+    });
 });
 
 // Start server
