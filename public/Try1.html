@@ -1,150 +1,139 @@
 <!DOCTYPE html>
-
-<!--UNITY + WORKSHEET + WORKING QUIZ ALL ON ONE PAGE/ NO IFRAME/  / VIDEOFEED IS NOT ACCESSIBLE-->
-
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Worksheet with Virtual Human and WebGazer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!DOCTYPE html>
 
-    <script src="./webgazer.js"></script>
-   
-    <style>
-      /* SPLIT SCREEN */ 
-      body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        display: flex;
-      }
-
-      .panel {
-        width: 50%;
-        height: 100%;
-        overflow-y: scroll; 
-        border: 1px solid #ccc;
-        position: relative; 
-      }
-
-      .panel-left {
-        background-color: #f0f0f0;
-        z-index: 5; 
-      }
-
-      .panel-right {
-        background-color: #d0e0f0;
-        position: relative;
-        z-index: 10; 
-      }
-
-      button {
-        display: block;
-        margin-top: 20px;
-        padding: 10px 15px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        cursor: pointer;
-        margin-bottom: 20px;
-      }
-
-      button:hover {
-        background-color: #45a049;
-      }
-
-      .button-container {
-        display: flex; 
-        justify-content: flex-start; 
-        gap: 10px; 
-      }
-
-      .text-box {
-        border: 2px solid #333; 
-        padding: 20px; 
-        width: 90%; 
-        height: 500px;
-        background-color: #f0f0f0; 
-        font-family: Arial, sans-serif;
-        resize: none; 
-        overflow-y: scroll; 
-        margin-bottom: 20px;
-      }
-
-      .question {
-        margin-bottom: 20px;
-      }
-
-      .question h3 {
-        margin-bottom: 10px;
-      }
-
-      .fill-in-box {
-        width: 300px;
-        height: 150px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        resize: none; 
-        overflow-y: scroll; 
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        background-color: white; 
-        color: black; 
-        pointer-events: auto; 
-        z-index: 11; /* Keep input fields in front */
-        position: relative;
-      }
-
-      .char-count {
-        margin-top: 10px;
-        font-size: 14px;
-        color: #555;
-      }
-
+  <!--UNITY + WORKSHEET + WORKING QUIZ ALL ON ONE PAGE/ NO IFRAME/  / VIDEOFEED IS NOT ACCESSIBLE-->
+  
+  <html lang="en-us">
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <title>Worksheet with Virtual Human and WebGazer</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+      <script src="./webgazer.js"></script>
      
-    
+      <style>
+        /* SPLIT SCREEN */ 
+        body {
+          margin: 0;
+          padding: 0;
+          height: 100vh;
+          display: flex;
+        }
+  
+        .panel {
+          
+          height: 100%;
+          overflow-y: scroll; 
+          border: 1px solid #ccc;
+          position: relative; 
+        }
+  
+        .panel-left {
+          background-color: #f0f0f0;
+          z-index: 5; 
+          width: 55%;
+        }
+  
+        .panel-right {
+          background-color: #d0e0f0;
+          position: relative;
+          z-index: 10; 
+          width: 45%;
+        }
+  
+        button {
+          display: block;
+          margin-top: 20px;
+          padding: 10px 15px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          cursor: pointer;
+          margin-bottom: 20px;
+        }
+  
+        button:hover {
+          background-color: #45a049;
+        }
+  
+        .button-container {
+          display: flex; 
+          justify-content: flex-start; 
+          gap: 10px; 
+        }
+  
+        .text-box {
+          border: 2px solid #333; 
+          padding: 20px; 
+          width: 90%; 
+          height: 500px;
+          background-color: #f0f0f0; 
+          font-family: Arial, sans-serif;
+          resize: none; 
+          overflow-y: scroll; 
+          margin-bottom: 20px;
+        }
+  
+        .question {
+          margin-bottom: 20px;
+        }
+  
+        .question h3 {
+          margin-bottom: 10px;
+        }
+  
+        
+  
+        .char-count {
+          margin-top: 10px;
+          font-size: 14px;
+          color: #555;
+        }
+  
+       
+      
+  
+        /* UNITY CONTAINER */
+        #unity-container.unity-desktop {
+          width: 100%; 
+          height: 100%; 
+          position: relative; 
+          z-index: 4; 
+        }
+  
+        #unity-canvas {
+          width: 100%;
+          height: 100%;
+          background: #231F20;
+          z-index: 4;
+        }
+  
+        #unity-loading-bar {
+          position: absolute; 
+          left: 50%; 
+          top: 50%; 
+          transform: translate(-50%, -50%);
+          display: none;
+          z-index: 4;
+        }
+  
+        #unity-logo { width: 154px; height: 130px; }
+        #unity-progress-bar-empty { width: 141px; height: 18px; }
+        #unity-progress-bar-full { width: 0%; height: 18px; }
+        #unity-footer { position: relative; z-index: 4; }
+      </style>
+    </head>
 
-      /* UNITY CONTAINER */
-      #unity-container.unity-desktop {
-        width: 100%; 
-        height: 100%; 
-        position: relative; 
-        z-index: 4; 
-      }
 
-      #unity-canvas {
-        width: 100%;
-        height: 100%;
-        background: #231F20;
-        z-index: 4;
-      }
-
-      #unity-loading-bar {
-        position: absolute; 
-        left: 50%; 
-        top: 50%; 
-        transform: translate(-50%, -50%);
-        display: none;
-        z-index: 4;
-      }
-
-      #unity-logo { width: 154px; height: 130px; }
-      #unity-progress-bar-empty { width: 141px; height: 18px; }
-      #unity-progress-bar-full { width: 0%; height: 18px; }
-      #unity-footer { position: relative; z-index: 4; }
-    </style>
-  </head>
 
   <body>
 
-   
-   
     <script src="./js/main.js"></script>
     <script src="./js/precision_calculation.js"></script>
     <script src="./js/precision_store_points.js"></script>
     <script src="./js/store_points.js"></script>
-
 
     <!-- LEFT SIDE: Unity and Virtual Human -->
     <div class="panel panel-left">
@@ -298,57 +287,56 @@
       </div>
     </div>
 
- 
-
-
- 
-
-<script>
-  function checkAnswers() {
-    let score = 0;
-
-    const q1 = document.querySelector('input[name="q1"]:checked');
-    const q2 = document.querySelector('input[name="q2"]:checked');
-    const q3 = document.querySelector('input[name="q3"]:checked');
-    const q4 = document.querySelector('input[name="q4"]:checked');
-    const q5 = document.querySelector('input[name="q5"]:checked');
-    const q6 = document.querySelector('input[name="q6"]:checked');
-    const q7 = document.querySelector('input[name="q7"]:checked');
-    const q8 = document.querySelector('input[name="q8"]:checked');
-
-    // Increment score for correct answers
-    if (q1 && q1.value === 'correct') score++;
-    if (q2 && q2.value === 'correct') score++;
-    if (q3 && q3.value === 'correct') score++;
-    if (q4 && q4.value === 'correct') score++;
-    if (q5 && q5.value === 'correct') score++;
-    if (q6 && q6.value === 'correct') score++;
-    if (q7 && q7.value === 'correct') score++;
-    if (q8 && q8.value === 'correct') score++;
-
-    // Display result using an alert
-    alert(`You scored ${score} out of 8.`);
-  }
-
-</script>
-
-    </script>
-
-    <!-- UNITY SCRIPTS -->
     <script>
-      var container = document.querySelector("#unity-container");
-      var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
-      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      function checkAnswers() {
+        let score = 0;
+    
+        const q1 = document.querySelector('input[name="q1"]:checked');
+        const q2 = document.querySelector('input[name="q2"]:checked');
+        const q3 = document.querySelector('input[name="q3"]:checked');
+        const q4 = document.querySelector('input[name="q4"]:checked');
+        const q5 = document.querySelector('input[name="q5"]:checked');
+        const q6 = document.querySelector('input[name="q6"]:checked');
+        const q7 = document.querySelector('input[name="q7"]:checked');
+        const q8 = document.querySelector('input[name="q8"]:checked');
+    
+        // Increment score for correct answers
+        if (q1 && q1.value === 'correct') score++;
+        if (q2 && q2.value === 'correct') score++;
+        if (q3 && q3.value === 'correct') score++;
+        if (q4 && q4.value === 'correct') score++;
+        if (q5 && q5.value === 'correct') score++;
+        if (q6 && q6.value === 'correct') score++;
+        if (q7 && q7.value === 'correct') score++;
+        if (q8 && q8.value === 'correct') score++;
+    
+        // Display result using an alert
+        alert(`You scored ${score} out of 8.`);
+      }
+    
+    </script>
+    
+        </script>
+    
 
-      var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/Unity.loader.js";
+        <script>
+          var container = document.querySelector("#unity-container");
+          var canvas = document.querySelector("#unity-canvas");
+          var loadingBar = document.querySelector("#unity-loading-bar");
+          var progressBarFull = document.querySelector("#unity-progress-bar-full");
+          var warningBanner = document.querySelector("#unity-warning");
+
+
+
+          var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/THIS.loader.js";
       var config = {
-        dataUrl: buildUrl + "/Unity.data",
-        frameworkUrl: buildUrl + "/Unity.framework.js",
-        codeUrl: buildUrl + "/Unity.wasm",
+        dataUrl: buildUrl + "/THIS.data",
+        frameworkUrl: buildUrl + "/THIS.framework.js",
+        codeUrl: buildUrl + "/THIS.wasm",
+        streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
-        productName: "ProjectOne",
+        productName: "Attempt1",
       };
 
       var script = document.createElement("script");
@@ -356,14 +344,18 @@
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
-          loadingBar.style.display = "none";
-        }).catch((message) => alert(message));
-      };
+              }).then((unityInstance) => {
+                loadingBar.style.display = "none";
+              }).catch((message) => {
+                alert(message);
+              });
+            };
+
       document.body.appendChild(script);
+
     </script>
 
-    <!--WEBGAZER OFF SCREEN-->
+     <!--WEBGAZER OFF SCREEN-->
   
 
 
@@ -395,8 +387,7 @@
           }
         }).begin();
 
+</script>
         -->
-      </script>
-    
   </body>
 </html>
