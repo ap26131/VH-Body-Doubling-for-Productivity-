@@ -1,4 +1,4 @@
-=<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -39,7 +39,7 @@
         
        
        .button{ 
-            top-padding: 50px;
+            padding-top: 50px;
             font-size: 25px;
             border: 2px solid black; 
             padding: 20px; 
@@ -52,16 +52,22 @@
             margin-top: 80px; 
      
         }
-
-        
     </style>
 </head>
 
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script> 
+        var socket = io();  
+        socket.on('home', (args) => {
+            swal(args);
+        });
+    </script>
     <nav>
-        <a href="calibration.html">Calibration</a>  <!--REROUTE TO CALLIBRATION PAGE-->
-        <a href="index.html">Log Out</a>  <!--REROUTE TO LOGIN PAGE--> 
+        <a href="/calibration">Calibration</a>  <!--REROUTE TO CALLIBRATION PAGE-->
+        <a href="/log-out">Log Out</a>  <!--REROUTE TO LOGIN PAGE--> 
     </nav>
 
         <a href="GroupA.html" class="button" target="_blank"> Group A</a> 
@@ -72,3 +78,4 @@
    
 </body>
 </html>
+
