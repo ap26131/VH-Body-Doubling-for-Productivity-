@@ -60,6 +60,19 @@ app.get('/vh', async (req, res) =>{
     }
 });
 
+app.post('/submit-quiz', (req, res) => {
+    req.session.quizEnd = new Date();
+    const answers = req.body;
+    // Process the quiz answers and calculate the score
+    let score = 0;
+    for (const [key, value] of Object.entries(req.body)) {
+        if(value === 'correct') score++;
+    }
+    
+    req.session.quizScore = score;
+
+    res.json({ score });
+});
 
 // Start server
 app.listen(PORT, () => {
