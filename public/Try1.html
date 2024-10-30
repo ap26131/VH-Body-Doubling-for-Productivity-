@@ -144,6 +144,7 @@
     <script src="./js/precision_calculation.js"></script>
     <script src="./js/precision_store_points.js"></script>
     <script src="./js/store_points.js"></script>
+    <script src="./js/prediction_point_store.js"></script>
 
 
     <!-- LEFT SIDE: Unity and Virtual Human -->
@@ -294,12 +295,12 @@
         <!-- Submit and Exit Buttons -->
         <div class="button-container">
           <button type="submit">Submit</button>
-          <button onclick="window.location.href='home.html'">Exit</button>
+          <button id="exit">Exit</button>
         </div>
       </form>
       <div id="result"></div>
     </div>
- 
+
     <script>
       function validateQuiz() {
         const questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8']; // List of question names
@@ -357,6 +358,31 @@
         } catch (error) {
           console.error('Error submitting quiz:', error);
           resultDiv.innerHTML = `<h2>Error submitting quiz. Please try again.</h2>`;
+        }
+      });
+    </script>
+
+    <script>
+      document.getElementById('exit').addEventListener('click', async () => {
+        stopGazeTracking();
+        try {
+          // Send the GazePoints to the server
+          const response = await fetch('/send-gaze-data', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ data: getGazePoints() })
+          });
+
+          if (response.ok) {
+            // Redirect to home.html after successful send
+            window.location.href = 'home.html';
+          } else {
+            console.error('Failed to send data', response.status);
+          }
+        } catch (error) {
+          console.error('Error:', error);
         }
       });
     </script>

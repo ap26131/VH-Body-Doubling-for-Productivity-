@@ -16,6 +16,7 @@ const bcrypt = require("bcryptjs")
 
 // Import models 
 const userModel = require('./models/userModel');
+const sessionModel = require('./models/sessionModel');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -186,9 +187,29 @@ app.post('/submit-quiz', (req, res) => {
     res.json({ score });
 });
 
+app.post('/send-gaze-data', (req, res) => {
+    req.session.gazePoints = req.body.data;
+  
+    // Send a response back to the client
+    res.status(200).send('Gaze points recieved');
+});
+
 app.get('/log-out', async (req, res) => {
     session.logoutDate = new Date();
 
+    const sessionUser = userModel.findOne({email : req.session.email});
+
+    const sessionData = new sessionModel({
+        sid : req.session.id,
+        user : sessionUser,
+        prediction : req.session.gazePoints,
+        quizScore : req.session.quizScore,
+        loginDate : req.session.loginDate,
+        logoutDate : req.session.logoutDate,
+        quizStart : req.session.quizStart,
+        quizEnd : req.session.quizEnd
+      });
+      await sessionData.save();
     req.session.destroy((err) => {
         if (err) {
             console.error('Failed to clear session:', err);
