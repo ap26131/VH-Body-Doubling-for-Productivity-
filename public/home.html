@@ -62,12 +62,12 @@
     <script> 
         var socket = io();  
         socket.on('home', (args) => {
-            swal(args);
+                swal(args);
         });
     </script>
     <nav>
         <a href="/calibration">Calibration</a>  <!--REROUTE TO CALLIBRATION PAGE-->
-        <a href="/log-out">Log Out</a>  <!--REROUTE TO LOGIN PAGE--> 
+        <a href="/clear-session">Log Out</a>  <!--REROUTE TO LOGIN PAGE--> 
     </nav>
 
         <a href="Control.html" class="button" target="_blank"> Control Group </a>   

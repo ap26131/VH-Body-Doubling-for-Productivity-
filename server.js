@@ -74,8 +74,6 @@ app.post('/validate', async (req, res) => {
                     console.log("Connected success");
                     socket.emit('home', "Successfully logged in!");
                 });
-                //Save login date
-                req.session.loginDate = new Date();
             } else {
             console.log("Password does not match");
             // Redirect back to home page and show error message for incorrect password
@@ -162,7 +160,6 @@ app.get('/calibration', async (req, res) =>{
 
 // Routes for virtual human page
 app.get('/quiz', async (req, res) =>{
-
     // Check if form was submitted else redirect to form
     if(req.session.logged_in) {
         req.session.quizStart = new Date();
@@ -194,30 +191,41 @@ app.post('/send-gaze-data', (req, res) => {
     res.status(200).send('Gaze points recieved');
 });
 
-app.get('/log-out', async (req, res) => {
-    session.logoutDate = new Date();
+app.post('/end-quiz', async (req, res) => {
 
     const sessionUser = userModel.findOne({email : req.session.email});
 
     const sessionData = new sessionModel({
         sid : req.session.id,
-        user : sessionUser,
-        prediction : req.session.gazePoints,
+        user : sessionUser.UUID,
+        prediction : req.body.data,
         quizScore : req.session.quizScore,
-        loginDate : req.session.loginDate,
-        logoutDate : req.session.logoutDate,
         quizStart : req.session.quizStart,
         quizEnd : req.session.quizEnd
       });
       await sessionData.save();
-    req.session.destroy((err) => {
-        if (err) {
-            console.error('Failed to clear session:', err);
-            return res.status(500).send('Failed to clear session');
-        }
-        res.clearCookie('connect.sid'); // Clear session cookie
-        res.redirect('/'); // Redirect to root after session is cleared
-    });
+
+      // Clear variables after quiz end
+      delete req.session.gazePoints;
+      delete req.session.quizScore;
+      delete req.session.quizStart;
+      delete req.session.quizEnd;
+      res.redirect('/');
+});
+
+// Route to clear session variables and redirect to the login page
+app.get('/clear-session', (req, res) => {
+    if(req.session.logged_in) {
+        req.session.destroy((err) => {
+            if (err) {
+                return res.status(500).json({ message: 'Failed to clear session' });
+            }
+            res.clearCookie('connect.sid'); //Clear session cookie
+            res.redirect('/'); // Redirect to the root route after session is cleared
+        });
+    } else {
+        res.redirect('/');
+    }
 });
 
 // Start server

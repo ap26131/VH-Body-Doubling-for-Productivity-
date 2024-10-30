@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://cdn.jsdelivr.net/gh/brownhci/WebGazer@master/www/webgazer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
    
     <style>
       /* SPLIT SCREEN */ 
@@ -324,7 +325,7 @@
           }
 
           if (!answered) {
-            alert(`Please answer Question ${i + 1}.`); // Use i + 1 for the correct question number
+            swal(`Please answer Question ${i + 1}.`); // Use i + 1 for the correct question number
             allAnswered = false;
             break; // Stop checking after finding the first unanswered question
           }
@@ -371,7 +372,7 @@
         stopGazeTracking();
         try {
           // Send the GazePoints to the server
-          const response = await fetch('/send-gaze-data', {
+          const response = await fetch('/end-quiz', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -380,8 +381,7 @@
           });
 
           if (response.ok) {
-            // Redirect to home.html after successful send
-            window.location.href = 'home.html';
+            window.location.href = '/home';
           } else {
             console.error('Failed to send data', response.status);
           }
@@ -428,41 +428,5 @@ script.onload = () => {
 document.body.appendChild(script);
 
 </script>
-
-   <!--OFFSCREEN TO DETECT -->
-<script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
-
-<script>
-    let timer = null; 
-      
-            webgazer.setGazeListener(function(data) { 
-              if (data == null) {
-                return;
-              }
-          
-              var xprediction = data.x; 
-              var yprediction = data.y; 
-          
-              
-              var viewportWidth = window.innerWidth;
-              var viewportHeight = window.innerHeight;
-          
-              var minX = viewportWidth * 0.1; 
-              var maxX = viewportWidth * 0.9; 
-              var minY = viewportHeight * 0.1; 
-              var maxY = viewportHeight * 0.9; 
-          
-            
-              if ((xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) ) {
-                
-                timer = setTimeout(function() {
-                        alert('Get Back To Work!');
-                                }, 10000); // 10 seconds
-            }
-            }).begin();
-          </script>
-
-
-
   </body>
 </html>
