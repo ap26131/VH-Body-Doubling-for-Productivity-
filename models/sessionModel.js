@@ -5,7 +5,12 @@ const { randomUUID } = require('crypto');
 const sessionSchema = new mongoose.Schema({
     sid : String,
     prediction : [String],
-    user : {type: Schema.Types.ObjectId, ref: 'User'}
+    user : {type: Schema.Types.ObjectId, ref: 'User'},
+    quizScore : Number,
+    loginDate : Date,
+    logOutDate : Date,
+    quizStart : Date,
+    quizEnd : Date
 });
 
 module.exports = mongoose.model('Session', sessionSchema);

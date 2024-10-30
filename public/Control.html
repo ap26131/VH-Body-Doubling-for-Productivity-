@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<!--TESTING GROUNDS FOR OFF SCREEN FUNCTION WITH TIMER / DOES NOT CONTAIN UNITY/ BUT DOES HAVE A WORKING QUIZ -->
+<!--QUIZ W/O VH -->
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
@@ -11,12 +11,13 @@
     
     <style>
 
-    /* SPLIT SCREEN */ 
+    
     body {
         margin: 0;
         padding: 0;
         height: 100vh;
         display: flex;
+        position: center;
     }
 
     .panel {
@@ -27,17 +28,12 @@
           position: relative; 
         }
 
-        .panel-left {
-          background-color: #f0f0f0;
-          z-index: 5; 
-          width: 55%;
-        }
-
+      
         .panel-right {
           background-color: #d0e0f0;
           position: relative;
           z-index: 10; 
-          width: 45%;
+          width: 100%;
         }
 
     button {
@@ -126,8 +122,7 @@
 
   <body>
 
-    <!-- LEFT SIDE: Unity and Virtual Human -->
-    <!-- LEFT SIDE: Unity and Virtual Human -->
+    <!-- 
     <div class="panel panel-left">
         <div id="unity-container" class="unity-desktop">
           <canvas id="unity-canvas"></canvas>
@@ -140,6 +135,7 @@
           <div id="unity-footer"></div>
         </div>
       </div>
+    -->
   
 
      <!-- RIGHT SIDE: Worksheet -->
@@ -319,7 +315,8 @@
   </script>
   </script>
 
-<!--UNITY-->
+  <!--
+
 <script>
     var container = document.querySelector("#unity-container");
     var canvas = document.querySelector("#unity-canvas");
@@ -355,6 +352,8 @@ script.onload = () => {
 document.body.appendChild(script);
 
 </script>
+
+-->
 
 
 
