@@ -322,15 +322,17 @@
   </script>
 
 <!--UNITY-->
+
+<script src="Build/EASY.loader.js"></script>
+
+
 <script>
     var container = document.querySelector("#unity-container");
     var canvas = document.querySelector("#unity-canvas");
     var loadingBar = document.querySelector("#unity-loading-bar");
     var progressBarFull = document.querySelector("#unity-progress-bar-full");
     var warningBanner = document.querySelector("#unity-warning");
-
-
-
+    
     var buildUrl = "Build";
 var loaderUrl = buildUrl + "/THIS.loader.js";
 var config = {
@@ -357,43 +359,38 @@ script.onload = () => {
 document.body.appendChild(script);
 
 </script>
+ <!--OFFSCREEN TO DETECT -->
+ <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
 
-
-
-
-
-  <!--OFFSCREEN TO DETECT -->
-<script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
-
-<script>
-    let timer = null; 
-      
-            webgazer.setGazeListener(function(data) { 
-              if (data == null) {
-                return;
-              }
-          
-              var xprediction = data.x; 
-              var yprediction = data.y; 
-          
-              
-              var viewportWidth = window.innerWidth;
-              var viewportHeight = window.innerHeight;
-          
-              var minX = viewportWidth * 0.1; 
-              var maxX = viewportWidth * 0.9; 
-              var minY = viewportHeight * 0.1; 
-              var maxY = viewportHeight * 0.9; 
-          
-            
-              if ((xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) ) {
-                
-                timer = setTimeout(function() {
-                        alert('Get Back To Work!');
-                                }, 10000); // 10 seconds
-            }
-            }).begin();
-          </script>
+ <script>
+     let timer = null; 
+       
+             webgazer.setGazeListener(function(data) { 
+               if (data == null) {
+                 return;
+               }
+           
+               var xprediction = data.x; 
+               var yprediction = data.y; 
+           
+               
+               var viewportWidth = window.innerWidth;
+               var viewportHeight = window.innerHeight;
+           
+               var minX = viewportWidth * 0.1; 
+               var maxX = viewportWidth * 0.9; 
+               var minY = viewportHeight * 0.1; 
+               var maxY = viewportHeight * 0.9; 
+           
+             
+               if ((xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) ) {
+                 
+                 timer = setTimeout(function() {
+                         alert('Get Back To Work!');
+                                 }, 10000); // 10 seconds
+             }
+             }).begin();
+           </script>
     
       </body>
     </html>
