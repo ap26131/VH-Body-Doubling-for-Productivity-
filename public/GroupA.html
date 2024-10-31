@@ -281,7 +281,8 @@
         <div id="result"></div>
     </div>
  
-<!-- JavaScript -->
+<!-- Validate quiz -->
+
 <script>
   function validateQuiz() {
     const questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8']; // List of question names
@@ -343,6 +344,61 @@
   });
 </script>
 
+<script>
+  document.getElementById('exit').addEventListener('click', async () => {
+    stopGazeTracking();
+    try {
+      // Send the GazePoints to the server
+      const response = await fetch('/send-gaze-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ data: getGazePoints() })
+      });
+
+      if (response.ok) {
+        // Redirect to home.html after successful send
+        window.location.href = 'home.html';
+      } else {
+        console.error('Failed to send data', response.status);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
+</script>
+
+<script>
+
+    function checkAnswers() {
+      let score = 0;
+  
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q3 = document.querySelector('input[name="q3"]:checked');
+      const q4 = document.querySelector('input[name="q4"]:checked');
+      const q5 = document.querySelector('input[name="q5"]:checked');
+      const q6 = document.querySelector('input[name="q6"]:checked');
+      const q7 = document.querySelector('input[name="q7"]:checked');
+      const q8 = document.querySelector('input[name="q8"]:checked');
+  
+      // Increment score for correct answers
+      if (q1 && q1.value === 'correct') score++;
+      if (q2 && q2.value === 'correct') score++;
+      if (q3 && q3.value === 'correct') score++;
+      if (q4 && q4.value === 'correct') score++;
+      if (q5 && q5.value === 'correct') score++;
+      if (q6 && q6.value === 'correct') score++;
+      if (q7 && q7.value === 'correct') score++;
+      if (q8 && q8.value === 'correct') score++;
+  
+      // Display result using an alert
+      alert(`You scored ${score} out of 8.`);
+    }
+    
+  </script>
+  
 
 <!--OFFSCREEN TO DETECT -->
 <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
