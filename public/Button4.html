@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Worksheet with Virtual Human and WebGazer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* SPLIT SCREEN */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+        }
+        .panel {
+            width: 50%;
+            height: 100%;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            position: relative;
+        }
+        .panel-left {
+            background-color: #f0f0f0;
+            z-index: 5;
+        }
+        .panel-right {
+            background-color: #d0e0f0;
+            z-index: 10;
+        }
+        button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .text-box {
+            border: 2px solid #333;
+            padding: 20px;
+            width: 90%;
+            height: 500px;
+            background-color: #f0f0f0;
+            resize: none;
+            overflow-y: scroll;
+        }
+        /* UNITY CONTAINER */
+        #unity-container.unity-desktop {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 4;
+        }
+        #unity-canvas {
+            width: 100%;
+            height: 100%;
+            background: #231F20;
+            z-index: 4;
+        }
+        #unity-loading-bar {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            z-index: 4;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- LEFT SIDE: Unity and Virtual Human -->
+    <div class="panel panel-left">
+        <div id="unity-container" class="unity-desktop">
+            <canvas id="unity-canvas"></canvas>
+            <div id="unity-loading-bar">
+                <div id="unity-logo"></div>
+                <div id="unity-progress-bar-empty">
+                    <div id="unity-progress-bar-full"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE: Worksheet -->
+    <div class="panel panel-right">
+        <div class="button-container">
+            <button onclick="store_points_variable()">Start Storing Points</button>
+            <button onclick="stop_storing_points_variable()">Stop Storing Points</button>
+        </div>
+        <div class="text-box">
+            <h4>The Great Bread Revolution</h4>
+            <p>Your story text here...</p>
+        </div>
+    </div>
+
+    <!-- Unity Loading Script -->
+    <script src="Build/NEW.loader.js"></script>
+    <script>
+        let unityInstance;
+        var buildUrl = "Build";
+        var loaderUrl = buildUrl + "/NEW.loader.js";
+        var config = {
+            dataUrl: buildUrl + "/NEW.data",
+            frameworkUrl: buildUrl + "/NEW.framework.js",
+            codeUrl: buildUrl + "/NEW.wasm",
+            companyName: "DefaultCompany",
+          
+        };
+
+        var script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+            unityInstance = createUnityInstance(document.querySelector("#unity-canvas"), config, (progress) => {
+                document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
+            }).then((instance) => {
+                unityInstance = instance;
+                document.querySelector("#unity-loading-bar").style.display = "none";
+            }).catch((message) => {
+                console.error("Unity load error:", message);
+            });
+        };
+        document.body.appendChild(script);
+    </script>
+
+    <!-- Gaze Detection and Off-Screen Animation Trigger -->
+    <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+    <script>
+        let timer = null;
+        let isOffScreen = false;
+
+        webgazer.setGazeListener((data) => {
+            if (data == null) return;
+            const x = data.x;
+            const y = data.y;
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const minX = viewportWidth * 0.1;
+            const maxX = viewportWidth * 0.9;
+            const minY = viewportHeight * 0.1;
+            const maxY = viewportHeight * 0.9;
+
+            // Check if gaze is off-screen
+            if (x < minX || x > maxX || y < minY || y > maxY) {
+                if (!isOffScreen) {
+                    isOffScreen = true;
+                    timer = setTimeout(() => {
+                        if (unityInstance && unityInstance.SendMessage) {
+                            unityInstance.SendMessage('GazeHandler', 'TriggerAnimation');
+                        }
+                    }, 10000); // Trigger animation after 10 seconds of off-screen gaze
+                }
+            } else {
+                if (isOffScreen) {
+                    clearTimeout(timer);
+                    isOffScreen = false;
+                }
+            }
+        }).begin();
+    </script>
+</body>
+</html>

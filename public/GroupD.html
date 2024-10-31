@@ -464,8 +464,6 @@ document.body.appendChild(script);
             if (!isOffScreen) { // Start timer only if not already off-screen
                 isOffScreen = true;
                 timer = setTimeout(function() {
-                    // Send a message to Unity to trigger an off-screen action
-                    SendMessage('GazeHandler', 'OnOffScreenGaze', true);
                 }, 10000); // 10 seconds
             }
         } else {
@@ -473,9 +471,6 @@ document.body.appendChild(script);
             if (isOffScreen) {
                 clearTimeout(timer);
                 isOffScreen = false;
-                // Notify Unity that the user is back on-screen
-                SendMessage('Avatar', 'OnOffScreenGaze', false);
-            }
         }
     }).begin();
 
