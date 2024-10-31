@@ -422,7 +422,7 @@
     }
     
   </script>
-  </script>
+ 
 
     <!-- UNITY SCRIPTS -->
 <script>
@@ -489,19 +489,21 @@ document.body.appendChild(script);
               var maxY = viewportHeight * 0.9; 
           
                 // Check if gaze is off-screen
-        if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
-            if (!isOffScreen) { // Start timer only if not already off-screen
-                isOffScreen = true;
-                timer = setTimeout(function() {
-                }, 10000); // 10 seconds
+                if (x < minX || x > maxX || y < minY || y > maxY) {
+                if (!isOffScreen) {
+                    isOffScreen = true;
+                    timer = setTimeout(() => {
+                        if (unityInstance && unityInstance.SendMessage) {
+                            unityInstance.SendMessage('HERE', 'TriggerAnimation');
+                        }
+                    }, 10000); // Trigger animation after 10 seconds of off-screen gaze
+                }
+            } else {
+                if (isOffScreen) {
+                    clearTimeout(timer);
+                    isOffScreen = false;
+                }
             }
-        } else {
-            // Clear timer and reset if the gaze is back on-screen
-            if (isOffScreen) {
-                clearTimeout(timer);
-                isOffScreen = false;
-            }
-          }
     }).begin();
 
              
