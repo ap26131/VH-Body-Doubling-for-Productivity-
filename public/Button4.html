@@ -149,7 +149,7 @@
                     isOffScreen = true;
                     timer = setTimeout(() => {
                         if (unityInstance && unityInstance.SendMessage) {
-                            unityInstance.SendMessage('GazeHandler', 'TriggerAnimation');
+                            unityInstance.SendMessage('HERE', 'TriggerAnimation');
                         }
                     }, 10000); // Trigger animation after 10 seconds of off-screen gaze
                 }
