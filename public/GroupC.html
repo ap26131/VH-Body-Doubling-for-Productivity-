@@ -324,37 +324,46 @@
 
 
  <!--OFFSCREEN TO DETECT -->
- <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+<script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
 
- <script>
-     let timer = null; 
-       
-             webgazer.setGazeListener(function(data) { 
-               if (data == null) {
-                 return;
-               }
-           
-               var xprediction = data.x; 
-               var yprediction = data.y; 
-           
-               
-               var viewportWidth = window.innerWidth;
-               var viewportHeight = window.innerHeight;
-           
-               var minX = viewportWidth * 0.1; 
-               var maxX = viewportWidth * 0.9; 
-               var minY = viewportHeight * 0.1; 
-               var maxY = viewportHeight * 0.9; 
-           
-             
-               if ((xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) ) {
-                 
-                 timer = setTimeout(function() {
-                         alert('Get Back To Work!');
-                                 }, 10000); // 10 seconds
-             }
-             }).begin();
-           </script>
+<script>
+    let timer = null; 
+    let isOffScreen = false;
+
+      
+            webgazer.setGazeListener(function(data) { 
+              if (data == null) {
+                return;
+              }
+          
+              var xprediction = data.x; 
+              var yprediction = data.y; 
+          
+              
+              var viewportWidth = window.innerWidth;
+              var viewportHeight = window.innerHeight;
+          
+              var minX = viewportWidth * 0.1; 
+              var maxX = viewportWidth * 0.9; 
+              var minY = viewportHeight * 0.1; 
+              var maxY = viewportHeight * 0.9; 
+          
+                // Check if gaze is off-screen
+        if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
+            if (!isOffScreen) { // Start timer only if not already off-screen
+                isOffScreen = true;
+                timer = setTimeout(function() {
+                }, 10000); // 10 seconds
+            }
+        } else {
+            // Clear timer and reset if the gaze is back on-screen
+            if (isOffScreen) {
+                clearTimeout(timer);
+                isOffScreen = false;
+            }
+          }
+    }).begin();
+    </script>
     
       </body>
     </html>

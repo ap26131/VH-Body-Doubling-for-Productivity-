@@ -440,6 +440,8 @@ document.body.appendChild(script);
 
 <script>
     let timer = null; 
+    let isOffScreen = false;
+
       
             webgazer.setGazeListener(function(data) { 
               if (data == null) {
@@ -458,14 +460,30 @@ document.body.appendChild(script);
               var minY = viewportHeight * 0.1; 
               var maxY = viewportHeight * 0.9; 
           
-            
-              if ((xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) ) {
-                
+                // Check if gaze is off-screen
+        if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
+            if (!isOffScreen) { // Start timer only if not already off-screen
+                isOffScreen = true;
                 timer = setTimeout(function() {
-                        alert('Get Back To Work!');
-                                }, 10000); // 10 seconds
+                }, 10000); // 10 seconds
             }
-            }).begin();
+        } else {
+            // Clear timer and reset if the gaze is back on-screen
+            if (isOffScreen) {
+                clearTimeout(timer);
+                isOffScreen = false;
+            }
+          }
+    }).begin();
+
+             
+
+
+
+
+
+
+
           </script>
 
 
