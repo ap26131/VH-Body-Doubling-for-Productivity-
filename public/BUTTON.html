@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Worksheet with Virtual Human and WebGazer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      /* SPLIT SCREEN and other styles */
+      body { margin: 0; padding: 0; height: 100vh; display: flex; }
+      .panel { width: 50%; height: 100%; overflow-y: scroll; border: 1px solid #ccc; position: relative; }
+      .panel-left { background-color: #f0f0f0; z-index: 5; }
+      .panel-right { background-color: #d0e0f0; position: relative; z-index: 10; }
+      button { margin-top: 20px; padding: 10px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+      button:hover { background-color: #45a049; }
+      /* Additional styles omitted for brevity */
+    </style>
+  </head>
+
+  <body>
+    <!-- Unity and Virtual Human panel -->
+    <div class="panel panel-left">
+      <div id="unity-container" class="unity-desktop">
+        <canvas id="unity-canvas"></canvas>
+        <div id="unity-loading-bar">
+          <div id="unity-logo"></div>
+          <div id="unity-progress-bar-empty">
+            <div id="unity-progress-bar-full"></div>
+          </div>
+        </div>
+        <div id="unity-footer"></div>
+      </div>
+    </div>
+
+    <!-- Worksheet panel -->
+    <div class="panel panel-right">
+      <!-- Content omitted for brevity -->
+      <div class="button-container">
+        <button onclick="store_points_variable()">Start Storing Points</button>
+        <button onclick="stop_storing_points_variable()">Stop Storing Points</button>
+      </div>
+      <div class="text-box">
+        <h4>The Great Bread Revolution</h4>
+        <!-- Story Content -->
+      </div>
+
+      <form id="quiz-form">
+        <!-- Quiz Questions Omitted for Brevity -->
+        <div class="button-container">
+          <button type="submit">Submit</button>
+          <button id="exit">Exit</button>
+        </div>
+      </form>
+      <div id="result"></div>
+    </div>
+
+    <!-- JavaScript for Unity WebSocket -->
+    <script>
+      // WebSocket connection to Unity
+      const socket = new WebSocket("ws://localhost:8080/chat"); // Replace with your WebSocket server URL
+
+      socket.addEventListener("open", function () {
+        console.log("Connected to Unity WebSocket server");
+      });
+
+      socket.addEventListener("message", function (event) {
+        console.log("Message from Unity:", event.data);
+      });
+
+      function sendGazeSignal() {
+        socket.send("Gaze off-screen detected");
+        console.log("Sent gaze signal to Unity");
+      }
+    </script>
+
+    <!-- WebGazer for Gaze Detection -->
+    <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+    <script>
+      let timer = null;
+      let isOffScreen = false;
+
+      webgazer.setGazeListener(function(data) { 
+        if (data == null) return;
+
+        var x = data.x; 
+        var y = data.y;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+
+        var minX = viewportWidth * 0.1; 
+        var maxX = viewportWidth * 0.9; 
+        var minY = viewportHeight * 0.1; 
+        var maxY = viewportHeight * 0.9; 
+
+        // Check if gaze is off-screen
+        if (x < minX || x > maxX || y < minY || y > maxY) {
+          if (!isOffScreen) {
+            isOffScreen = true;
+            timer = setTimeout(() => {
+              sendGazeSignal(); // Use WebSocket to notify Unity
+            }, 10000); // Trigger signal after 10 seconds
+          }
+        } else {
+          if (isOffScreen) {
+            clearTimeout(timer);
+            isOffScreen = false;
+          }
+        }
+      }).begin();
+    </script>
+
+    <!-- Unity Instance Setup (Unmodified) -->
+    <script>
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/public.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/public.data",
+        frameworkUrl: buildUrl + "/public.framework.js",
+        codeUrl: buildUrl + "/public.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "Attempt1",
+        productVersion: "0.1",
+      };
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unity WebGL with WebSocket</title>
+</head>
+<body>
+  <div id="unity-container" style="width: 100%; height: 100%;">
+    <canvas id="unity-canvas"></canvas>
+    <div id="unity-loading-bar">
+      <div id="unity-logo"></div>
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unity Loader Script -->
+  <script>
+    var unityInstance; // Declare unityInstance as a global variable
+
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/public.loader.js";
+    var config = {
+      dataUrl: buildUrl + "/public.data",
+      frameworkUrl: buildUrl + "/public.framework.js",
+      codeUrl: buildUrl + "/public.wasm",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "DefaultCompany",
+      productName: "Attempt1",
+    };
+
+    const container = document.querySelector("#unity-container");
+    const canvas = document.querySelector("#unity-canvas");
+    const loadingBar = document.querySelector("#unity-loading-bar");
+    const progressBarFull = document.querySelector("#unity-progress-bar-full");
+
+    const script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+      createUnityInstance(canvas, config, (progress) => {
+        progressBarFull.style.width = 100 * progress + "%";
+      }).then((instance) => {
+        unityInstance = instance; // Assign the loaded Unity instance to unityInstance
+        loadingBar.style.display = "none";
+      }).catch((message) => {
+        alert(message);
+      });
+    };
+    document.body.appendChild(script);
+  </script>
+
+  <!-- WebSocket Script -->
+  <script>
+    const socket = new WebSocket("ws://localhost:8080/chat");
+
+    socket.addEventListener("open", () => {
+      console.log("WebSocket connected");
+    });
+
+    socket.addEventListener("message", (event) => {
+      const message = event.data;
+      console.log("Received message from server:", message);
+
+      // Send the message to Unity
+      if (unityInstance && unityInstance.SendMessage) {
+        unityInstance.SendMessage("WebSocketClient", "OnMessageReceived", message);
+      }
+    });
+
+    socket.addEventListener("close", () => {
+      console.log("WebSocket connection closed");
+    });
+
+    function sendWebSocketMessage(message) {
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(message);
+        console.log("Sent message to server:", message);
+      } else {
+        console.log("WebSocket connection is not open");
+      }
+    }
+  </script>
+</body>
+</html>
