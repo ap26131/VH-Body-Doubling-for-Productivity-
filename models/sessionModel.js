@@ -7,8 +7,6 @@ const sessionSchema = new mongoose.Schema({
     prediction : [String],
     user : {type: Schema.Types.ObjectId, ref: 'User'},
     quizScore : Number,
-    loginDate : Date,
-    logOutDate : Date,
     quizStart : Date,
     quizEnd : Date
 });

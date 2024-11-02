@@ -74,8 +74,6 @@ app.post('/validate', async (req, res) => {
                     console.log("Connected success");
                     socket.emit('home', "Successfully logged in!");
                 });
-                //Save login date
-                req.session.loginDate = new Date();
             } else {
             console.log("Password does not match");
             // Redirect back to home page and show error message for incorrect password
@@ -189,13 +187,11 @@ app.post('/submit-quiz', (req, res) => {
 
 app.post('/send-gaze-data', (req, res) => {
     req.session.gazePoints = req.body.data;
-  
     // Send a response back to the client
     res.status(200).send('Gaze points recieved');
 });
 
 app.get('/log-out', async (req, res) => {
-    session.logoutDate = new Date();
 
     const sessionUser = userModel.findOne({email : req.session.email});
 
@@ -204,8 +200,6 @@ app.get('/log-out', async (req, res) => {
         user : sessionUser,
         prediction : req.session.gazePoints,
         quizScore : req.session.quizScore,
-        loginDate : req.session.loginDate,
-        logoutDate : req.session.logoutDate,
         quizStart : req.session.quizStart,
         quizEnd : req.session.quizEnd
       });
@@ -218,6 +212,17 @@ app.get('/log-out', async (req, res) => {
         res.clearCookie('connect.sid'); // Clear session cookie
         res.redirect('/'); // Redirect to root after session is cleared
     });
+});
+
+app.post('/off-screen-counter', async (req, res) => {
+    if (typeof req.session.offScreenCount === 'undefined') {
+        req.session.offScreenCount = 0;
+    }
+
+    if(req.body.action === 'off screen'){
+        req.session.offScreenCount += 1;
+        res.status(200).send('Off screen count increased');
+    }
 });
 
 // Start server

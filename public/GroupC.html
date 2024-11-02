@@ -402,13 +402,74 @@
       if (q6 && q6.value === 'correct') score++;
       if (q7 && q7.value === 'correct') score++;
       if (q8 && q8.value === 'correct') score++;
-  
+      
       // Display result using an alert
       alert(`You scored ${score} out of 8.`);
     }
     
+    </script>
+
+  <!--OFFSCREEN TO DETECT -->
+  <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+
+  <script>
+    let timer = null; 
+    let isOffScreen = false;
+
+    // Load the audio file
+    let audio = new Audio('ding-126626.mp3'); 
+      
+    webgazer.setGazeListener(function(data) { 
+      if (data == null) {
+        return;
+      }
+
+      var xprediction = data.x; 
+      var yprediction = data.y; 
+
+      
+      var viewportWidth = window.innerWidth;
+      var viewportHeight = window.innerHeight;
+
+      var minX = viewportWidth * 0.1; 
+      var maxX = viewportWidth * 0.9; 
+      var minY = viewportHeight * 0.1; 
+      var maxY = viewportHeight * 0.9; 
+
+      // Check if gaze is off-screen
+      if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
+        try {
+          // Send notification to server that user looked off screen
+          const response = fetch('/off-screen-counter', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ action: 'off screen' })
+          });
+        } catch (error) {
+          console.error('Error:', error);
+        }
+
+        if (!isOffScreen) { // Start timer only if not already off-screen
+            isOffScreen = true;
+            audio.play().catch(function(error) {
+                  console.error("Audio playback error:", error);
+              });
+              alert("Gaze has been off-screen for 10 seconds.");
+            timer = setTimeout(function() {
+            }, 10000); // 10 seconds
+        }
+      } else {
+        // Clear timer and reset if the gaze is back on-screen
+        if (isOffScreen) {
+            clearTimeout(timer);
+            isOffScreen = false;
+        }
+      }
+    }).begin();
   </script>
-  </script>
+  
 
   <!-- UNITY SCRIPTS -->
   <script>
@@ -449,47 +510,6 @@ document.body.appendChild(script);
 </script>
 
 
- <!--OFFSCREEN TO DETECT -->
-<script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
-
-<script>
-    let timer = null; 
-    let isOffScreen = false;
-
-      
-            webgazer.setGazeListener(function(data) { 
-              if (data == null) {
-                return;
-              }
-          
-              var xprediction = data.x; 
-              var yprediction = data.y; 
-          
-              
-              var viewportWidth = window.innerWidth;
-              var viewportHeight = window.innerHeight;
-          
-              var minX = viewportWidth * 0.1; 
-              var maxX = viewportWidth * 0.9; 
-              var minY = viewportHeight * 0.1; 
-              var maxY = viewportHeight * 0.9; 
-          
-                // Check if gaze is off-screen
-        if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
-            if (!isOffScreen) { // Start timer only if not already off-screen
-                isOffScreen = true;
-                timer = setTimeout(function() {
-                }, 10000); // 10 seconds
-            }
-        } else {
-            // Clear timer and reset if the gaze is back on-screen
-            if (isOffScreen) {
-                clearTimeout(timer);
-                isOffScreen = false;
-            }
-          }
-    }).begin();
-    </script>
     
-      </body>
-    </html>
+  </body>
+</html>
