@@ -5,7 +5,7 @@ const { randomUUID } = require('crypto');
 const sessionSchema = new mongoose.Schema({
     sid : String,
     prediction : [String],
-    user : {type: Schema.Types.ObjectId, ref: 'User'},
+    user : {type: mongoose.Schema.Types.UUID, ref: 'User'},
     quizScore : Number,
     quizStart : Date,
     quizEnd : Date
