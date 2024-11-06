@@ -277,74 +277,15 @@
             <!-- Submit and Exit Buttons -->
           <div class="button-container">
             <button type="submit">Submit</button>
-            <button onclick="window.location.href='home.html'">Exit</button>
+            <button id="exit">Exit</button>
           </div>
         </form>
         <div id="result"></div>
     </div>
  
 <!-- Validate quiz -->
+<script src="js/quiz_validation.js"></script>
 
-<script>
-  function validateQuiz() {
-    const questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8']; // List of question names
-    let allAnswered = true;
-
-    for (let i = 0; i < questions.length; i++) {
-      const q = questions[i];
-      const radios = document.getElementsByName(q);
-      let answered = false;
-
-      // Check if at least one radio button in the group is checked
-      for (const radio of radios) {
-        if (radio.checked) {
-          answered = true;
-          break;
-        }
-      }
-
-      if (!answered) {
-        alert(`Please answer Question ${i + 1}.`); // Use i + 1 for the correct question number
-        allAnswered = false;
-        break; // Stop checking after finding the first unanswered question
-      }
-    }
-
-    return allAnswered; // Return true if all questions are answered
-  }
-</script>
-
-<script>
-  const form = document.getElementById('quiz-form');
-  const resultDiv = document.getElementById('result');
-
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault(); // Prevent the page from reloading
-
-    // Validate the quiz before submitting
-    const allAnswered = validateQuiz();
-    if (!allAnswered) {
-      return; // Stop here if not all questions are answered
-    }
-
-    const formData = new FormData(form);
-    const data = new URLSearchParams(formData);
-
-    try {
-      const response = await fetch('/submit-quiz', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: data,
-      });
-
-      const result = await response.json();
-      resultDiv.innerHTML = `<h2>Your Score: ${result.score}/8</h2>`;
-    } catch (error) {
-      console.error('Error submitting quiz:', error);
-      resultDiv.innerHTML = `<h2>Error submitting quiz. Please try again.</h2>`;
-    }
-  });
-</script>
 
 <script>
   document.getElementById('exit').addEventListener('click', async () => {
@@ -358,7 +299,7 @@
         },
         body: JSON.stringify({ data: getGazePoints() })
       });
-
+      
       if (response.ok) {
         // Redirect to home.html after successful send
         window.location.href = 'home.html';
@@ -371,39 +312,7 @@
   });
 </script>
 
-<script>
-
-    function checkAnswers() {
-      let score = 0;
-  
-      const q1 = document.querySelector('input[name="q1"]:checked');
-      const q2 = document.querySelector('input[name="q2"]:checked');
-      const q3 = document.querySelector('input[name="q3"]:checked');
-      const q4 = document.querySelector('input[name="q4"]:checked');
-      const q5 = document.querySelector('input[name="q5"]:checked');
-      const q6 = document.querySelector('input[name="q6"]:checked');
-      const q7 = document.querySelector('input[name="q7"]:checked');
-      const q8 = document.querySelector('input[name="q8"]:checked');
-  
-      // Increment score for correct answers
-      if (q1 && q1.value === 'correct') score++;
-      if (q2 && q2.value === 'correct') score++;
-      if (q3 && q3.value === 'correct') score++;
-      if (q4 && q4.value === 'correct') score++;
-      if (q5 && q5.value === 'correct') score++;
-      if (q6 && q6.value === 'correct') score++;
-      if (q7 && q7.value === 'correct') score++;
-      if (q8 && q8.value === 'correct') score++;
-  
-      // Display result using an alert
-      alert(`You scored ${score} out of 8.`);
-    }
-    
-  </script>
-  </script>
-
-
-  <!--OFFSCREEN TO DETECT -->
+<!--OFFSCREEN TO DETECT -->
 <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
 
 <script>
@@ -412,24 +321,24 @@
   
   // Load the audio file
   let audio = new Audio('ding-126626.mp3'); 
-    
+  
   webgazer.setGazeListener(function(data) { 
     if (data == null) {
       return;
     }
-
+    
     var xprediction = data.x; 
     var yprediction = data.y; 
-
+    
     
     var viewportWidth = window.innerWidth;
     var viewportHeight = window.innerHeight;
-
+    
     var minX = viewportWidth * 0.1; 
     var maxX = viewportWidth * 0.9; 
     var minY = viewportHeight * 0.1; 
     var maxY = viewportHeight * 0.9; 
-
+    
     // Check if gaze is off-screen
     if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
       try {
@@ -444,25 +353,27 @@
       } catch (error) {
         console.error('Error:', error);
       }
-
+      
       if (!isOffScreen) { // Start timer only if not already off-screen
-          isOffScreen = true;
-          audio.play().catch(function(error) {
-                console.error("Audio playback error:", error);
-            });
-            alert("Gaze has been off-screen for 10 seconds.");
-          timer = setTimeout(function() {
-          }, 10000); // 10 seconds
+        isOffScreen = true;
+        audio.play().catch(function(error) {
+          console.error("Audio playback error:", error);
+        });
+        alert("Gaze has been off-screen for 10 seconds.");
+        timer = setTimeout(function() {
+        }, 10000); // 10 seconds
       }
     } else {
       // Clear timer and reset if the gaze is back on-screen
       if (isOffScreen) {
-          clearTimeout(timer);
-          isOffScreen = false;
+        clearTimeout(timer);
+        isOffScreen = false;
       }
     }
   }).begin();
 </script>
-    
-  </body>
+
+<!-- Save group letter to session -->
+<script src="js/send_group_letter.js"></script>
+</body>
 </html>

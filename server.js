@@ -173,7 +173,6 @@ app.get('/quiz', async (req, res) =>{
 //server side quiz submission
 app.post('/submit-quiz', (req, res) => {
     req.session.quizEnd = new Date();
-    const answers = req.body;
     // Process the quiz answers and calculate the score
     let score = 0;
     for (const [key, value] of Object.entries(req.body)) {
@@ -201,7 +200,8 @@ app.get('/log-out', async (req, res) => {
         prediction : req.session.gazePoints,
         quizScore : req.session.quizScore,
         quizStart : req.session.quizStart,
-        quizEnd : req.session.quizEnd
+        quizEnd : req.session.quizEnd,
+        quizType : req.session.groupLetter
       });
       await sessionData.save();
     req.session.destroy((err) => {
@@ -223,6 +223,15 @@ app.post('/off-screen-counter', async (req, res) => {
         req.session.offScreenCount += 1;
         res.status(200).send('Off screen count increased');
     }
+});
+
+app.post("/store-group-letter", (req, res) => {
+    const { group } = req.body;
+    if (group) {
+        req.session.groupLetter = group
+        return res.json({ success: true, group });
+    }
+        res.status(400).json({ success: false, message: "No group letter provided" });
 });
 
 // Start server
