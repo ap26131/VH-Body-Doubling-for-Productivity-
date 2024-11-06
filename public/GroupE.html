@@ -386,6 +386,7 @@ script.onload = () => {
     progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
           loadingBar.style.display = "none";
+          window.UnityInstance = unityInstance;
         }).catch((message) => {
           alert(message);
         });
