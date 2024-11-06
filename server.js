@@ -158,18 +158,6 @@ app.get('/calibration', async (req, res) =>{
     }
 });
 
-// Routes for virtual human page
-app.get('/quiz', async (req, res) =>{
-
-    // Check if form was submitted else redirect to form
-    if(req.session.logged_in) {
-        req.session.quizStart = new Date();
-        res.sendFile(path.join(__dirname, 'public', 'Try1.html'));
-    } else {
-        res.redirect('/');
-    }
-});
-
 //server side quiz submission
 app.post('/submit-quiz', (req, res) => {
     req.session.quizEnd = new Date();
@@ -228,6 +216,7 @@ app.post('/off-screen-counter', async (req, res) => {
 app.post("/store-group-letter", (req, res) => {
     const { group } = req.body;
     if (group) {
+        req.session.quizStart = new Date();
         req.session.groupLetter = group
         return res.json({ success: true, group });
     }
