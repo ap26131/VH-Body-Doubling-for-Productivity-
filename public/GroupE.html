@@ -129,8 +129,7 @@
 
 
   <body>
-
-    
+    <<script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
     <div class="panel panel-left">
         <div id="unity-container" class="unity-desktop">
           <canvas id="unity-canvas"></canvas>
@@ -327,36 +326,6 @@
   });
 </script>
 
-<script>
-
-    function checkAnswers() {
-      let score = 0;
-  
-      const q1 = document.querySelector('input[name="q1"]:checked');
-      const q2 = document.querySelector('input[name="q2"]:checked');
-      const q3 = document.querySelector('input[name="q3"]:checked');
-      const q4 = document.querySelector('input[name="q4"]:checked');
-      const q5 = document.querySelector('input[name="q5"]:checked');
-      const q6 = document.querySelector('input[name="q6"]:checked');
-      const q7 = document.querySelector('input[name="q7"]:checked');
-      const q8 = document.querySelector('input[name="q8"]:checked');
-  
-      // Increment score for correct answers
-      if (q1 && q1.value === 'correct') score++;
-      if (q2 && q2.value === 'correct') score++;
-      if (q3 && q3.value === 'correct') score++;
-      if (q4 && q4.value === 'correct') score++;
-      if (q5 && q5.value === 'correct') score++;
-      if (q6 && q6.value === 'correct') score++;
-      if (q7 && q7.value === 'correct') score++;
-      if (q8 && q8.value === 'correct') score++;
-  
-      // Display result using an alert
-      alert(`You scored ${score} out of 8.`);
-    }
-    
-  </script>
-
    <!-- UNITY SCRIPTS -->
    <script>
     var container = document.querySelector("#unity-container");
@@ -378,30 +347,25 @@
         productName: "VH2",
         productVersion: "0.1",       
       };
-
-var script = document.createElement("script");
-script.src = loaderUrl;
-script.onload = () => {
-  createUnityInstance(canvas, config, (progress) => {
-    progressBarFull.style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
-          loadingBar.style.display = "none";
-        }).catch((message) => {
-          alert(message);
-        });
-      };
-
-document.body.appendChild(script);
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+              }).then((unityInstance) => {
+                loadingBar.style.display = "none";
+                window.UnityInstance = unityInstance;
+              }).catch((message) => {
+                alert(message);
+              });
+            };
+      
+      document.body.appendChild(script);
+      
 
 </script>
 
- <!--OFFSCREEN TO DETECT -->
-<script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
-
 <script>
-  let timer = null; 
-  let isOffScreen = false;
-
 
   function triggerUnityAnimation() {
     if (typeof UnityInstance !== 'undefined' && UnityInstance !== null) {
@@ -419,60 +383,77 @@ function triggerUnityTTS(message) {
     }
 }
 
-  // Load the audio file
- // let audio = new Audio('ding-126626.mp3'); 
-    
-  webgazer.setGazeListener(function(data) { 
-    if (data == null) {
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+var count = 0;
+var alerted = false;
+var vhresponse = ["one step at a time", "stay focused you got this", "keep your eye on the goal"];
+// Array to hold gaze prediction points
+let gazePoints = [];
+webgazer.setGazeListener(function(data, elapsedTime) {
+  if (data == null) {
       return;
+  }
+
+  var xprediction = data.x; // X coordinate
+  var yprediction = data.y; // Y coordinate
+  // Store the prediction point
+  gazePoints.push({
+  x: xprediction,
+  y: yprediction,
+  time: elapsedTime
+  });
+  
+  var viewportWidth = window.innerWidth;
+  var viewportHeight = window.innerHeight;
+
+  var minX = viewportWidth * 0.1; 
+  var maxX = viewportWidth * 0.9; 
+  var minY = viewportHeight * 0.1; 
+  var maxY = viewportHeight * 0.9; 
+
+  // Check if gaze is off-screen
+  if(alerted){
+
+    async function changeAlert() {
+      await sleep(15000);
+      alerted = false;
     }
 
-    var xprediction = data.x; 
-    var yprediction = data.y; 
+    changeAlert();
 
-    
-    var viewportWidth = window.innerWidth;
-    var viewportHeight = window.innerHeight;
-
-    var minX = viewportWidth * 0.1; 
-    var maxX = viewportWidth * 0.9; 
-    var minY = viewportHeight * 0.1; 
-    var maxY = viewportHeight * 0.9; 
-
-    // Check if gaze is off-screen
+  } else {
     if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
-      try {
-        // Send notification to server that user looked off screen
-        const response = fetch('/off-screen-counter', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ action: 'off screen' })
-        });
-      } catch (error) {
-        console.error('Error:', error);
+      count++;
+      if(count > 50){
+        try {
+          // Send notification to server that user looked off screen
+          const response = fetch('/off-screen-counter', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ action: 'off screen' })
+          });
+        } catch (error) {
+          console.error('Error:', error);
+        }
+        
+        triggerUnityAnimation();
+        triggerUnityTTS(vhresponse[Math.floor(Math.random() * vhresponse.length)]);
+        alerted = true;
+        count = 0;
       }
-
-      if (!isOffScreen) { // Start timer only if not already off-screen
-          isOffScreen = true;
-          // audio.play().catch(function(error) {
-          //       console.error("Audio playback error:", error);
-          //   });
-            alert("Gaze has been off-screen for 10 seconds.");
-            triggerUnityAnimation();
-            triggerUnityTTS("Please type for assistance");
-          timer = setTimeout(function() {
-          }, 10000); // 10 seconds
+      } else {
+        count = 0;
       }
-    } else {
-      // Clear timer and reset if the gaze is back on-screen
-      if (isOffScreen) {
-          clearTimeout(timer);
-          isOffScreen = false;
-      }
-    }
-  }).begin();
+  }
+  
+   // Optionally, log the data for debugging
+   console.log(`Gaze Point: (${xprediction}, ${yprediction}), Time: ${elapsedTime}`);
+}).begin();
 </script>
     
   </body>

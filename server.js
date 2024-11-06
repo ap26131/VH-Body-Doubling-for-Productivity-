@@ -46,7 +46,7 @@ app.get('/', async (req, res) => {
     if(req.session.logged_in) {
         res.redirect("/home")
     } else {
-        res.sendFile(path.join(__dirname, 'public', 'index.html'));
+        res.sendFile(path.join(__dirname, 'public', 'login.html'));
     }
 });
 
