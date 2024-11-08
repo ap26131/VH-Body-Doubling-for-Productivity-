@@ -18,7 +18,7 @@
            
         }
 
-        nav a {
+        nav button {
             color: black;
             text-decoration: none;
             padding: 14px 20px;
@@ -38,7 +38,7 @@
         }
         
        
-       .button{ 
+       .groupbutton{ 
             padding-top: 50px;
             font-size: 25px;
             border: 2px solid black; 
@@ -58,25 +58,98 @@
 
 <body>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script> 
-        var socket = io();  
-        socket.on('home', (args) => {
-            swal(args);
-        });
-    </script>
+    <script src="js/group_letter.js"></script>
+    
     <nav>
-        <a href="/calibration">Calibration</a>  <!--REROUTE TO CALLIBRATION PAGE-->
-        <a href="/log-out">Log Out</a>  <!--REROUTE TO LOGIN PAGE--> 
+        <button id="calibration" onclick="window.open('/calibration', 'newtab')">Calibration</button> <!--REROUTE TO CALLIBRATION PAGE-->
+        <button id="logout">Logout</button>
     </nav>
 
-        <a href="GroupA.html" class="button" target="_blank"> Group A </a>   
-        <a href="GroupB.html" class="button" target="_blank"> Group B</a> 
-        <a href="GroupC.html" class="button" target="_blank"> Group C </a> 
-        <a href="GroupD.html" class="button" target="_blank"> Group D </a> 
-        <a href="GroupE.html" class="button" target="_blank"> Group E </a> 
+    <a class="groupbutton" id="A"> Group A </a>   
+    <a class="groupbutton" id="B"> Group B</a> 
+    <a class="groupbutton" id="C"> Group C </a> 
+    <a class="groupbutton" id="D"> Group D </a> 
+    <a class="groupbutton" id="E"> Group E </a> 
 
+   <script>
    
+        var logout=document.getElementById('logout')
+        
+        logout.addEventListener('click', function(e){
+         e.preventDefault();
+         
+         localStorage.removeItem('userToken');
+
+         fetch('/clear-session', {
+          method: 'POST',
+          redirect: 'follow',
+          })
+          .then(function(response){ 
+            if(response.redirected){
+                swal({
+                    title: 'Successfully logged out!',
+                    timer: 1000,
+                    closeOnClickOutside: false,
+                    text: 'Redirecting...',
+                    icon: 'success',
+                    buttons: false,
+                  }).then(() => {
+                    window.location.href = response.url;
+                  })
+
+                  if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return;
+            }
+            })
+            .then(function(data)
+          {
+        }).catch(error => console.error('Error:', error)); 
+        });
+
+
+        // Check for when group button is clicked
+        document.querySelectorAll('.groupbutton').forEach(x => {
+            x.addEventListener('click', function() {
+                var group = this.id;
+                swal({
+                    title: "Group " + this.id + ": Quiz 1",
+                    buttons: true,
+                    closeOnClickOutside: false,        
+                }).then((value) => {
+                    if(value){
+                        fetch("/store-group-letter", {
+                            method: "POST",
+                            redirect: 'follow',
+                            credentials: "include",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                group : this.id,
+                              }),
+                        })
+                        .then(function(response) {
+    
+                            if(response.redirected){
+                                console.log("redirected");
+                                window.open('/pre-survey', 'newtab')
+                            }
+    
+                            if (!response.ok) {
+                                throw new Error("Network response was not ok");
+                            }
+                            return;
+                        })
+                        .catch(error => console.error("Error:", error));
+                    } else {
+
+                    }
+                });
+            })
+        })
+    </script>
 </body>
 </html>
 

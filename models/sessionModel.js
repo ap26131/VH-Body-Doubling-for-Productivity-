@@ -8,7 +8,8 @@ const sessionSchema = new mongoose.Schema({
     user : {type: mongoose.Schema.Types.UUID, ref: 'User'},
     quizScore : Number,
     quizStart : Date,
-    quizEnd : Date
+    quizEnd : Date,
+    offscreen : Number
 });
 
 module.exports = mongoose.model('Session', sessionSchema);

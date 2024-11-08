@@ -18,16 +18,9 @@
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script> 
-        var socket = io();  
-        socket.on('login', (args) => {
-           swal(args);
-        });
-    </script>
     <div class="container">
         <h2>Login</h2>
-        <form action="/validate" method="post">
+        <form id="login" action="/validate" method="post">
             <label for="email">E-mail:</label>
             <input type="email" size="15" id="email" maxlength="40" name="email" placeholder="Enter your e-mail here" required/>
             <label for="password">Password:</label>
@@ -36,5 +29,45 @@
         </form>
         <button onclick="location.href='/register'">Register</button>
     </div>
+
+    <script>
+        var form=document.getElementById('login')
+        
+        form.addEventListener('submit', function(e){
+         e.preventDefault()
+        
+         fetch('/validate', {
+          method: 'POST',
+          redirect: 'follow',
+          body: JSON.stringify({
+            email:document.getElementById('email').value,
+            password:document.getElementById('password').value,
+          }),
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          }
+          })
+          .then(function(response){ 
+            if(response.redirected){
+              swal({
+                title: 'Successfully logged in!',
+                timer: 2000,
+                closeOnClickOutside: false,
+                text: 'Redirecting...',
+                icon: 'success',
+                buttons: false,
+              }).then(() => {
+                window.location.href = response.url;
+              })
+                return;
+            }
+            return response.json()
+            })
+            .then(function(data)
+          {
+           swal(data.message);
+        }).catch(error => console.error('Error:', error)); 
+        });
+        </script>
 </body>
 </html>

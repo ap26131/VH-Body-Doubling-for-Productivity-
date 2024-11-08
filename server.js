@@ -43,11 +43,7 @@ app.use(session);
 
 // Route for the login page
 app.get('/', async (req, res) => {
-    if(req.session.logged_in) {
-        res.redirect("/home")
-    } else {
         res.sendFile(path.join(__dirname, 'public', 'login.html'));
-    }
 });
 
 // Route for validating login from user
@@ -69,28 +65,17 @@ app.post('/validate', async (req, res) => {
                 req.session.id;
 
                 // Redirect user to home page and emit a successful login message
-                res.redirect("/home");
-                io.on('connection', (socket) => {
-                    console.log("Connected success");
-                    socket.emit('home', "Successfully logged in!");
-                });
+                return res.redirect(301,"/home");
+                
             } else {
             console.log("Password does not match");
             // Redirect back to home page and show error message for incorrect password
-            res.redirect("/");
-            io.on('connection', (socket) => {
-                console.log("Connected failure");
-                socket.emit('login', "Incorrect password");
-              });
+            return res.status(401).json({message : "Incorrect password"});
            }
          })
         } else {
-            console.log("Email is not registered");
-            // Redirect back to home page and show error message for unregistered email
-            res.redirect("/");
-            io.on('connection', (socket) => {
-                socket.emit('login', "Email is not registered");
-              });
+            console.log("Email was not found");
+           return res.status(401).json({message : "Email was not found"});
          }
         } catch (err) {
          res.status(400).json({ error: err.message });
@@ -111,7 +96,6 @@ app.get('/register', async (req, res) =>{
 app.post('/register',  async (req, res) => {
     try {
         const user = await userModel.findOne({email : req.body.email});
-        var result = "";
         if(user === null){
           const newUser = new userModel({
             firstname : req.body.fname,
@@ -120,22 +104,16 @@ app.post('/register',  async (req, res) => {
             password : await bcrypt.hash(req.body.password, 8),
             age : req.body.age,
             gender : req.body.gender,
-            disability : req.body.disabilityOption,
-            glasses : req.body.glassesOption,
-            medicated : req.body.medicatedOption
+            disability : req.body.disability,
+            glasses : req.body.glasses,
+            medicated : req.body.medicated
            });
            await newUser.save();
-           result = "Registered successfully.";
-        } else {
-           result = "Email is already registered.";
+           return res.status(200).json({message : "Successfully registered!"});
         }
-        res.redirect("/register");
-        io.on('connection', (socket) => {
-            console.log("Connected");
-          socket.emit('email', result);
-        });
+        return res.status(401).json({message : "Email already exist!"});
       } catch (err) {
-        res.status(400).json({ error: err.message });
+        return res.status(400).json({ error: err.message });
       }
 });
 
@@ -145,6 +123,37 @@ app.get('/home', async (req, res) => {
         res.sendFile(path.join(__dirname, 'public', 'home.html'))
     } else {
         res.redirect("/");
+    }
+});
+
+// Route for calibration page
+app.get('/pre-survey', async (req, res) =>{
+
+    if(req.session.logged_in) {
+        res.sendFile(path.join(__dirname, 'public', 'pre-quiz-survey.html'));
+    } else {
+        res.redirect("/");
+    }
+});
+
+
+app.post('/pre-survey', async (req, res) =>{
+    try{
+        const user = await userModel.findOneAndUpdate(
+            { email: req.session.email },
+            {
+              $set: { presurvey: req.body },
+            },
+            { strict: false }
+          );
+        if(user !== null){
+            res.redirect("/quiz");
+            console.log("User has been updated");
+        } else{
+            console.log("User does not exist");
+        }
+    } catch (error) {
+        console.log("error");
     }
 });
 
@@ -163,15 +172,32 @@ app.get('/quiz', async (req, res) =>{
 
     // Check if form was submitted else redirect to form
     if(req.session.logged_in) {
-        req.session.quizStart = new Date();
-        res.sendFile(path.join(__dirname, 'public', 'Try1.html'));
+        console.log(req.session.group);
+        if(req.session.group != null){
+            req.session.quizStart = new Date();
+            if( req.session.group == "A"){
+                res.sendFile(path.join(__dirname, 'public', 'GroupA.html'));
+            } else if ( req.session.group == "B"){
+                res.sendFile(path.join(__dirname, 'public', 'GroupB.html'));
+            } else if ( req.session.group == "C"){
+                res.sendFile(path.join(__dirname, 'public', 'GroupC.html'));
+            } else if ( req.session.groupLetter == "D"){
+                res.sendFile(path.join(__dirname, 'public', 'GroupD.html'));
+            } else if ( req.session.group == "E"){
+                res.sendFile(path.join(__dirname, 'public', 'GroupE.html'));
+            }
+        } else {
+            console.log("Letter undefined");
+            res.redirect('/home');
+        }
     } else {
+        console.log("Must be logged in");
         res.redirect('/');
     }
 });
 
 //server side quiz submission
-app.post('/submit-quiz', (req, res) => {
+app.post('/submit-quiz', async (req, res) => {
     req.session.quizEnd = new Date();
     const answers = req.body;
     // Process the quiz answers and calculate the score
@@ -179,19 +205,6 @@ app.post('/submit-quiz', (req, res) => {
     for (const [key, value] of Object.entries(req.body)) {
         if(value === 'correct') score++;
     }
-    
-    req.session.quizScore = score;
-
-    res.json({ score });
-});
-
-app.post('/send-gaze-data', (req, res) => {
-    req.session.gazePoints = req.body.data;
-    // Send a response back to the client
-    res.status(200).send('Gaze points recieved');
-});
-
-app.get('/log-out', async (req, res) => {
 
     const sessionUser = userModel.findOne({email : req.session.email});
 
@@ -199,19 +212,14 @@ app.get('/log-out', async (req, res) => {
         sid : req.session.id,
         user : sessionUser,
         prediction : req.session.gazePoints,
-        quizScore : req.session.quizScore,
+        quizScore : score,
         quizStart : req.session.quizStart,
-        quizEnd : req.session.quizEnd
+        quizEnd : req.session.quizEnd,
+        offscreen : req.session.offScreenCount
       });
       await sessionData.save();
-    req.session.destroy((err) => {
-        if (err) {
-            console.error('Failed to clear session:', err);
-            return res.status(500).send('Failed to clear session');
-        }
-        res.clearCookie('connect.sid'); // Clear session cookie
-        res.redirect('/'); // Redirect to root after session is cleared
-    });
+
+    res.json({ score });
 });
 
 app.post('/off-screen-counter', async (req, res) => {
@@ -223,6 +231,26 @@ app.post('/off-screen-counter', async (req, res) => {
         req.session.offScreenCount += 1;
         res.status(200).send('Off screen count increased');
     }
+    req.session.save();
+});
+
+// Route to clear session variables and redirect to the login page
+app.post('/clear-session', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ message: 'Failed to clear session' });
+        }
+        res.clearCookie('connect.sid'); //Clear session cookie
+        return res.redirect(301,"/home");
+    });
+});
+
+app.post("/store-group-letter", (req, res) => {
+    var group = req.body.group;
+    req.session.group = group;
+    console.log("Group " + req.session.group + ": Quiz 1");
+    req.session.save();
+    return res.redirect(301,"/pre-survey");
 });
 
 // Start server

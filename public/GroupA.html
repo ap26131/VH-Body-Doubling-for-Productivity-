@@ -341,39 +341,16 @@
       const response = await fetch('/submit-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: data,
-      });
+        body: [data, gazePoints]
+      }); 
 
       const result = await response.json();
-      resultDiv.innerHTML = `<h2>Your Score: ${result.score}/8</h2>`;
+      swal({
+        title: "Test Results",
+        text: result
+      });
     } catch (error) {
       console.error('Error submitting quiz:', error);
-      resultDiv.innerHTML = `<h2>Error submitting quiz. Please try again.</h2>`;
-    }
-  });
-</script>
-
-<script>
-  document.getElementById('exit').addEventListener('click', async () => {
-    stopGazeTracking();
-    try {
-      // Send the GazePoints to the server
-      const response = await fetch('/send-gaze-data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ data: getGazePoints() })
-      });
-
-      if (response.ok) {
-        // Redirect to home.html after successful send
-        window.location.href = 'home.html';
-      } else {
-        console.error('Failed to send data', response.status);
-      }
-    } catch (error) {
-      console.error('Error:', error);
     }
   });
 </script>
