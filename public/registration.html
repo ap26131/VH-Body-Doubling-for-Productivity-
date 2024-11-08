@@ -116,7 +116,8 @@
            }
            })
            .then(function(response){ 
-           return response.json()})
+           return response.json()
+         })
            .then(function(data)
            {
             swal(data.message);

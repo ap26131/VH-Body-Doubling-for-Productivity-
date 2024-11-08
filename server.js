@@ -63,6 +63,7 @@ app.post('/validate', async (req, res) => {
                 req.session.logged_in = true;
                 req.session.email = req.body.email;
                 req.session.id;
+                req.session.save();
 
                 // Redirect user to home page and emit a successful login message
                 return res.redirect(301,"/home");
@@ -126,7 +127,7 @@ app.get('/home', async (req, res) => {
     }
 });
 
-// Route for calibration page
+// Route for pre-survey page
 app.get('/pre-survey', async (req, res) =>{
 
     if(req.session.logged_in) {
@@ -149,6 +150,43 @@ app.post('/pre-survey', async (req, res) =>{
         if(user !== null){
             res.redirect("/quiz");
             console.log("User has been updated");
+        } else{
+            console.log("User does not exist");
+        }
+    } catch (error) {
+        console.log("error");
+    }
+});
+
+// Route for post-survey page
+app.get('/post-survey', async (req, res) =>{
+
+    if(req.session.logged_in) {
+        res.sendFile(path.join(__dirname, 'public', 'post-quiz-survey.html'));
+    } else {
+        res.redirect("/");
+    }
+});
+
+
+app.post('/post-survey', async (req, res) =>{
+    try{
+        const user = await userModel.findOneAndUpdate(
+            { email: req.session.email },
+            {
+              $set: { postsurvey: req.body },
+            },
+            { strict: false }
+          );
+        if(user !== null){
+            req.session.destroy((err) => {
+                if (err) {
+                    return res.status(500).json({ message: 'Failed to clear session' });
+                }
+                res.clearCookie('connect.sid'); //Clear session cookie
+                res.redirect("/");
+            });
+            console.log("Test has ended");
         } else{
             console.log("User does not exist");
         }
@@ -199,10 +237,9 @@ app.get('/quiz', async (req, res) =>{
 //server side quiz submission
 app.post('/submit-quiz', async (req, res) => {
     req.session.quizEnd = new Date();
-    const answers = req.body;
     // Process the quiz answers and calculate the score
     let score = 0;
-    for (const [key, value] of Object.entries(req.body)) {
+    for (const [key, value] of Object.entries(req.body.quiz)) {
         if(value === 'correct') score++;
     }
 
@@ -210,16 +247,17 @@ app.post('/submit-quiz', async (req, res) => {
 
     const sessionData = new sessionModel({
         sid : req.session.id,
-        user : sessionUser,
-        prediction : req.session.gazePoints,
+        user : sessionUser.UUID,
+        prediction : JSON.stringify(req.body.predictions),
         quizScore : score,
+        quizType : req.session.group,
         quizStart : req.session.quizStart,
         quizEnd : req.session.quizEnd,
         offscreen : req.session.offScreenCount
       });
       await sessionData.save();
 
-    res.json({ score });
+    return res.status(200).json({ finalScore : score });
 });
 
 app.post('/off-screen-counter', async (req, res) => {
@@ -227,10 +265,9 @@ app.post('/off-screen-counter', async (req, res) => {
         req.session.offScreenCount = 0;
     }
 
-    if(req.body.action === 'off screen'){
-        req.session.offScreenCount += 1;
-        res.status(200).send('Off screen count increased');
-    }
+    req.session.offScreenCount += 1;
+    res.status(200).send('Off screen count increased');
+    console.log("Logged offscreen!");
     req.session.save();
 });
 

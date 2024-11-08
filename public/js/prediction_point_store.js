@@ -1,6 +1,14 @@
 // Array to hold gaze prediction points
 let gazePoints = [];
 
+var count = 0;
+var alerted = false;
+
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
 // Function to start capturing gaze data
 function startGazeTracking() {
     webgazer.setGazeListener(function(data, elapsedTime) {
@@ -11,16 +19,52 @@ function startGazeTracking() {
             var xprediction = data.x; // X coordinate
             var yprediction = data.y; // Y coordinate
             
-            if(gazePoints.length > 900000) {
-                gazePoints.length = 0;
-            }
-    
             // Store the prediction point
             gazePoints.push({
                 x: xprediction,
                 y: yprediction,
                 time: elapsedTime
             });
+
+            var viewportWidth = window.innerWidth;
+            var viewportHeight = window.innerHeight;
+          
+            var minX = viewportWidth * 0.1; 
+            var maxX = viewportWidth * 0.9; 
+            var minY = viewportHeight * 0.1; 
+            var maxY = viewportHeight * 0.9; 
+          
+            // Check if gaze is off-screen
+            if(alerted){
+          
+              async function changeAlert() {
+                await sleep(15000);
+                alerted = false;
+              }
+          
+              changeAlert();
+          
+            } else {
+              if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
+                count++;
+                if(count > 30){
+                  try {
+                    console.log("Offscreen!");
+                    // Send notification to server that user looked off screen
+                    fetch('/off-screen-counter', {
+                        method: 'POST',
+                    });
+                  } catch (error) {
+                    console.error('Error:', error);
+                  }
+                  
+                  alerted = true;
+                  count = 0;
+                }
+                } else {
+                  count = 0;
+                }
+            }
             
             // Optionally, log the data for debugging
             console.log(`Gaze Point: (${xprediction}, ${yprediction}), Time: ${elapsedTime}`);

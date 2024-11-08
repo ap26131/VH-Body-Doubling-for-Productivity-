@@ -130,6 +130,7 @@
   <body>
     <!--OFFSCREEN TO DETECT -->
     <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
     <script src="./js/prediction_point_store.js"></script>
     <!--Start gazetracking -->
     <script>
@@ -218,78 +219,79 @@
         </p>
         </div>
 
-        <div class="question" id="question1">
-            <h3>What was the name of Pierre’s village?</h3>
-            <label><input type="radio" name="q1" value="incorrect"> Paris</label><br>
-            <label><input type="radio" name="q1" value="correct"> Montclair</label><br>
-            <label><input type="radio" name="q1" value="incorrect"> Berlin</label><br>
-            <label><input type="radio" name="q1" value="incorrect"> Savannah</label><br>
-          </div>
-          
-          <div class="question" id="question2">
-            <h3>What did Pierre NOT make bread of?</h3>
-            <label><input type="radio" name="q2" value="correct"> Almonds</label><br>
-            <label><input type="radio" name="q2" value="incorrect"> Corn</label><br>
-            <label><input type="radio" name="q2" value="incorrect"> Potatoes</label><br>
-            <label><input type="radio" name="q2" value="incorrect"> Flour</label><br>
-          </div>
-          
-          <div class="question" id="question3">
-            <h3>What was the name of the King in the story?</h3>
-            <label><input type="radio" name="q3" value="incorrect"> Henry VII</label><br>
-            <label><input type="radio" name="q3" value="incorrect"> George II</label><br>
-            <label><input type="radio" name="q3" value="incorrect"> Francis I</label><br>
-            <label><input type="radio" name="q3" value="correct"> Louis XVI</label><br>
-          </div>
-          
-          <div class="question" id="question4">
-            <h3>What was the name of the prison the villagers stormed?</h3>
-            <label><input type="radio" name="q4" value="incorrect"> La Santé</label><br>
-            <label><input type="radio" name="q4" value="correct"> Bastille</label><br>
-            <label><input type="radio" name="q4" value="incorrect"> Alcatraz</label><br>
-            <label><input type="radio" name="q4" value="incorrect"> Guantanamo Bay</label><br>
-          </div>
-          
-          <div class="question" id="question5">
-            <h3>What did the villagers chant in the street?</h3>
-            <label><input type="radio" name="q5" value="incorrect"> "Long Live the Revolution!"</label><br>
-            <label><input type="radio" name="q5" value="incorrect"> "Enough is Enough!"</label><br>
-            <label><input type="radio" name="q5" value="correct"> "Liberty! Equality! And Bread!"</label><br>
-            <label><input type="radio" name="q5" value="incorrect"> "Down with the Monarchy!"</label><br>
-          </div>
-          
-          <div class="question" id="question6">
-            <h3>What’s one thing that goes well with bread?</h3>
-            <label><input type="radio" name="q6" value="correct"> Hope</label><br>
-            <label><input type="radio" name="q6" value="incorrect"> Butter</label><br>
-            <label><input type="radio" name="q6" value="incorrect"> Love</label><br>
-            <label><input type="radio" name="q6" value="incorrect"> Freedom</label><br>
-          </div>
-          
-          <div class="question" id="question7">
-            <h3>What did Pierre’s dad steal from a vendor?</h3>
-            <label><input type="radio" name="q7" value="incorrect"> A bag of flour</label><br>
-            <label><input type="radio" name="q7" value="incorrect"> A small satchel of coins</label><br>
-            <label><input type="radio" name="q7" value="correct"> A baguette</label><br>
-            <label><input type="radio" name="q7" value="incorrect"> A flag</label><br>
-          </div>
-          
-          <div class="question" id="question8">
-            <h3>How long did the loaf of bread have to last?</h3>
-            <label><input type="radio" name="q8" value="incorrect"> A month</label><br>
-            <label><input type="radio" name="q8" value="correct"> A week</label><br>
-            <label><input type="radio" name="q8" value="incorrect"> A year</label><br>
-            <label><input type="radio" name="q8" value="incorrect"> The weekend</label><br>
-          </div>
+        <form id="quiz-form">
+          <div class="question" id="question1">
+              <h3>What was the name of Pierre’s village?</h3>
+              <label><input type="radio" name="q1" value="incorrect"> Paris</label><br>
+              <label><input type="radio" name="q1" value="correct"> Montclair</label><br>
+              <label><input type="radio" name="q1" value="incorrect"> Berlin</label><br>
+              <label><input type="radio" name="q1" value="incorrect"> Savannah</label><br>
+            </div>
+            
+            <div class="question" id="question2">
+              <h3>What did Pierre NOT make bread of?</h3>
+              <label><input type="radio" name="q2" value="correct"> Almonds</label><br>
+              <label><input type="radio" name="q2" value="incorrect"> Corn</label><br>
+              <label><input type="radio" name="q2" value="incorrect"> Potatoes</label><br>
+              <label><input type="radio" name="q2" value="incorrect"> Flour</label><br>
+            </div>
+            
+            <div class="question" id="question3">
+              <h3>What was the name of the King in the story?</h3>
+              <label><input type="radio" name="q3" value="incorrect"> Henry VII</label><br>
+              <label><input type="radio" name="q3" value="incorrect"> George II</label><br>
+              <label><input type="radio" name="q3" value="incorrect"> Francis I</label><br>
+              <label><input type="radio" name="q3" value="correct"> Louis XVI</label><br>
+            </div>
+            
+            <div class="question" id="question4">
+              <h3>What was the name of the prison the villagers stormed?</h3>
+              <label><input type="radio" name="q4" value="incorrect"> La Santé</label><br>
+              <label><input type="radio" name="q4" value="correct"> Bastille</label><br>
+              <label><input type="radio" name="q4" value="incorrect"> Alcatraz</label><br>
+              <label><input type="radio" name="q4" value="incorrect"> Guantanamo Bay</label><br>
+            </div>
+            
+            <div class="question" id="question5">
+              <h3>What did the villagers chant in the street?</h3>
+              <label><input type="radio" name="q5" value="incorrect"> "Long Live the Revolution!"</label><br>
+              <label><input type="radio" name="q5" value="incorrect"> "Enough is Enough!"</label><br>
+              <label><input type="radio" name="q5" value="correct"> "Liberty! Equality! And Bread!"</label><br>
+              <label><input type="radio" name="q5" value="incorrect"> "Down with the Monarchy!"</label><br>
+            </div>
+            
+            <div class="question" id="question6">
+              <h3>What’s one thing that goes well with bread?</h3>
+              <label><input type="radio" name="q6" value="correct"> Hope</label><br>
+              <label><input type="radio" name="q6" value="incorrect"> Butter</label><br>
+              <label><input type="radio" name="q6" value="incorrect"> Love</label><br>
+              <label><input type="radio" name="q6" value="incorrect"> Freedom</label><br>
+            </div>
+            
+            <div class="question" id="question7">
+              <h3>What did Pierre’s dad steal from a vendor?</h3>
+              <label><input type="radio" name="q7" value="incorrect"> A bag of flour</label><br>
+              <label><input type="radio" name="q7" value="incorrect"> A small satchel of coins</label><br>
+              <label><input type="radio" name="q7" value="correct"> A baguette</label><br>
+              <label><input type="radio" name="q7" value="incorrect"> A flag</label><br>
+            </div>
+            
+            <div class="question" id="question8">
+              <h3>How long did the loaf of bread have to last?</h3>
+              <label><input type="radio" name="q8" value="incorrect"> A month</label><br>
+              <label><input type="radio" name="q8" value="correct"> A week</label><br>
+              <label><input type="radio" name="q8" value="incorrect"> A year</label><br>
+              <label><input type="radio" name="q8" value="incorrect"> The weekend</label><br>
+            </div>
            
           
 
-          <!-- Submit and Exit Buttons -->
-      <div class="button-container">
-        <button onclick="checkAnswers()">Submit</button>
-        <button onclick="window.location.href='home.html'">Exit</button>
-        <div id="result"></div>
-      </div>
+            <!-- Submit and Exit Buttons -->
+          <div class="button-container">
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+    </div>
 
     </div>
  
@@ -330,7 +332,6 @@
 
 <script>
   const form = document.getElementById('quiz-form');
-  const resultDiv = document.getElementById('result');
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault(); // Prevent the page from reloading
@@ -347,43 +348,27 @@
     try {
       const response = await fetch('/submit-quiz', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: data,
-      });
-
-      const result = await response.json();
-      resultDiv.innerHTML = `<h2>Your Score: ${result.score}/8</h2>`;
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify({quiz: data, 
+          predictions: gazePoints})
+      }).then(function(response){ 
+        return response.json();
+      }).then(function(data){
+          swal({
+            title: "Test Results",
+            text: data.finalScore,
+            closeOnClickOutside: false,
+          }).then(() => {
+            window.location.href = "/post-survey";
+          });
+      }).catch(error => console.error('Error:', error)); 
+      
     } catch (error) {
       console.error('Error submitting quiz:', error);
-      resultDiv.innerHTML = `<h2>Error submitting quiz. Please try again.</h2>`;
     }
   });
 </script>
 
-<script>
-  document.getElementById('exit').addEventListener('click', async () => {
-    stopGazeTracking();
-    try {
-      // Send the GazePoints to the server
-      const response = await fetch('/send-gaze-data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ data: getGazePoints() })
-      });
-
-      if (response.ok) {
-        // Redirect to home.html after successful send
-        window.location.href = 'home.html';
-      } else {
-        console.error('Failed to send data', response.status);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  });
-</script>
 
   <!-- UNITY SCRIPTS -->
   <script>

@@ -9,6 +9,7 @@ const sessionSchema = new mongoose.Schema({
     quizScore : Number,
     quizStart : Date,
     quizEnd : Date,
+    quizType : String,
     offscreen : Number
 });
 
