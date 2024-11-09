@@ -237,25 +237,26 @@ app.get('/quiz', async (req, res) =>{
 //server side quiz submission
 app.post('/submit-quiz', async (req, res) => {
     req.session.quizEnd = new Date();
+    
     // Process the quiz answers and calculate the score
     let score = 0;
     for (const [key, value] of Object.entries(req.body.quiz)) {
         if(value === 'correct') score++;
     }
 
-    const sessionUser = userModel.findOne({email : req.session.email});
+    // const sessionUser = userModel.findOne({email : req.session.email});
 
-    const sessionData = new sessionModel({
-        sid : req.session.id,
-        user : sessionUser.UUID,
-        prediction : JSON.stringify(req.body.predictions),
-        quizScore : score,
-        quizType : req.session.group,
-        quizStart : req.session.quizStart,
-        quizEnd : req.session.quizEnd,
-        offscreen : req.session.offScreenCount
-      });
-      await sessionData.save();
+    // const sessionData = new sessionModel({
+    //     sid : req.session.id,
+    //     user : sessionUser.UUID,
+    //     prediction : JSON.stringify(req.body.predictions),
+    //     quizScore : score,
+    //     quizType : req.session.group,
+    //     quizStart : req.session.quizStart,
+    //     quizEnd : req.session.quizEnd,
+    //     offscreen : req.session.offScreenCount
+    //   });
+    //   await sessionData.save();
 
     return res.status(200).json({ finalScore : score });
 });
