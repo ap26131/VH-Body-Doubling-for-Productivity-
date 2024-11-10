@@ -23,7 +23,25 @@ function startGazeTracking() {
             });
             
             // Optionally, log the data for debugging
-            console.log(`Gaze Point: (${xprediction}, ${yprediction}), Time: ${elapsedTime}`);
+        console.log(`Gaze Point: (${xprediction}, ${yprediction}), Time: ${elapsedTime}`);
+
+        /** 
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+    
+        var minX = viewportWidth * 0.1; 
+        var maxX = viewportWidth * 0.9; 
+        var minY = viewportHeight * 0.1; 
+        var maxY = viewportHeight * 0.9; 
+    
+      
+        if ((xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) ) {
+          
+          timer = setTimeout(function() {
+                  alert('Get Back To Work!');
+                          }, 10000); // 10 seconds
+      }
+                          */
     }).begin();
 }
  
@@ -37,7 +55,16 @@ function stopGazeTracking(){
     webgazer.clearGazeListener();
 }
 
-// Start tracking gaze when the window loads
+
 window.onload = async function() {
-    startGazeTracking();
-};
+    swal({
+      title: "Quiz One",
+      text: "Press the button to begin the quiz!",
+      closeOnEsc: false,
+      allowOutsideClick: false,
+      closeModal: true
+  }).then( () => {
+      // Start gaze tracking when swal is closed
+      startGazeTracking();
+  });
+}
