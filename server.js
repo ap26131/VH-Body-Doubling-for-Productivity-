@@ -207,7 +207,6 @@ app.get('/calibration', async (req, res) =>{
 
 // Routes for virtual human page
 app.get('/quiz', async (req, res) =>{
-
     // Check if form was submitted else redirect to form
     if(req.session.logged_in) {
         console.log(req.session.group);
@@ -295,5 +294,3 @@ app.post("/store-group-letter", (req, res) => {
 server.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 });
-
-
