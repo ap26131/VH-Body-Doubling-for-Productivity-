@@ -289,6 +289,11 @@
  
 <!-- JavaScript -->
 
+<script>
+  //turn off the camera
+  webgazer.showVideoPreview(false) ;
+</script>
+
   <!-- Validate quiz -->
   <script src="js/quiz_validation.js"></script>
 
@@ -301,12 +306,12 @@
     var warningBanner = document.querySelector("#unity-warning");
 
 
-    var buildUrl = "BuildE";
-      var loaderUrl = buildUrl + "/EIGHTY.loader.js";
+    var buildUrl = "BuildE2";
+      var loaderUrl = buildUrl + "/SIXTY.loader.js";
       var config = {
-        dataUrl: buildUrl + "/EIGHTY.data",
-        frameworkUrl: buildUrl + "/EIGHTY.framework.js",
-        codeUrl: buildUrl + "/EIGHTY.wasm",
+        dataUrl: buildUrl + "/SIXTY.data",
+        frameworkUrl: buildUrl + "/SIXTY.framework.js",
+        codeUrl: buildUrl + "/SIXTY.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Attempt1",
