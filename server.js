@@ -218,7 +218,7 @@ app.get('/quiz', async (req, res) =>{
                 res.sendFile(path.join(__dirname, 'public', 'GroupB.html'));
             } else if ( req.session.group == "C"){
                 res.sendFile(path.join(__dirname, 'public', 'GroupC.html'));
-            } else if ( req.session.groupLetter == "D"){
+            } else if ( req.session.group == "D"){
                 res.sendFile(path.join(__dirname, 'public', 'GroupD.html'));
             } else if ( req.session.group == "E"){
                 res.sendFile(path.join(__dirname, 'public', 'GroupE.html'));
