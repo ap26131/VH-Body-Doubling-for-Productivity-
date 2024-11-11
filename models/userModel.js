@@ -15,7 +15,26 @@ const userSchema = new mongoose.Schema({
     gender : String,
     disability : String,
     glasses : String,
-    medicated : String
+    medicated : String,
+    postsurvey: {
+        helpOrDistract: String,
+        focusImpact: String,
+        naturalSpeaking: String,
+        retainInfo: String,
+        encourageEffect: String,
+        interactEasy: String,
+        recommendVH: String,
+        userComments: String
+    },
+    presurvey: {
+        focusLevel: String,
+        productivityLevel: String,
+        focusEase: String,
+        taskDuration: String,
+        concentrationDuration: String,
+        focusRoutines: String,
+        toolInterest: String
+    }
 });
 
 module.exports = mongoose.model('User', userSchema);
