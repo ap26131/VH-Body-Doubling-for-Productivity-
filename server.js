@@ -247,7 +247,7 @@ app.post('/submit-quiz', async (req, res) => {
     const sessionData = new sessionModel({
         sid : req.session.id,
         user : req.session.email,
-        prediction : JSON.stringify(req.body.predictions),
+        prediction : req.body.predictions,
         quizanswers : req.body.quiz,
         quizScore : score,
         quizType : req.session.group,
