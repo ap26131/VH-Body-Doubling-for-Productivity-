@@ -149,13 +149,6 @@
 
      <!-- RIGHT SIDE: Worksheet -->
      <div class="panel panel-right">
-     
-     
-      <!-- TOP BUTTONS -->
-    <div class="button-container">
-      <button onclick="store_points_variable()">Start Storing Points</button>
-      <button onclick="stop_storing_points_variable()">Stop Storing Points</button>
-    </div>
 
      <!--The Story-->
      <div class="text-box">
@@ -367,6 +360,7 @@ webgazer.setGazeListener(function(data, elapsedTime) {
    // Optionally, log the data for debugging
    console.log(`Gaze Point: (${xprediction}, ${yprediction}), Time: ${elapsedTime}`);
 }).begin();
+webgazer.showPredictionPoints(false);
 </script>
  
   </body>

@@ -87,6 +87,7 @@ function startGazeTracking() {
       }
                           */
     }).begin();
+    webgazer.showPredictionPoints(false);
 }
  
 // Function to retrieve the stored gaze points

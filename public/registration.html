@@ -112,11 +112,11 @@
              medicated:document.querySelector("input[type='radio'][name=medicatedOption]:checked").value,
            }),
            headers: {
-             'Content-type': 'application/json; charset=UTF-8',
+             'Content-type': 'application/json'
            }
            })
            .then(function(response){ 
-           return response.json()
+           return response.json();
          })
            .then(function(data)
            {
