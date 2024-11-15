@@ -383,7 +383,7 @@ webgazer.setGazeListener(function(data, elapsedTime) {
   } else {
     if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
       count++;
-      if(count > 50){
+      if(count > 30){
         try {
           // Send notification to server that user looked off screen
           fetch('/off-screen-counter', {
