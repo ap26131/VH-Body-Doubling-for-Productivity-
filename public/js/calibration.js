@@ -73,13 +73,13 @@ function calcAccuracy() {
                 swal({
                     title: "Your accuracy measure is " + precision_measurement + "%. " + response,
                     allowOutsideClick: false,
-  
+                    timer: 2000
                 }).then ( () => {
                   // Check if accurary is greater than 80%
-                        if (precision_measurement >= 75.00){
+                        if (precision_measurement >= 80.00){
                             //clear the calibration & hide the last middle button
                             ClearCanvas();
-                            window.location.href = "/home";
+                            window.close();
                         } else {
                             //use restart function to restart the calibration
                             document.getElementById("Accuracy").innerHTML = "<a>Not yet Calibrated</a>";
