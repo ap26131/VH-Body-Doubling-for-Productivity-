@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post-Quiz Survey</title>
+    <title>Post-Quiz Survey For Group D & Group E</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -62,9 +62,9 @@
   <body>
     <div class="container">
       <h1>Post-Quiz Survey</h1>
-      <form action="/post-survey" method="POST">
+      <form action="/post-surveyDE" method="POST">
         <div class="question">
-          <h3>Did you find the virtual human's presence helpful or distracting during the quiz?</h3>
+          <h3>Did you find the interactive human's presence helpful or distracting during the quiz?</h3>
           <label><input type="radio" name="helpOrDistract" value="Very helpful"> Very helpful </label>
           <label><input type="radio" name="helpOrDistract" value="Somewhat helpful"> Somewhat helpful </label>
           <label><input type="radio" name="helpOrDistract" value="Neutral"> Neutral </label>
@@ -72,7 +72,7 @@
           <label><input type="radio" name="helpOrDistract" value="Very distracting"> Very distracting </label>
         </div>
         <div class="question">
-          <h3>How did the virtual human’s presence impact your ability to stay focused on the quiz?</h3>
+          <h3>How did the interactive human’s presence impact your ability to stay focused on the quiz compared to being alone?</h3>
           <label><input type="radio" name="focusImpact" value="Very helpful"> Very helpful </label>
           <label><input type="radio" name="focusImpact" value="Somewhat helpful"> Somewhat helpful </label>
           <label><input type="radio" name="focusImpact" value="Neutral"> Neutral </label>
@@ -80,23 +80,23 @@
           <label><input type="radio" name="focusImpact" value="Very distracting"> Very distracting </label>
         </div>
         <div class="question">
-          <h3>How natural did the virtual human's lip sync and speech feel?</h3>
-          <label><input type="radio" name="naturalSpeaking" value="Very natural"> Very natural </label>
-          <label><input type="radio" name="naturalSpeaking" value="Somewhat natural"> Somewhat natural </label>
-          <label><input type="radio" name="naturalSpeaking" value="Neutral"> Neutral </label>
-          <label><input type="radio" name="naturalSpeaking" value="Somewhat unnatural"> Somewhat unnatural </label>
-          <label><input type="radio" name="naturalSpeaking" value="Very unnatural"> Very unnatural </label>
+          <h3>How did the interactive human’s presence impact your productivity compared to being alone?</h3>
+          <label><input type="radio" name="productivityImpact" value="Very helpful"> Very helpful </label>
+          <label><input type="radio" name="productivityImpact" value="Somewhat helpful"> Somewhat helpful </label>
+          <label><input type="radio" name="productivityImpact" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="productivityImpact" value="Somewhat distracting"> Somewhat distracting </label>
+          <label><input type="radio" name="productivityImpact" value="Very distracting"> Very distracting </label>
         </div>
         <div class="question">
-          <h3>Do you feel that interacting with the virtual human helped with retaining the information presented in the quiz?</h3>
-          <label><input type="radio" name="retainInfo" value="Strongly agree"> Strongly agree </label>
-          <label><input type="radio" name="retainInfo" value="Agree"> Agree </label>
-          <label><input type="radio" name="retainInfo" value="Neutral"> Neutral </label>
-          <label><input type="radio" name="retainInfo" value="Disagree"> Disagree </label>
-          <label><input type="radio" name="retainInfo" value="Strongly disagree"> Strongly disagree </label>
+          <h3>Would you say  the interactive human increased your motivation to complete the task compared to being alone, overall?</h3>
+          <label><input type="radio" name="motivationImpact" value="Very motivating"> Very motivating </label>
+          <label><input type="radio" name="motivationImpact" value="Somewhat motivating"> Somewhat motivating </label>
+          <label><input type="radio" name="motivationImpact" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="motivationImpact" value="Somewhat motivating"> Somewhat motivating </label>
+          <label><input type="radio" name="motivationImpact" value="Very motivating"> Very motivating </label>
         </div>
         <div class="question">
-          <h3>How effective were the virtual human’s encouraging messages in maintaining your focus and motivation during the quiz?</h3>
+          <h3>How effective were the interactive human’s encouraging messages in maintaining your focus and motivation during the quiz?</h3>
           <label><input type="radio" name="encourageEffect" value="Very effective"> Very effective </label>
           <label><input type="radio" name="encourageEffect" value="Somewhat effective"> Somewhat effective </label>
           <label><input type="radio" name="encourageEffect" value="Neutral"> Neutral </label>
@@ -104,7 +104,15 @@
           <label><input type="radio" name="encourageEffect" value="Very ineffective"> Very ineffective </label>
         </div>
         <div class="question">
-          <h3>Was it easy to understand when and how to interact with the virtual human?</h3>
+          <h3>How effective were the outlets provided to help you concentrate again after becoming distracted?</h3>
+          <label><input type="radio" name="encourageEffect" value="Very effective"> Very effective </label>
+          <label><input type="radio" name="encourageEffect" value="Somewhat effective"> Somewhat effective </label>
+          <label><input type="radio" name="encourageEffect" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="encourageEffect" value="Ineffective"> Ineffective </label>
+          <label><input type="radio" name="encourageEffect" value="Very ineffective"> Very ineffective </label>
+        </div>
+        <div class="question">
+          <h3>Was it easy to understand when and how to interact with the interactive human?</h3>
           <label><input type="radio" name="interactEasy" value="Strongly agree"> Strongly agree </label>
           <label><input type="radio" name="interactEasy" value="Agree"> Agree </label>
           <label><input type="radio" name="interactEasy" value="Neutral"> Neutral </label>
@@ -112,15 +120,23 @@
           <label><input type="radio" name="interactEasy" value="Strongly disagree"> Strongly disagree </label>
         </div>
         <div class="question">
-          <h3>Would you recommend using a virtual human in similar learning experiences?</h3>
-          <label><input type="radio" name="recommendVH" value="Definitely"> Definitely </label>
-          <label><input type="radio" name="recommendVH" value="Probably"> Probably </label>
-          <label><input type="radio" name="recommendVH" value="Unsure"> Unsure </label>
-          <label><input type="radio" name="recommendVH" value="Probably not"> Probably not </label>
-          <label><input type="radio" name="recommendVH" value="Definitely not"> Definitely not </label>
+          <h3>If made accessible, how likely are you to use interactive body doubling as a strategy for staying focused in the future?  </h3>
+          <label><input type="radio" name="useAgain" value="Definitely"> Definitely </label>
+          <label><input type="radio" name="useAgain" value="Probably"> Probably </label>
+          <label><input type="radio" name="useAgain" value="Unsure"> Unsure </label>
+          <label><input type="radio" name="useAgain" value="Probably not"> Probably not </label>
+          <label><input type="radio" name="useAgain" value="Definitely not"> Definitely not </label>
         </div>
         <div class="question">
-          <h3>Any additional comments on your overall experience with the virtual human and the quiz</h3>
+          <h3>Would you recommend using an interactive human in similar learning experiences?</h3>
+          <label><input type="radio" name="recommendIH" value="Definitely"> Definitely </label>
+          <label><input type="radio" name="recommendIH" value="Probably"> Probably </label>
+          <label><input type="radio" name="recommendIH" value="Unsure"> Unsure </label>
+          <label><input type="radio" name="recommendIH" value="Probably not"> Probably not </label>
+          <label><input type="radio" name="recommendIH" value="Definitely not"> Definitely not </label>
+        </div>
+        <div class="question">
+          <h3>Any additional comments on your overall experience with the interactive human and the quiz</h3>
           <input type="text" name="userComments" placeholder="Enter your comments here..." style="width: 97%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; height: 30px">
         </div>
         <button type="submit" class="submit-btn">Submit Survey</button>
