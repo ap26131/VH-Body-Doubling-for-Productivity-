@@ -107,7 +107,7 @@ app.post('/register',  async (req, res) => {
             gender : req.body.gender,
             disability : req.body.disability,
             glasses : req.body.glasses,
-            medicated : req.body.medicated
+            disorder : req.body.medicated
            });
 
            await newUser.save();
@@ -141,14 +141,14 @@ app.get('/pre-survey', async (req, res) =>{
 
 app.post('/pre-survey', async (req, res) =>{
     try{
-        const user = await userModel.findOneAndUpdate(
-            { email: req.session.email },
-            {
-              $set: { presurvey: req.body },
-            },
-            { strict: false }
-          );
-        if(user !== null){
+        const sessionData = new sessionModel({
+            sid : req.session.id,
+            user : req.session.email,
+            presurvey : req.body
+          });
+
+          await sessionData.save();
+        if(sessionData !== null){
             res.redirect("/quiz");
             console.log("User has been updated");
         } else{
@@ -163,7 +163,13 @@ app.post('/pre-survey', async (req, res) =>{
 app.get('/post-survey', async (req, res) =>{
 
     if(req.session.logged_in) {
-        res.sendFile(path.join(__dirname, 'public', 'post-quiz-survey.html'));
+        if(req.session.group == "A") {
+            res.sendFile(path.join(__dirname, 'public', 'post-quiz-surveyA.html'));
+        } else if (req.session.group == "B" || req.session.group == "C") {
+            res.sendFile(path.join(__dirname, 'public', 'post-quiz-surveyBC.html'));
+        } else if (req.session.group == "D" || req.session.group == "E") {
+            res.sendFile(path.join(__dirname, 'public', 'post-quiz-surveyDE.html'));
+        }
     } else {
         res.redirect("/");
     }
@@ -172,14 +178,14 @@ app.get('/post-survey', async (req, res) =>{
 
 app.post('/post-survey', async (req, res) =>{
     try{
-        const user = await userModel.findOneAndUpdate(
-            { email: req.session.email },
+        const session = await sessionModel.findOneAndUpdate(
+            { user: req.session.email },
             {
               $set: { postsurvey: req.body },
             },
             { strict: false }
           );
-        if(user !== null){
+        if(session != null){
             req.session.destroy((err) => {
                 if (err) {
                     return res.status(500).json({ message: 'Failed to clear session' });
@@ -204,6 +210,13 @@ app.get('/calibration', async (req, res) =>{
     } else {
         res.redirect("/");
     }
+});
+
+app.post("/calibration", async (req, res) => {
+    var calibration = req.body.percent;
+    req.session.calibration = calibration;
+    console.log("Percent " + req.session.calibration + ": Quiz 1");
+    req.session.save();
 });
 
 // Routes for virtual human page
@@ -244,18 +257,22 @@ app.post('/submit-quiz', async (req, res) => {
         if(value === 'correct') score++;
     }
 
-    const sessionData = new sessionModel({
-        sid : req.session.id,
-        user : req.session.email,
-        prediction : req.body.predictions,
-        quizanswers : req.body.quiz,
-        quizScore : score,
-        quizType : req.session.group,
-        quizStart : req.session.quizStart,
-        quizEnd : req.session.quizEnd,
-        offscreen : req.session.offScreenCount
-      });
-      await sessionData.save();
+    await sessionModel.findOneAndUpdate(
+        { user: req.session.email },
+        {
+          $set: { postsurvey : req.body,
+            prediction : req.body.predictions,
+            quizanswers : req.body.quiz,
+            quizScore : score,
+            calibration : req.session.calibration,
+            quizType : req.session.group,
+            quizStart : req.session.quizStart,
+            quizEnd : req.session.quizEnd,
+            offscreen : req.session.offScreenCount
+           },
+        },
+        { strict: false }
+      );
 
     return res.status(200).json({ finalScore : score });
 });

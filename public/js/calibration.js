@@ -64,12 +64,20 @@ function calcAccuracy() {
                 var response = "";
                 document.getElementById("Accuracy").innerHTML = accuracyLabel; // Show the accuracy in the nav bar.
 
-                if(precision_measurement >= 80.00){
+                if(precision_measurement >= 10.00){
                   response = "Successful calibration!"
                 } else {
                   response = "Please try again for higher accuracy!"
                 }
 
+                fetch("/calibration", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({ percent: precision_measurement })
+                });
+                
                 swal({
                     title: "Your accuracy measure is " + precision_measurement + "%. " + response,
                     allowOutsideClick: false,
@@ -77,6 +85,7 @@ function calcAccuracy() {
                 }).then ( () => {
                   // Check if accurary is greater than 80%
                         if (precision_measurement >= 80.00){
+                      
                             //clear the calibration & hide the last middle button
                             ClearCanvas();
                             window.close();
