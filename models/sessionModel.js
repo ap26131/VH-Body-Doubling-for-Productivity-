@@ -10,12 +10,15 @@ const sessionSchema = new mongoose.Schema({
     sid : String,
     prediction : Object,
     user : String,
+    calibration : Number,
     quizanswers : Object,
     quizScore : Number,
     quizStart : Date,
     quizEnd : Date,
     quizType : String,
-    offscreen : Number
+    offscreen : Number,
+    presurvey: Object,
+    postsurvey: Object
 });
 
 module.exports = mongoose.model('Session', sessionSchema);

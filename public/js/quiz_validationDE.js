@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
           text: `${data.finalScore}/8`,
           closeOnClickOutside: false,
         }).then(() => {
-          window.location.href = "/post-surveyDE";
+          window.location.href = "/post-survey";
         });
       } catch (error) {
         console.error('Error submitting quiz:', error);
