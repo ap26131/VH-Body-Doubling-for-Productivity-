@@ -179,7 +179,7 @@ app.get('/post-survey', async (req, res) =>{
 app.post('/post-survey', async (req, res) =>{
     try{
         const session = await sessionModel.findOneAndUpdate(
-            { user: req.session.email },
+            { user: req.session.email, sid: req.session.id },
             {
               $set: { postsurvey: req.body },
             },
@@ -258,7 +258,7 @@ app.post('/submit-quiz', async (req, res) => {
     }
 
     await sessionModel.findOneAndUpdate(
-        { user: req.session.email },
+        { user: req.session.email, sid: req.session.id },
         {
           $set: { postsurvey : req.body,
             prediction : req.body.predictions,
