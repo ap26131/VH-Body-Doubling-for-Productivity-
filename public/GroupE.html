@@ -128,7 +128,7 @@
 
 
   <body>
-    <<script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+    <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
     <div class="panel panel-left">
         <div id="unity-container" class="unity-desktop">
@@ -361,6 +361,22 @@ function triggerUnityTTS(message) {
     }
 }
 
+function triggerUnityStretchAnimation() {
+    if (typeof UnityInstance !== 'undefined' && UnityInstance !== null) {
+        UnityInstance.SendMessage('StretchObject', 'TriggerAnimation');
+    } else {
+        console.error("UnityInstance is not defined or null.");
+    }
+}
+
+function triggerUnityStretchTTS() {
+    if (typeof UnityInstance !== 'undefined' && UnityInstance !== null) {
+        UnityInstance.SendMessage('StretchObject', 'TriggerSpeech');
+    } else {
+        console.error("UnityInstance is not defined or null.");
+    }
+}
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -431,6 +447,33 @@ webgazer.setGazeListener(function(data, elapsedTime) {
    console.log(`Gaze Point: (${xprediction}, ${yprediction}), Time: ${elapsedTime}`);
 }).begin();
 webgazer.showPredictionPoints(false);
+
+
+let pauseEndTime = 0; 
+let isPaused = false; 
+
+function WebgazeStretchPause(additionalPause) {
+    const currentTime = Date.now(); 
+
+    if (isPaused) {
+        pauseEndTime = Math.max(pauseEndTime, currentTime) + additionalPause;
+    } else {
+        isPaused = true;
+        pauseEndTime = currentTime + additionalPause;
+    }
+    const remainingTime = pauseEndTime - currentTime;
+    setTimeout(() => {
+
+        if (Date.now() >= pauseEndTime) {
+            isPaused = false;
+        } 
+    }, remainingTime);
+}
+
+
+
+
+
 </script>
     
   </body>
