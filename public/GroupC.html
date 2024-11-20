@@ -8,42 +8,41 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Work Sheet with Virtual Human and WebGazer</title>
+    <title>Work Sheet with Virtual Human</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    
     
     <style>
+      /* General Styling */
+      body {
+          margin: 0;
+          padding: 0;
+          height: 100vh;
+          display: flex;
+      }
 
-    /* SPLIT SCREEN */ 
-    body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        display: flex;
-    }
+      .panel {
+        height: 100%;
+        overflow-y: scroll; 
+        border: 1px solid #ccc;
+        position: relative; 
+      }
 
-    .panel {
-          
-          height: 100%;
-          overflow-y: scroll; 
-          border: 1px solid #ccc;
-          position: relative; 
-        }
+      /* Unity half of page */
+      .panel-left {
+        background-color: #f0f0f0;
+        z-index: 5; 
+        width: 55%;
+      }
 
-        .panel-left {
-          background-color: #f0f0f0;
-          z-index: 5; 
-          width: 55%;
-        }
+      .panel-right {
+        background-color: #d0e0f0;
+        position: relative;
+        z-index: 10; 
+        width: 45%;
+      }
 
-        .panel-right {
-          background-color: #d0e0f0;
-          position: relative;
-          z-index: 10; 
-          width: 45%;
-        }
-
-    button {
+      button {
         display: block;
         margin-top: 20px;
         padding: 10px 15px;
@@ -52,19 +51,19 @@
         border: none;
         cursor: pointer;
         margin-bottom: 20px;
-    }
+      }
 
-    button:hover {
+      button:hover {
         background-color: #45a049;
-    }
+      }
 
-    .button-container {
+      .button-container {
         display: flex; 
         justify-content: flex-start; 
         gap: 10px; 
-    }
+      }
 
-    .text-box {
+      .text-box {
         border: 2px solid #333; 
         padding: 20px; 
         width: 90%; 
@@ -74,66 +73,71 @@
         resize: none; 
         overflow-y: scroll; 
         margin-bottom: 20px;
-    }
+      }
 
-    .question {
+      .question {
         margin-bottom: 20px;
-    }
+      }
 
-    .question h3 {
+      .question h3 {
         margin-bottom: 10px;
-    }
+      }
 
-    
-
-    .char-count {
+      .char-count {
         margin-top: 10px;
         font-size: 14px;
         color: #555;
-    }
-
-   
+      }
 
      /* UNITY CONTAINER */
      #unity-container.unity-desktop {
-          width: 100%; 
-          height: 100%; 
-          position: relative; 
-          z-index: 4; 
-        }
+        width: 100%; 
+        height: 100%; 
+        position: relative; 
+        z-index: 4; 
+      }
   
-        #unity-canvas {
-          width: 100%;
-          height: 100%;
-          background: #231F20;
-          z-index: 4;
-        }
+      #unity-canvas {
+        width: 100%;
+        height: 100%;
+        background: #231F20;
+        z-index: 4;
+      }
   
-        #unity-loading-bar {
-          position: absolute; 
-          left: 50%; 
-          top: 50%; 
-          transform: translate(-50%, -50%);
-          display: none;
-          z-index: 4;
-        }
+      #unity-loading-bar {
+        position: absolute; 
+        left: 50%; 
+        top: 50%; 
+        transform: translate(-50%, -50%);
+        display: none;
+        z-index: 4;
+      }
   
-        #unity-logo { width: 154px; height: 130px; }
-        #unity-progress-bar-empty { width: 141px; height: 18px; }
-        #unity-progress-bar-full { width: 0%; height: 18px; }
-        #unity-footer { position: relative; z-index: 4; }
+      #unity-logo { width: 154px; height: 130px; }
+      #unity-progress-bar-empty { width: 141px; height: 18px; }
+      #unity-progress-bar-full { width: 0%; height: 18px; }
+      #unity-footer { position: relative; z-index: 4; }
 
     </style>
   </head>
 
 
   <body>
-    <!--OFFSCREEN TO DETECT -->
+    <!-- Imports -->
     <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
+
+    <!-- Start WebGazer Function -->
     <script src="./js/prediction_point_store.js"></script>
-    <!--Start gazetracking -->
-    <!-- LEFT SIDE: Unity and Virtual Human -->
+    
+    <!-- Hide WebCam View -->
+    <script>
+      webgazer.showVideoPreview(false) ;
+    </script>
+
+    <!-- Validate quiz -->
+    <script src="js/quiz_validationBC.js"></script>
+
     <!-- LEFT SIDE: Unity and Virtual Human -->
     <div class="panel panel-left">
         <div id="unity-container" class="unity-desktop">
@@ -146,21 +150,13 @@
           </div>
           <div id="unity-footer"></div>
         </div>
-      </div>
+    </div>
   
-
-     <!-- RIGHT SIDE: Worksheet -->
-     <div class="panel panel-right">
-     
-     
-        <!-- TOP BUTTONS -->
-      <div class="button-container">
-        <button onclick="store_points_variable()">Start Storing Points</button>
-        <button onclick="stop_storing_points_variable()">Stop Storing Points</button>
-      </div>
+    <!-- RIGHT SIDE: Worksheet -->
+    <div class="panel panel-right">
 
        <!--The Story-->
-       <div class="text-box">
+      <div class="text-box">
 
         <h4>The Cursed Stone </h4>
         
@@ -249,7 +245,7 @@
           And in that darkness, the stone’s final words echoed in Jake’s mind: “This is only the beginning.”
           
         </p>
-        </div>
+      </div>
         
       <form id="quiz-form">
         <div class="question" id="question1">
@@ -264,7 +260,7 @@
           <h3>What was the underlying reason the stone fed on secrets during the family dinner?</h3>
           <label><input type="radio" name="q2" value="incorrect"> It needed confessions to gain control over the family’s willpower </label><br>
           <label><input type="radio" name="q2" value="incorrect"> It needed the secrets to transform into a more powerful entity</label><br>
-          <label><input type="radio" name="q2" value="incorrect">It was using the secrets to collect enough energy to break free from the house </label><br>
+          <label><input type="radio" name="q2" value="incorrect"> It was using the secrets to collect enough energy to break free from the house </label><br>
           <label><input type="radio" name="q2" value="correct"> It thrived on the emotional chaos and destruction caused by revealing hidden truths </label><br>
         </div>
 
@@ -272,14 +268,14 @@
           <h3>Why did the stone focus on taunting Jake specifically after it was activated?</h3>
           <label><input type="radio" name="q3" value="incorrect"> The stone wanted Jake to embrace its power for his own gain </label><br>
           <label><input type="radio" name="q3" value="incorrect"> It knew Jake was the only one who could destroy it </label><br>
-          <label><input type="radio" name="q3" value="correct">Jake was connected to the stone in a way that no one else in the family was</label><br>
+          <label><input type="radio" name="q3" value="correct"> Jake was connected to the stone in a way that no one else in the family was</label><br>
           <label><input type="radio" name="q3" value="incorrect"> It saw Jake as the weakest link in the family</label><br>
         </div>
 
         <div class="question" id="question4">
           <h3>What is the significance of the grandmother’s confession about finding Jake as a baby on their doorstep?</h3>
           <label><input type="radio" name="q4" value="correct"> It implies that Jake was deliberately placed in the family to eventually release the stone’s curse </label><br>
-          <label><input type="radio" name="q4" value="incorrect">It reveals that Jake is of noble lineage connected to the stone</label><br>
+          <label><input type="radio" name="q4" value="incorrect"> It reveals that Jake is of noble lineage connected to the stone</label><br>
           <label><input type="radio" name="q4" value="incorrect"> It suggests that Jake’s parents were enemies of the family who cursed them </label><br>
           <label><input type="radio" name="q4" value="incorrect"> It explains why Jake never fit in with the family traditions</label><br>
         </div>
@@ -303,7 +299,7 @@
         <div class="question" id="question7">
           <h3>What might the stone’s ability to feed on secrets symbolize on a deeper thematic level?</h3>
           <label><input type="radio" name="q7" value="incorrect"> The corrupting influence of magic on human relationships </label><br>
-          <label><input type="radio" name="q7" value="incorrect">The inevitability of secrets being revealed eventually </label><br>
+          <label><input type="radio" name="q7" value="incorrect"> The inevitability of secrets being revealed eventually </label><br>
           <label><input type="radio" name="q7" value="correct"> The destructive power of hidden truths when brought to light</label><br>
           <label><input type="radio" name="q7" value="incorrect"> The need for families to be completely honest with one another</label><br>
         </div>
@@ -316,65 +312,47 @@
           <label><input type="radio" name="q8" value="incorrect"> It suggests that the stone is drawing power from its surroundings </label><br>
         </div>
 
-        <!-- Submit and Exit Buttons -->
-        <div class="button-container">
-          <button type="submit">Submit</button>
-          <button id="exit">Exit</button>
-        </div>
+        <button type="submit">Submit</button>
+
       </form>
-      <div id="result"></div>
     </div>
- 
-       <!-- JavaScript -->
 
-<!--WORKSHEET-->
-
-<script>
-  //turn off the camera
-  webgazer.showVideoPreview(false) ;
-</script>
-
-<!-- Validate quiz -->
-  <!-- Validate quiz -->
-  <script src="js/quiz_validationBC.js"></script>
-
-
-  <!-- UNITY SCRIPTS -->
-  <script>
-    var container = document.querySelector("#unity-container");
-    var canvas = document.querySelector("#unity-canvas");
-    var loadingBar = document.querySelector("#unity-loading-bar");
-    var progressBarFull = document.querySelector("#unity-progress-bar-full");
-    var warningBanner = document.querySelector("#unity-warning");
+    <!-- UNITY SCRIPTS -->
+    <script>
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var warningBanner = document.querySelector("#unity-warning");
 
 
 
-    var buildUrl = "BuildBasic";
-      var loaderUrl = buildUrl + "/BVH.loader.js";
-      var config = {
-        dataUrl: buildUrl + "/BVH.data",
-        frameworkUrl: buildUrl + "/BVH.framework.js",
-        codeUrl: buildUrl + "/BVH.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "Attempt1",
-        productVersion: "0.1",
+      var buildUrl = "BuildBasic";
+        var loaderUrl = buildUrl + "/BVH.loader.js";
+        var config = {
+          dataUrl: buildUrl + "/BVH.data",
+          frameworkUrl: buildUrl + "/BVH.framework.js",
+          codeUrl: buildUrl + "/BVH.wasm",
+          streamingAssetsUrl: "StreamingAssets",
+          companyName: "DefaultCompany",
+          productName: "Attempt1",
+          productVersion: "0.1",
+        };
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+              }).then((unityInstance) => {
+                loadingBar.style.display = "none";
+              }).catch((message) => {
+                alert(message);
+              });
       };
 
-var script = document.createElement("script");
-script.src = loaderUrl;
-script.onload = () => {
-  createUnityInstance(canvas, config, (progress) => {
-    progressBarFull.style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
-          loadingBar.style.display = "none";
-        }).catch((message) => {
-          alert(message);
-        });
-      };
+      document.body.appendChild(script);
 
-document.body.appendChild(script);
-
-  </script> 
+    </script> 
   </body>
 </html>

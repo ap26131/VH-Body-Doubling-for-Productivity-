@@ -11,39 +11,36 @@
    
     
     <style>
-
-    
-   /* SPLIT SCREEN */ 
-   body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        display: flex;
-    }
-
-    .panel {
-          
-          height: 100%;
-          overflow-y: scroll; 
-          border: 1px solid #ccc;
-          position: relative; 
+      /* SPLIT SCREEN */ 
+      body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
         }
 
-        .panel-left {
-          background-color: #f0f0f0;
-          z-index: 5; 
-          width: 55%;
-        }
+      .panel {  
+        height: 100%;
+        overflow-y: scroll; 
+        border: 1px solid #ccc;
+        position: relative; 
+      }
 
-        .panel-right {
-          background-color: #d0e0f0;
-          position: relative;
-          z-index: 10; 
-          width: 45%;
-        }
+      .panel-left {
+        background-color: #f0f0f0;
+        z-index: 5; 
+        width: 55%;
+      }
+
+      .panel-right {
+        background-color: #d0e0f0;
+        position: relative;
+        z-index: 10; 
+        width: 45%;
+      }
 
 
-    button {
+      button {
         display: block;
         margin-top: 20px;
         padding: 10px 15px;
@@ -52,19 +49,19 @@
         border: none;
         cursor: pointer;
         margin-bottom: 20px;
-    }
+      }
 
-    button:hover {
+      button:hover {
         background-color: #45a049;
-    }
+      }
 
-    .button-container {
+      .button-container {
         display: flex; 
         justify-content: flex-start; 
         gap: 10px; 
-    }
+      }
 
-    .text-box {
+      .text-box {
         border: 2px solid #333; 
         padding: 20px; 
         width: 90%; 
@@ -74,82 +71,87 @@
         resize: none; 
         overflow-y: scroll; 
         margin-bottom: 20px;
-    }
+      }
 
-    .question {
+      .question {
         margin-bottom: 20px;
-    }
+      }
 
-    .question h3 {
+      .question h3 {
         margin-bottom: 10px;
-    }
+      }
 
-    
-
-    .char-count {
+      .char-count {
         margin-top: 10px;
         font-size: 14px;
         color: #555;
-    }
+      }
 
-   
+      /* UNITY CONTAINER */
+      #unity-container.unity-desktop {
+        width: 100%; 
+        height: 100%; 
+        position: relative; 
+        z-index: 4; 
+      }
+  
+      #unity-canvas {
+        width: 100%;
+        height: 100%;
+        background: #231F20;
+        z-index: 4;
+      }
+  
+      #unity-loading-bar {
+        position: absolute; 
+        left: 50%; 
+        top: 50%; 
+        transform: translate(-50%, -50%);
+        display: none;
+        z-index: 4;
+      }
+      
+      #unity-logo { width: 154px; height: 130px; }
+      #unity-progress-bar-empty { width: 141px; height: 18px; }
+      #unity-progress-bar-full { width: 0%; height: 18px; }
+      #unity-footer { position: relative; z-index: 4; }
 
-     /* UNITY CONTAINER */
-     #unity-container.unity-desktop {
-          width: 100%; 
-          height: 100%; 
-          position: relative; 
-          z-index: 4; 
-        }
-  
-        #unity-canvas {
-          width: 100%;
-          height: 100%;
-          background: #231F20;
-          z-index: 4;
-        }
-  
-        #unity-loading-bar {
-          position: absolute; 
-          left: 50%; 
-          top: 50%; 
-          transform: translate(-50%, -50%);
-          display: none;
-          z-index: 4;
-        }
-  
-        #unity-logo { width: 154px; height: 130px; }
-        #unity-progress-bar-empty { width: 141px; height: 18px; }
-        #unity-progress-bar-full { width: 0%; height: 18px; }
-        #unity-footer { position: relative; z-index: 4; }
-
-    </style>
+      </style>
   </head>
-
-
-  <body>
-    <<script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
-    <div class="panel panel-left">
-        <div id="unity-container" class="unity-desktop">
-          <canvas id="unity-canvas"></canvas>
-          <div id="unity-loading-bar">
-            <div id="unity-logo"></div>
-            <div id="unity-progress-bar-empty">
-              <div id="unity-progress-bar-full"></div>
-            </div>
-          </div>
-          <div id="unity-footer"></div>
-        </div>
-      </div>
-    
   
-
-     <!-- RIGHT SIDE: Worksheet -->
-     <div class="panel panel-right">
+  
+  <body>
+    <!-- Imports -->
+    <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
     
-       <!--The Story-->
-       <div class="text-box">
+    <!-- Hide WebCam View -->
+    <script>
+      webgazer.showVideoPreview(false) ;
+    </script>
+    
+    <!-- Validate quiz -->
+    <script src="js/quiz_validationDE.js"></script>
+
+    <!-- LEFT SIDE: Unity and Virtual Human -->
+    <div class="panel panel-left">
+      <div id="unity-container" class="unity-desktop">
+        <canvas id="unity-canvas"></canvas>
+        <div id="unity-loading-bar">
+          <div id="unity-logo"></div>
+          <div id="unity-progress-bar-empty">
+            <div id="unity-progress-bar-full"></div>
+          </div>
+        </div>
+        <div id="unity-footer"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE: Worksheet -->
+    <div class="panel panel-right">
+    
+      <!--The Story-->
+      <div class="text-box">
 
         <h4>The Sun God and the Hungry Moon </h4>
         
@@ -214,7 +216,7 @@
           And every year, on the longest night of winter, they lit a fire on the mountain to honor Solarius and remember the boy who had saved them all.
           
         </p>
-        </div>
+      </div>
         
       <form id="quiz-form">
         <div class="question" id="question1">
@@ -236,7 +238,7 @@
         <div class="question" id="question3">
           <h3>What specific challenge did Leo face as he neared the Sacred Peak that tested more than his physical endurance?</h3>
           <label><input type="radio" name="q3" value="incorrect"> A chasm guarded by mythical creatures </label><br>
-          <label><input type="radio" name="q3" value="incorrect">A blizzard that froze the path </label><br>
+          <label><input type="radio" name="q3" value="incorrect"> A blizzard that froze the path </label><br>
           <label><input type="radio" name="q3" value="correct"> Illusions created by the moon reflecting his deepest fears </label><br>
           <label><input type="radio" name="q3" value="incorrect"> An encounter with a guardian spirit demanding a sacrifice </label><br>
         </div>
@@ -262,7 +264,7 @@
           <label><input type="radio" name="q6" value="correct"> The moon feared Leo’s connection to Solarius</label><br>
           <label><input type="radio" name="q6" value="incorrect"> The moon was genuinely remorseful </label><br>
           <label><input type="radio" name="q6" value="incorrect"> The villagers were unknowingly complicit in the moon’s curse </label><br>
-          <label><input type="radio" name="q6" value="incorrect">The curse could only be broken by sacrificing himself </label><br>
+          <label><input type="radio" name="q6" value="incorrect"> The curse could only be broken by sacrificing himself </label><br>
         </div>
 
         <div class="question" id="question7">
@@ -276,162 +278,148 @@
         <div class="question" id="question8">
           <h3>After the moon was restored to its peaceful state, what lesson did the villagers learn about their relationship with celestial forces?</h3>
           <label><input type="radio" name="q8" value="correct"> Balance and respect for the natural order were essential  </label><br>
-          <label><input type="radio" name="q8" value="incorrect">The gods could not be trusted to protect them </label><br>
+          <label><input type="radio" name="q8" value="incorrect"> The gods could not be trusted to protect them </label><br>
           <label><input type="radio" name="q8" value="incorrect"> They needed to seek power to protect themselves </label><br>
           <label><input type="radio" name="q8" value="incorrect"> Sacrifices to celestial beings were necessary to ensure peace </label><br>
         </div>
 
-        <!-- Submit and Exit Buttons -->
-        <div class="button-container">
-          <button type="submit">Submit</button>
-        </div>
+        <button type="submit">Submit</button>
       </form>
     </div>
  
-
- 
-<!-- JavaScript -->
-<script>
-  //turn off the camera
-  webgazer.showVideoPreview(false) ;
-</script>
-
-<script>
-  //turn off the camera
-  webgazer.showVideoPreview(false) ;
-</script>
-
-  <!-- Validate quiz -->
-  <script src="js/quiz_validationDE.js"></script>
-
-   <!-- UNITY SCRIPTS -->
-   <script>
-    var container = document.querySelector("#unity-container");
-    var canvas = document.querySelector("#unity-canvas");
-    var loadingBar = document.querySelector("#unity-loading-bar");
-    var progressBarFull = document.querySelector("#unity-progress-bar-full");
-    var warningBanner = document.querySelector("#unity-warning");
+    <!-- UNITY SCRIPTS -->
+    <script>
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var warningBanner = document.querySelector("#unity-warning");
 
 
-    var buildUrl = "BuildLUCKY";
-      var loaderUrl = buildUrl + "/LUCKY.loader.js";
-      var config = {
-        dataUrl: buildUrl + "/LUCKY.data",
-        frameworkUrl: buildUrl + "/LUCKY.framework.js",
-        codeUrl: buildUrl + "/LUCKY.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "Attempt1",
-        productVersion: "0.1",
-      };
+      var buildUrl = "BuildLUCKY";
+        var loaderUrl = buildUrl + "/LUCKY.loader.js";
+        var config = {
+          dataUrl: buildUrl + "/LUCKY.data",
+          frameworkUrl: buildUrl + "/LUCKY.framework.js",
+          codeUrl: buildUrl + "/LUCKY.wasm",
+          streamingAssetsUrl: "StreamingAssets",
+          companyName: "DefaultCompany",
+          productName: "Attempt1",
+          productVersion: "0.1",
+        };
 
-      var script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-              }).then((unityInstance) => {
-                loadingBar.style.display = "none";
-                window.UnityInstance = unityInstance;
-              }).catch((message) => {
-                alert(message);
-              });
-            };
-      
-      document.body.appendChild(script);
-      
-
-</script>
-
-<script>
-
-  function triggerUnityAnimation() {
-    if (typeof UnityInstance !== 'undefined' && UnityInstance !== null) {
-        UnityInstance.SendMessage('WaveObject', 'TriggerAnimation');
-    } else {
-        console.error("UnityInstance is not defined or null.");
-    }
-}
-
-function triggerUnityTTS(message) {
-    if (typeof UnityInstance !== 'undefined' && UnityInstance !== null) {
-        UnityInstance.SendMessage('WaveObject', 'TriggerSpeech', message);
-    } else {
-        console.error("UnityInstance is not defined or null.");
-    }
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-var count = 0;
-var alerted = false;
-var vhresponse = ["I'm here for you if you need me"," Are you having trouble focusing?","Would you like my assistance?","Type 1 if you would like a stretch break", "Would you like to talk?","Let me know if you need help to refocus", "Are you fine?","How about a break to chat?"," Just say the word and I'm there","My job is to help you, feel free to reach out."];
-
-
-// Array to hold gaze prediction points
-let gazePoints = [];
-webgazer.setGazeListener(function(data, elapsedTime) {
-  if (data == null) {
-      return;
-  }
-
-  var xprediction = data.x; // X coordinate
-  var yprediction = data.y; // Y coordinate
-  // Store the prediction point
-  gazePoints.push({
-  x: xprediction,
-  y: yprediction,
-  time: elapsedTime
-  });
-  
-  var viewportWidth = window.innerWidth;
-  var viewportHeight = window.innerHeight;
-
-  var minX = viewportWidth * 0.1; 
-  var maxX = viewportWidth * 0.9; 
-  var minY = viewportHeight * 0.1; 
-  var maxY = viewportHeight * 0.9; 
-
-  // Check if gaze is off-screen
-  if(alerted){
-
-    async function changeAlert() {
-      await sleep(15000);
-      alerted = false;
-    }
-
-    changeAlert();
-
-  } else {
-    if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
-      count++;
-      if(count > 30){
-        try {
-          // Send notification to server that user looked off screen
-          fetch('/off-screen-counter', {
-            method: 'POST',
+        var script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+          createUnityInstance(canvas, config, (progress) => {
+            progressBarFull.style.width = 100 * progress + "%";
+          }).then((unityInstance) => {
+            loadingBar.style.display = "none";
+            window.UnityInstance = unityInstance;
+          }).catch((message) => {
+            alert(message);
           });
-        } catch (error) {
-          console.error('Error:', error);
-        }
+        };
         
-        triggerUnityAnimation();
-        triggerUnityTTS(vhresponse[Math.floor(Math.random() * vhresponse.length)]);
-        alerted = true;
-        count = 0;
+        document.body.appendChild(script);
+    </script>
+
+    <script>
+      function triggerUnityAnimation() {
+        if (typeof UnityInstance !== 'undefined' && UnityInstance !== null) {
+          UnityInstance.SendMessage('WaveObject', 'TriggerAnimation');
+        } else {
+          console.error("UnityInstance is not defined or null.");
+        }
       }
-      } else {
-        count = 0;
+
+      function triggerUnityTTS(message) {
+        if (typeof UnityInstance !== 'undefined' && UnityInstance !== null) {
+          UnityInstance.SendMessage('WaveObject', 'TriggerSpeech', message);
+        } else {
+          console.error("UnityInstance is not defined or null.");
+        }
       }
-  }
-  
-   // Optionally, log the data for debugging
-   console.log(`Gaze Point: (${xprediction}, ${yprediction}), Time: ${elapsedTime}`);
-}).begin();
-webgazer.showPredictionPoints(false);
-</script>
+
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      var count = 0;
+      var alerted = false;
+      var vhresponse = ["I'm here for you if you need me",
+      "Are you having trouble focusing?",
+      "Would you like my assistance?",
+      "Type 1 if you would like a stretch break", 
+      "Would you like to talk?",
+      "Let me know if you need help to refocus", 
+      "Are you fine?",
+      "How about a break to chat?",
+      "Just say the word and I'm there",
+      "My job is to help you, feel free to reach out."];
+
+
+      // Array to hold gaze prediction points
+      let gazePoints = [];
+      webgazer.setGazeListener(function(data, elapsedTime) {
+        if (data == null) {
+            return;
+        }
+
+        var xprediction = data.x; // X coordinate
+        var yprediction = data.y; // Y coordinate
+        // Store the prediction point
+        gazePoints.push({
+          x: xprediction,
+          y: yprediction,
+          time: elapsedTime
+        });
+        
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+
+        var minX = viewportWidth * 0.1; 
+        var maxX = viewportWidth * 0.9; 
+        var minY = viewportHeight * 0.1; 
+        var maxY = viewportHeight * 0.9; 
+
+        // Check if gaze is off-screen
+        if(alerted){
+          async function changeAlert() {
+            await sleep(15000);
+            alerted = false;
+          }
+
+          changeAlert();
+
+        } else {
+          if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
+            count++;
+            if(count > 30){
+              try {
+                // Send notification to server that user looked off screen
+                fetch('/off-screen-counter', {
+                  method: 'POST',
+                });
+              } catch (error) {
+                console.error('Error:', error);
+              }
+              
+              triggerUnityAnimation();
+              triggerUnityTTS(vhresponse[Math.floor(Math.random() * vhresponse.length)]);
+              alerted = true;
+              count = 0;
+            }
+          } else {
+            count = 0;
+          }
+        }
+        // Optionally, log the data for debugging
+        console.log(`Gaze Point: (${xprediction}, ${yprediction}), Time: ${elapsedTime}`);
+      }).begin();
+      
+      webgazer.showPredictionPoints(false);
+    </script>
     
   </body>
 </html>

@@ -7,38 +7,36 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Work Sheet without Virtual Human and WebGazer</title>
+    <title>Work Sheet without Virtual Human</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    
     
     <style>
-
-    
-    body {
+      /* General Styling */
+      body {
         margin: 0;
         padding: 0;
         height: 100vh;
         display: flex;
         position: center;
-    }
+      }
 
-    .panel {
-          
-          height: 100%;
-          overflow-y: scroll; 
-          border: 1px solid #ccc;
-          position: relative; 
-        }
+      .panel {
+        height: 100%;
+        overflow-y: scroll; 
+        border: 1px solid #ccc;
+        position: relative; 
+      }
 
-      
-        .panel-right {
-          background-color: #d0e0f0;
-          position: relative;
-          z-index: 10; 
-          width: 100%;
-        }
+        
+      .panel-right {
+        background-color: #d0e0f0;
+        position: relative;
+        z-index: 10; 
+        width: 100%;
+      }
 
-    button {
+      button {
         display: block;
         margin-top: 20px;
         padding: 10px 15px;
@@ -47,19 +45,19 @@
         border: none;
         cursor: pointer;
         margin-bottom: 20px;
-    }
+      }
 
-    button:hover {
+      button:hover {
         background-color: #45a049;
-    }
+      }
 
-    .button-container {
+      .button-container {
         display: flex; 
         justify-content: flex-start; 
         gap: 10px; 
-    }
+      }
 
-    .text-box {
+      .text-box {
         border: 2px solid #333; 
         padding: 20px; 
         width: 90%; 
@@ -69,93 +67,43 @@
         resize: none; 
         overflow-y: scroll; 
         margin-bottom: 20px;
-    }
+      }
 
-    .question {
+      .question {
         margin-bottom: 20px;
-    }
+      }
 
-    .question h3 {
+      .question h3 {
         margin-bottom: 10px;
-    }
+      }      
 
-    
-
-    .char-count {
+      .char-count {
         margin-top: 10px;
         font-size: 14px;
         color: #555;
-    }
-
-   
-
-     /* UNITY CONTAINER */
-     #unity-container.unity-desktop {
-          width: 100%; 
-          height: 100%; 
-          position: relative; 
-          z-index: 4; 
-        }
-  
-        #unity-canvas {
-          width: 100%;
-          height: 100%;
-          background: #231F20;
-          z-index: 4;
-        }
-  
-        #unity-loading-bar {
-          position: absolute; 
-          left: 50%; 
-          top: 50%; 
-          transform: translate(-50%, -50%);
-          display: none;
-          z-index: 4;
-        }
-  
-        #unity-logo { width: 154px; height: 130px; }
-        #unity-progress-bar-empty { width: 141px; height: 18px; }
-        #unity-progress-bar-full { width: 0%; height: 18px; }
-        #unity-footer { position: relative; z-index: 4; }
-
+      }
     </style>
   </head>
-
-
+  
+  
   <body>
-    <!--OFFSCREEN TO DETECT -->
+    <!-- Imports -->
     <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
-    <script src="./js/prediction_point_store.js"></script>
-    <!--Start gazetracking -->
+    
+    <!-- Start WebGazer Function -->
+    <script src="./js/prediction_point_store.js"></script>  
+    
+    <!-- Hide WebCam View -->
     <script>
-      startGazeTracking();
+      webgazer.showVideoPreview(false);
     </script>
-    <!-- 
-    <div class="panel panel-left">
-        <div id="unity-container" class="unity-desktop">
-          <canvas id="unity-canvas"></canvas>
-          <div id="unity-loading-bar">
-            <div id="unity-logo"></div>
-            <div id="unity-progress-bar-empty">
-              <div id="unity-progress-bar-full"></div>
-            </div>
-          </div>
-          <div id="unity-footer"></div>
-        </div>
-      </div>
-    -->
   
+    <!-- Validate quiz -->
+    <script src="js/quiz_validationBC.js"></script>
 
-     <!-- RIGHT SIDE: Worksheet -->
-     <div class="panel panel-right">
-     
-     
-        <!-- TOP BUTTONS -->
-      <div class="button-container">
-        <button onclick="store_points_variable()">Start Storing Points</button>
-        <button onclick="stop_storing_points_variable()">Stop Storing Points</button>
-      </div>
+    <!-- RIGHT SIDE: Worksheet -->
+    <div class="panel panel-right">
 
       <!--The Story-->
       <div class="text-box">
@@ -237,11 +185,11 @@
           And as the lights in the classroom dimmed, the crayons dreamed of the masterpieces they would help create next, knowing that each new day would bring a new opportunity to show the world their colors.
           
         </p>
-        </div>
+      </div>
         
       <form id="quiz-form">
         <div class="question" id="question1">
-          <h3> What was Ruby Red most excited about</h3>
+          <h3> What was Ruby Red most excited about?</h3>
           <label><input type="radio" name="q1" value="incorrect"> Drawing dragons </label><br>
           <label><input type="radio" name="q1" value="incorrect"> Coloring the sky </label><br>
           <label><input type="radio" name="q1" value="correct"> Being the first crayon picked Being the first crayon picked  </label><br>
@@ -259,13 +207,13 @@
         <div class="question" id="question3">
           <h3>Why did Midnight Blue express frustration about being used for the sky repeatedly?</h3>
           <label><input type="radio" name="q3" value="incorrect"> He disliked being chosen at all</label><br>
-          <label><input type="radio" name="q3" value="incorrect">He felt the sky was too simple to draw </label><br>
-          <label><input type="radio" name="q3" value="correct">He wanted to be used for something more unique and creative </label><br>
+          <label><input type="radio" name="q3" value="incorrect"> He felt the sky was too simple to draw </label><br>
+          <label><input type="radio" name="q3" value="correct"> He wanted to be used for something more unique and creative </label><br>
           <label><input type="radio" name="q3" value="incorrect"> He preferred to stay in the crayon box </label><br>
         </div>
 
         <div class="question" id="question4">
-          <h3> What was Lilac Purple's biggest insecurity compared to the other crayons??</h3>
+          <h3> What was Lilac Purple's biggest insecurity compared to the other crayons?</h3>
           <label><input type="radio" name="q4" value="correct"> She felt she was too dull in color to be chosen </label><br>
           <label><input type="radio" name="q4" value="incorrect"> She was afraid of breaking under pressure</label><br>
           <label><input type="radio" name="q4" value="incorrect"> She was always overlooked because she was hidden at the bottom </label><br>
@@ -274,7 +222,7 @@
         
         <div class="question" id="question5">
           <h3>What motivated Mia to choose Lilac Purple from the box?</h3>
-          <label><input type="radio" name="q5" value="incorrect">She was told by Mrs. Bloom to use more colors</label><br>
+          <label><input type="radio" name="q5" value="incorrect"> She was told by Mrs. Bloom to use more colors</label><br>
           <label><input type="radio" name="q5" value="correct"> She was drawn to Lilac’s soft, gentle shade </label><br>
           <label><input type="radio" name="q5" value="incorrect"> She couldn’t find any other crayons available</label><br>
           <label><input type="radio" name="q5" value="incorrect"> She randomly picked one without looking</label><br>
@@ -284,15 +232,15 @@
           <h3>What did Midnight Blue's newfound joy in being used for a dragon instead of the sky represent?</h3>
           <label><input type="radio" name="q6" value="correct"> His desire to break free from routine and explore new possibilities</label><br>
           <label><input type="radio" name="q6" value="incorrect"> His anger at always being used last </label><br>
-          <label><input type="radio" name="q6" value="incorrect">His jealousy toward the other crayons </label><br>
+          <label><input type="radio" name="q6" value="incorrect"> His jealousy toward the other crayons </label><br>
           <label><input type="radio" name="q6" value="incorrect"> His wish to be the most used crayon</label><br>
         </div>
 
         <div class="question" id="question7">
           <h3>What was the impact of the crayons being slightly shorter after being used?</h3>
-          <label><input type="radio" name="q7" value="incorrect">It made them envious of the unused crayons </label><br>
-          <label><input type="radio" name="q7" value="incorrect">It indicated they were running out and needed to be replaced </label><br>
-          <label><input type="radio" name="q7" value="correct">It symbolized the fulfillment they felt after being chosen and used for a purpose </label><br>
+          <label><input type="radio" name="q7" value="incorrect"> It made them envious of the unused crayons </label><br>
+          <label><input type="radio" name="q7" value="incorrect"> It indicated they were running out and needed to be replaced </label><br>
+          <label><input type="radio" name="q7" value="correct"> It symbolized the fulfillment they felt after being chosen and used for a purpose </label><br>
           <label><input type="radio" name="q7" value="incorrect"> It represented their exhaustion and lack of enthusiasm </label><br>
         </div>
 
@@ -301,28 +249,12 @@
           <label><input type="radio" name="q8" value="correct"> Every color has a special purpose, even if it’s not always obvious </label><br>
           <label><input type="radio" name="q8" value="incorrect"> She should try to change her color to be chosen more often </label><br>
           <label><input type="radio" name="q8" value="incorrect"> Being quiet and shy means you’ll always be overlooked </label><br>
-          <label><input type="radio" name="q8" value="incorrect">Brighter colors are inherently more valuable </label><br>
+          <label><input type="radio" name="q8" value="incorrect"> Brighter colors are inherently more valuable </label><br>
         </div>
 
-        <!-- Submit and Exit Buttons -->
-        <div class="button-container">
-          <button type="submit">Submit</button>
-          <button id="exit">Exit</button>
-        </div>
+        <button type="submit">Submit</button>
+
       </form>
-      <div id="result"></div>
     </div>
- 
-    <script>
-      //turn off the camera
-      webgazer.showVideoPreview(false) ;
-    </script>
-
-
-<!-- Validate quiz -->
-  <script src="js/quiz_validationBC.js"></script>
- 
-<!-- Validate quiz -->
-
   </body>
 </html>

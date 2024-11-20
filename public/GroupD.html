@@ -13,33 +13,30 @@
    
     
     <style>
-
     
-    body {
+      body {
         margin: 0;
         padding: 0;
         height: 100vh;
         display: flex;
         position: center;
-    }
+      }
 
-    .panel {
-          
-          height: 100%;
-          overflow-y: scroll; 
-          border: 1px solid #ccc;
-          position: relative; 
-        }
+      .panel {
+        height: 100%;
+        overflow-y: scroll; 
+        border: 1px solid #ccc;
+        position: relative; 
+      }
 
-      
-        .panel-right {
-          background-color: #d0e0f0;
-          position: relative;
-          z-index: 10; 
-          width: 100%;
-        }
+      .panel-right {
+        background-color: #d0e0f0;
+        position: relative;
+        z-index: 10; 
+        width: 100%;
+      }
 
-    button {
+      button {
         display: block;
         margin-top: 20px;
         padding: 10px 15px;
@@ -48,19 +45,19 @@
         border: none;
         cursor: pointer;
         margin-bottom: 20px;
-    }
+      }
 
-    button:hover {
+      button:hover {
         background-color: #45a049;
-    }
+      }
 
-    .button-container {
+      .button-container {
         display: flex; 
         justify-content: flex-start; 
         gap: 10px; 
-    }
+      }
 
-    .text-box {
+      .text-box {
         border: 2px solid #333; 
         padding: 20px; 
         width: 90%; 
@@ -70,95 +67,44 @@
         resize: none; 
         overflow-y: scroll; 
         margin-bottom: 20px;
-    }
+      }
 
-    .question {
+      .question {
         margin-bottom: 20px;
-    }
+      }
 
-    .question h3 {
+      .question h3 {
         margin-bottom: 10px;
-    }
+      }
 
-    
-
-    .char-count {
+      .char-count {
         margin-top: 10px;
         font-size: 14px;
         color: #555;
-    }
-
-   
-
-     /* UNITY CONTAINER */
-     #unity-container.unity-desktop {
-          width: 100%; 
-          height: 100%; 
-          position: relative; 
-          z-index: 4; 
-        }
-  
-        #unity-canvas {
-          width: 100%;
-          height: 100%;
-          background: #231F20;
-          z-index: 4;
-        }
-  
-        #unity-loading-bar {
-          position: absolute; 
-          left: 50%; 
-          top: 50%; 
-          transform: translate(-50%, -50%);
-          display: none;
-          z-index: 4;
-        }
-  
-        #unity-logo { width: 154px; height: 130px; }
-        #unity-progress-bar-empty { width: 141px; height: 18px; }
-        #unity-progress-bar-full { width: 0%; height: 18px; }
-        #unity-footer { position: relative; z-index: 4; }
+      }
 
     </style>
   </head>
-
-
+  
+  
   <body>
-    <!--OFFSCREEN TO DETECT -->
+    <!-- Imports -->
     <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
+    
     <!--Start gazetracking -->
     <script>
       startGazeTracking();
     </script>
-    <!-- 
-    <div class="panel panel-left">
-        <div id="unity-container" class="unity-desktop">
-          <canvas id="unity-canvas"></canvas>
-          <div id="unity-loading-bar">
-            <div id="unity-logo"></div>
-            <div id="unity-progress-bar-empty">
-              <div id="unity-progress-bar-full"></div>
-            </div>
-          </div>
-          <div id="unity-footer"></div>
-        </div>
-      </div>
-    -->
   
+    <!-- Validate quiz -->
+    <script src="js/quiz_validationDE.js"></script>
 
      <!-- RIGHT SIDE: Worksheet -->
-     <div class="panel panel-right">
-     
-     
-        <!-- TOP BUTTONS -->
-      <div class="button-container">
-        <button onclick="store_points_variable()">Start Storing Points</button>
-        <button onclick="stop_storing_points_variable()">Stop Storing Points</button>
-      </div>
+    <div class="panel panel-right">
 
-       <!--The Story-->
-       <div class="text-box">
+      <!--The Story-->
+      <div class="text-box">
 
         <h4>The Lettuce Showdown </h4>
         
@@ -253,12 +199,12 @@
           
           
         </p>
-        </div>
+      </div>
         
       <form id="quiz-form">
         <div class="question" id="question1">
           <h3>Why did Mr. Harris eventually decide to participate in the lettuce-eating contest?</h3>
-          <label><input type="radio" name="q1" value="incorrect">He was pressured by the others to join in </label><br>
+          <label><input type="radio" name="q1" value="incorrect"> He was pressured by the others to join in </label><br>
           <label><input type="radio" name="q1" value="incorrect"> He was determined to prove he could win </label><br>
           <label><input type="radio" name="q1" value="correct"> He wanted to pass the time and lighten his mood</label><br>
           <label><input type="radio" name="q1" value="incorrect"> He didn’t want to seem rude by refusing </label><br>
@@ -274,7 +220,7 @@
 
         <div class="question" id="question3">
           <h3>Why was Emily’s attitude toward the contest more relaxed than the others?</h3>
-          <label><input type="radio" name="q3" value="incorrect">She was uninterested in eating raw lettuce </label><br>
+          <label><input type="radio" name="q3" value="incorrect"> She was uninterested in eating raw lettuce </label><br>
           <label><input type="radio" name="q3" value="incorrect"> She knew she wouldn’t win against the younger participants </label><br>
           <label><input type="radio" name="q3" value="correct"> She didn’t see it as a serious competition and was there for the fun </label><br>
           <label><input type="radio" name="q3" value="incorrect"> She was too focused on worrying about her salad delivery </label><br>
@@ -284,7 +230,7 @@
           <h3>How did Maya’s competitive nature help her win the contest?</h3>
           <label><input type="radio" name="q4" value="correct"> She stayed focused and used her experience with tight deadlines </label><br>
           <label><input type="radio" name="q4" value="incorrect"> She distracted the others with jokes to slow them down </label><br>
-          <label><input type="radio" name="q4" value="incorrect">She had practiced competitive eating in college </label><br>
+          <label><input type="radio" name="q4" value="incorrect"> She had practiced competitive eating in college </label><br>
           <label><input type="radio" name="q4" value="incorrect"> She was hungrier than everyone else </label><br>
         </div>
         
@@ -320,94 +266,84 @@
           <label><input type="radio" name="q8" value="incorrect"> He felt responsible for putting them in such a stressful situation </label><br>
         </div>
 
-        <!-- Submit and Exit Buttons -->
-        <div class="button-container">
-          <button type="submit">Submit</button>
-        </div>
+        <button type="submit">Submit</button>
+
       </form>
-  </div>
+    </div>
 
-  </div>
-  
+    <script>
 
- 
-<!-- JavaScript -->
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
 
-  <!-- Validate quiz -->
-  <script src="js/quiz_validationDE.js"></script>
-
-<script>
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-var count = 0;
-var alerted = false;
-var audio = new Audio('media/658431__deathbyfairydust__pop.wav'); 
-// Array to hold gaze prediction points
-let gazePoints = [];
-webgazer.setGazeListener(function(data, elapsedTime) {
-  if (data == null) {
-      return;
-  }
-
-  var xprediction = data.x; // X coordinate
-  var yprediction = data.y; // Y coordinate
-
-   // Store the prediction point
-   gazePoints.push({
-    x: xprediction,
-    y: yprediction,
-    time: elapsedTime
-    });
-  
-  var viewportWidth = window.innerWidth;
-  var viewportHeight = window.innerHeight;
-
-  var minX = viewportWidth * 0.1; 
-  var maxX = viewportWidth * 0.9; 
-  var minY = viewportHeight * 0.1; 
-  var maxY = viewportHeight * 0.9; 
-
-  // Check if gaze is off-screen
-  if(alerted){
-
-    async function changeAlert() {
-      await sleep(15000);
-      alerted = false;
-    }
-
-    changeAlert();
-
-  } else {
-    if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
-      count++;
-      if(count > 30){
-        try {
-          // Send notification to server that user looked off screen
-          fetch('/off-screen-counter', {
-            method: 'POST',
-          });
-        } catch (error) {
-          console.error('Error:', error);
+      var count = 0;
+      var alerted = false;
+      var audio = new Audio('media/658431__deathbyfairydust__pop.wav'); 
+      // Array to hold gaze prediction points
+      let gazePoints = [];
+      webgazer.setGazeListener(function(data, elapsedTime) {
+        if (data == null) {
+            return;
         }
+
+        var xprediction = data.x; // X coordinate
+        var yprediction = data.y; // Y coordinate
+
+        // Store the prediction point
+        gazePoints.push({
+          x: xprediction,
+          y: yprediction,
+          time: elapsedTime
+        });
         
-        audio.play().catch(function(error) {
-        console.error("Audio playback error:", error);});
-        
-        alerted = true;
-        count = 0;
-      }
-      } else {
-        count = 0;
-      }
-  }
-   // Optionally, log the data for debugging
-   console.log(`Gaze Point: (${xprediction}, ${yprediction}), Time: ${elapsedTime}`);
-}).begin();
-webgazer.showPredictionPoints(false);
-</script>
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+
+        var minX = viewportWidth * 0.1; 
+        var maxX = viewportWidth * 0.9; 
+        var minY = viewportHeight * 0.1; 
+        var maxY = viewportHeight * 0.9; 
+
+        // Check if gaze is off-screen
+        if(alerted){
+
+          async function changeAlert() {
+            await sleep(15000);
+            alerted = false;
+          }
+
+          changeAlert();
+
+        } else {
+          if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
+            count++;
+            if(count > 30){
+              try {
+                // Send notification to server that user looked off screen
+                fetch('/off-screen-counter', {
+                  method: 'POST',
+                });
+              } catch (error) {
+                console.error('Error:', error);
+              }
+              
+              audio.play().catch(function(error) {
+                console.error("Audio playback error:", error);
+              });
+              
+              alerted = true;
+              count = 0;
+            }
+          } else {
+            count = 0;
+          }
+        }
+        // Optionally, log the data for debugging
+        console.log(`Gaze Point: (${xprediction}, ${yprediction}), Time: ${elapsedTime}`);
+      }).begin();
+      webgazer.showPredictionPoints(false);
+    </script>
  
   </body>
 </html>

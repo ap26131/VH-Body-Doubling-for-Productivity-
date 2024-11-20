@@ -7,38 +7,35 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Work Sheet without Virtual Human and WebGazer</title>
+    <title>Work Sheet without Virtual Human</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    
     
     <style>
-
-    
-    body {
+      /* General Styling */
+      body {
         margin: 0;
         padding: 0;
         height: 100vh;
         display: flex;
         position: center;
-    }
+      }
 
-    .panel {
-          
-          height: 100%;
-          overflow-y: scroll; 
-          border: 1px solid #ccc;
-          position: relative; 
-        }
+      .panel {
+        height: 100%;
+        overflow-y: scroll; 
+        border: 1px solid #ccc;
+        position: relative; 
+      }
 
-      
-        .panel-right {
-          background-color: #d0e0f0;
-          position: relative;
-          z-index: 10; 
-          width: 100%;
-        }
+      .panel-right {
+        background-color: #d0e0f0;
+        position: relative;
+        z-index: 10; 
+        width: 100%;
+      }
 
-    button {
+      button {
         display: block;
         margin-top: 20px;
         padding: 10px 15px;
@@ -47,19 +44,19 @@
         border: none;
         cursor: pointer;
         margin-bottom: 20px;
-    }
+      }
 
-    button:hover {
+      button:hover {
         background-color: #45a049;
-    }
+      }
 
-    .button-container {
+      .button-container {
         display: flex; 
         justify-content: flex-start; 
         gap: 10px; 
-    }
+      }
 
-    .text-box {
+      .text-box {
         border: 2px solid #333; 
         padding: 20px; 
         width: 90%; 
@@ -69,88 +66,46 @@
         resize: none; 
         overflow-y: scroll; 
         margin-bottom: 20px;
-    }
+      }
 
-    .question {
+      .question {
         margin-bottom: 20px;
-    }
+      }
 
-    .question h3 {
+      .question h3 {
         margin-bottom: 10px;
-    }
+      }
 
-    
-
-    .char-count {
+      .char-count {
         margin-top: 10px;
         font-size: 14px;
         color: #555;
-    }
-
-   
-
-     /* UNITY CONTAINER */
-     #unity-container.unity-desktop {
-          width: 100%; 
-          height: 100%; 
-          position: relative; 
-          z-index: 4; 
-        }
-  
-        #unity-canvas {
-          width: 100%;
-          height: 100%;
-          background: #231F20;
-          z-index: 4;
-        }
-  
-        #unity-loading-bar {
-          position: absolute; 
-          left: 50%; 
-          top: 50%; 
-          transform: translate(-50%, -50%);
-          display: none;
-          z-index: 4;
-        }
-  
-        #unity-logo { width: 154px; height: 130px; }
-        #unity-progress-bar-empty { width: 141px; height: 18px; }
-        #unity-progress-bar-full { width: 0%; height: 18px; }
-        #unity-footer { position: relative; z-index: 4; }
-
+      }
     </style>
   </head>
 
 
   <body>
+    <!-- Imports -->
+    <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
     
-<!--OFFSCREEN TO DETECT -->
-<script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
-<script src="./js/prediction_point_store.js"></script>
-<!--Start gazetracking -->
-    <!-- 
-    <div class="panel panel-left">
-        <div id="unity-container" class="unity-desktop">
-          <canvas id="unity-canvas"></canvas>
-          <div id="unity-loading-bar">
-            <div id="unity-logo"></div>
-            <div id="unity-progress-bar-empty">
-              <div id="unity-progress-bar-full"></div>
-            </div>
-          </div>
-          <div id="unity-footer"></div>
-        </div>
-      </div>
-    -->
-  
+    <!--Start WebGazer -->
+    <script src="./js/prediction_point_store.js"></script>
+    
+    <!-- Hide WebCam View -->
+    <script>
+      webgazer.showVideoPreview(false) ;
+    </script>
+    
+    <!-- Validate quiz -->
+    <script src="js/quiz_validationA.js"></script>
 
-     <!-- RIGHT SIDE: Worksheet -->
-     <div class="panel panel-right">
+    <!-- RIGHT SIDE: Worksheet -->
+    <div class="panel panel-right">
      
-
-       <!--The Story-->
-       <div class="text-box">
+      <!--The Story-->
+      <div class="text-box">
 
         <h4>The Great Bread Revolution </h4>
         
@@ -204,7 +159,7 @@
            
            "Eh, same thing," his father would reply with a wink.
         </p>
-        </div>
+      </div>
         
       <form id="quiz-form">
         <div class="question" id="question1">
@@ -274,23 +229,10 @@
         <!-- Submit and Exit Buttons -->
         <div class="button-container">
           <button type="submit">Submit</button>
-          <button id="exit">Exit</button>
         </div>
       </form>
-      <div id="result"></div>
     </div>
  
-<!-- Validate quiz -->
-
-<script>
-  //turn off the camera
-  webgazer.showVideoPreview(false) ;
-</script>
-
-<!-- Validate quiz -->
-<script src="js/quiz_validationA.js"></script>
-
-<!-- Validate quiz -->
 
 
   </body>
