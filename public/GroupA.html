@@ -10,9 +10,7 @@
     <title>Work Sheet without Virtual Human</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    
-    
     <style>
-      /* General Styling */
       body {
         margin: 0;
         padding: 0;
@@ -46,10 +44,6 @@
         margin-bottom: 20px;
       }
 
-      button:hover {
-        background-color: #45a049;
-      }
-
       .button-container {
         display: flex; 
         justify-content: flex-start; 
@@ -67,20 +61,16 @@
         overflow-y: scroll; 
         margin-bottom: 20px;
       }
-
-      .question {
-        margin-bottom: 20px;
-      }
-
-      .question h3 {
-        margin-bottom: 10px;
-      }
-
+      
       .char-count {
         margin-top: 10px;
         font-size: 14px;
         color: #555;
       }
+
+      button:hover { background-color: #45a049; }
+      .question { margin-bottom: 20px; }
+      .question h3 { margin-bottom: 10px; }
     </style>
   </head>
 
@@ -226,14 +216,9 @@
           <label><input type="radio" name="q8" value="incorrect"> Political power </label><br>
         </div>
 
-        <!-- Submit and Exit Buttons -->
-        <div class="button-container">
-          <button type="submit">Submit</button>
-        </div>
+        <button type="submit">Submit</button>
+
       </form>
     </div>
- 
-
-
   </body>
 </html>

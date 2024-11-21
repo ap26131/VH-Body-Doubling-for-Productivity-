@@ -4,18 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            
-        }
-
-        nav {
-            background-color:#8FBC8F ;
-            padding: 15px;
-           
         }
 
         nav button {
@@ -25,20 +19,9 @@
             margin: 0 10px;
             display: inline-block;
             text-align: left;
-             
-        }
-
-        nav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-
-        .section {
-            padding: 20px;
         }
         
-       
-       .groupbutton{ 
+        .groupbutton{ 
             padding-top: 50px;
             font-size: 25px;
             border: 2px solid black; 
@@ -50,62 +33,68 @@
             text-decoration: none;
             display: inline-block;
             margin-top: 80px; 
-     
         }
+
+        nav { background-color:#8FBC8F; padding: 15px; }
+        nav a:hover { background-color: #ddd; color: black; }
+        .section { padding: 20px; }
     </style>
 </head>
 
-
 <body>
+    <!-- SweetAlert Import -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
+
+    <!-- Script to handle navigation -->
     <script src="js/group_letter.js"></script>
     
     <nav>
-        <button id="calibration" onclick="window.open('/calibration', 'newtab')">Calibration</button> <!--REROUTE TO CALLIBRATION PAGE-->
+        <!--REROUTE TO CALLIBRATION PAGE-->
+        <button id="calibration" onclick="window.open('/calibration', 'newtab')">Calibration</button>
         <button id="logout">Logout</button>
     </nav>
 
+    <!-- Buttons for participant groups -->
     <a class="groupbutton" id="A"> Group A </a>   
-    <a class="groupbutton" id="B"> Group B</a> 
+    <a class="groupbutton" id="B"> Group B </a> 
     <a class="groupbutton" id="C"> Group C </a> 
     <a class="groupbutton" id="D"> Group D </a> 
     <a class="groupbutton" id="E"> Group E </a> 
 
    <script>
-   
+        // On logout, clear session, display an alert
         var logout=document.getElementById('logout')
         
         logout.addEventListener('click', function(e){
-         e.preventDefault();
-         
-         localStorage.removeItem('userToken');
+            e.preventDefault();
+            
+            localStorage.removeItem('userToken');
 
-         fetch('/clear-session', {
-          method: 'POST',
-          redirect: 'follow',
-          })
-          .then(function(response){ 
-            if(response.redirected){
-                swal({
-                    title: 'Successfully logged out!',
-                    timer: 1000,
-                    closeOnClickOutside: false,
-                    text: 'Redirecting...',
-                    icon: 'success',
-                    buttons: false,
-                  }).then(() => {
-                    window.location.href = response.url;
-                  })
-
-                  if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return;
-            }
+            fetch('/clear-session', {
+                method: 'POST',
+                redirect: 'follow'
             })
-            .then(function(data)
-          {
-        }).catch(error => console.error('Error:', error)); 
+            .then(function(response){ 
+                if(response.redirected){
+                    swal({
+                        title: 'Successfully logged out!',
+                        timer: 1000,
+                        closeOnClickOutside: false,
+                        text: 'Redirecting...',
+                        icon: 'success',
+                        buttons: false,
+                    }).then(() => {
+                        window.location.href = response.url;
+                    })
+
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return;
+                }
+            })
+            .then(function(data){})
+            .catch(error => console.error('Error:', error)); 
         });
 
 
@@ -113,12 +102,14 @@
         document.querySelectorAll('.groupbutton').forEach(x => {
             x.addEventListener('click', function() {
                 var group = this.id;
+                // display alert
                 swal({
                     title: "Group " + this.id + ": Quiz 1",
                     buttons: true,
-                    closeOnClickOutside: false,        
+                    closeOnClickOutside: false        
                 }).then((value) => {
                     if(value){
+                        // store the group the user belongs to
                         fetch("/store-group-letter", {
                             method: "POST",
                             redirect: 'follow',
@@ -127,11 +118,11 @@
                                 "Content-Type": "application/json"
                             },
                             body: JSON.stringify({
-                                group : this.id,
-                              }),
+                                group : this.id
+                            })
                         })
                         .then(function(response) {
-    
+                            // take user to the pre-survey
                             if(response.redirected){
                                 console.log("redirected");
                                 window.open('/pre-survey', '_self')

@@ -11,14 +11,12 @@
     <title>Work Sheet with Virtual Human</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    
-    
     <style>
-      /* General Styling */
       body {
-          margin: 0;
-          padding: 0;
-          height: 100vh;
-          display: flex;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
       }
 
       .panel {
@@ -28,8 +26,8 @@
         position: relative; 
       }
 
-      /* Unity half of page */
       .panel-left {
+        /* Unity half of page */
         background-color: #f0f0f0;
         z-index: 5; 
         width: 55%;
@@ -53,16 +51,12 @@
         margin-bottom: 20px;
       }
 
-      button:hover {
-        background-color: #45a049;
-      }
-
       .button-container {
         display: flex; 
         justify-content: flex-start; 
         gap: 10px; 
       }
-
+      
       .text-box {
         border: 2px solid #333; 
         padding: 20px; 
@@ -74,23 +68,19 @@
         overflow-y: scroll; 
         margin-bottom: 20px;
       }
-
-      .question {
-        margin-bottom: 20px;
-      }
-
-      .question h3 {
-        margin-bottom: 10px;
-      }
-
+      
       .char-count {
         margin-top: 10px;
         font-size: 14px;
         color: #555;
       }
 
-     /* UNITY CONTAINER */
-     #unity-container.unity-desktop {
+      button:hover { background-color: #45a049; }
+      .question { margin-bottom: 20px; }
+      .question h3 { margin-bottom: 10px; }
+
+      /* UNITY CONTAINER */
+      #unity-container.unity-desktop {
         width: 100%; 
         height: 100%; 
         position: relative; 
@@ -117,7 +107,6 @@
       #unity-progress-bar-empty { width: 141px; height: 18px; }
       #unity-progress-bar-full { width: 0%; height: 18px; }
       #unity-footer { position: relative; z-index: 4; }
-
     </style>
   </head>
 
@@ -325,34 +314,31 @@
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var warningBanner = document.querySelector("#unity-warning");
 
-
-
       var buildUrl = "BuildBasic";
-        var loaderUrl = buildUrl + "/BVH.loader.js";
-        var config = {
-          dataUrl: buildUrl + "/BVH.data",
-          frameworkUrl: buildUrl + "/BVH.framework.js",
-          codeUrl: buildUrl + "/BVH.wasm",
-          streamingAssetsUrl: "StreamingAssets",
-          companyName: "DefaultCompany",
-          productName: "Attempt1",
-          productVersion: "0.1",
-        };
+      var loaderUrl = buildUrl + "/BVH.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/BVH.data",
+        frameworkUrl: buildUrl + "/BVH.framework.js",
+        codeUrl: buildUrl + "/BVH.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "Attempt1",
+        productVersion: "0.1",
+      };
 
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
-              }).then((unityInstance) => {
-                loadingBar.style.display = "none";
-              }).catch((message) => {
-                alert(message);
-              });
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+        }).catch((message) => {
+          alert(message);
+        });
       };
 
       document.body.appendChild(script);
-
     </script> 
   </body>
 </html>

@@ -43,44 +43,44 @@ app.use(session);
 
 // Route for the login page
 app.get('/', async (req, res) => {
-        res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
 // Route for validating login from user
 app.post('/validate', async (req, res) => {
     try {
         const user = await userModel.findOne({email : req.body.email})
-       if(user != null) {
-        console.log("User found");
-         bcrypt.compare(req.body.password, user.password, function(err, result) {
-            if (err) {
-                res.status(400).json({ error: err.message });
-            }
-   
-            if (result) {
-                console.log("Password matches");
-                // Track login session with user and store email for later use
-                req.session.logged_in = true;
-                req.session.email = req.body.email;
-                req.session.id;
-                req.session.save();
+        if(user != null) {
+            console.log("User found");
+            bcrypt.compare(req.body.password, user.password, function(err, result) {
+                if (err) {
+                    res.status(400).json({ error: err.message });
+                }
+    
+                if (result) {
+                    console.log("Password matches");
+                    // Track login session with user and store email for later use
+                    req.session.logged_in = true;
+                    req.session.email = req.body.email;
+                    req.session.id;
+                    req.session.save();
 
-                // Redirect user to home page and emit a successful login message
-                return res.redirect(301,"/home");
-                
-            } else {
-            console.log("Password does not match");
-            // Redirect back to home page and show error message for incorrect password
-            return res.status(401).json({message : "Incorrect password"});
-           }
-         })
+                    // Redirect user to home page and emit a successful login message
+                    return res.redirect(301,"/home");
+                    
+                } else {
+                console.log("Password does not match");
+                // Redirect back to home page and show error message for incorrect password
+                return res.status(401).json({message : "Incorrect password"});
+                }
+            })
         } else {
             console.log("Email was not found");
-           return res.status(401).json({message : "Email was not found"});
-         }
-        } catch (err) {
-         res.status(400).json({ error: err.message });
-        } 
+            return res.status(401).json({message : "Email was not found"});
+        }
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    } 
 });
 
 // Get route for registration page
@@ -98,25 +98,25 @@ app.post('/register',  async (req, res) => {
     try {
         const user = await userModel.findOne({email : req.body.email});
         if(user === null){
-          const newUser = new userModel({
-            firstname : req.body.fname,
-            lastname : req.body.lname,
-            email : req.body.email,
-            password : await bcrypt.hash(req.body.password, 8),
-            age : req.body.age,
-            gender : req.body.gender,
-            disability : req.body.disability,
-            glasses : req.body.glasses,
-            disorder : req.body.medicated
-           });
+            const newUser = new userModel({
+                firstname : req.body.fname,
+                lastname : req.body.lname,
+                email : req.body.email,
+                password : await bcrypt.hash(req.body.password, 8),
+                age : req.body.age,
+                gender : req.body.gender,
+                disability : req.body.disability,
+                glasses : req.body.glasses,
+                disorder : req.body.medicated
+            });
 
            await newUser.save();
            return res.status(200).json({message : "Successfully registered!"});
         }
         return res.status(401).json({message : "Email already exist!"});
-      } catch (err) {
+    } catch (err) {
         return res.status(400).json({ error: err.message });
-      }
+    }
 });
 
 // Route for home page
@@ -130,7 +130,6 @@ app.get('/home', async (req, res) => {
 
 // Route for pre-survey page
 app.get('/pre-survey', async (req, res) =>{
-
     if(req.session.logged_in) {
         res.sendFile(path.join(__dirname, 'public', 'pre-quiz-survey.html'));
     } else {
@@ -138,16 +137,15 @@ app.get('/pre-survey', async (req, res) =>{
     }
 });
 
-
+// Route to store data from pre-survey
 app.post('/pre-survey', async (req, res) =>{
     try{
         const sessionData = new sessionModel({
             sid : req.session.id,
             user : req.session.email,
             presurvey : req.body
-          });
-
-          await sessionData.save();
+        });
+        await sessionData.save();
         if(sessionData !== null){
             res.redirect("/quiz");
             console.log("User has been updated");
@@ -161,7 +159,6 @@ app.post('/pre-survey', async (req, res) =>{
 
 // Route for post-survey page
 app.get('/post-survey', async (req, res) =>{
-
     if(req.session.logged_in) {
         if(req.session.group == "A") {
             res.sendFile(path.join(__dirname, 'public', 'post-quiz-surveyA.html'));
@@ -175,22 +172,20 @@ app.get('/post-survey', async (req, res) =>{
     }
 });
 
-
+// Route to store post survey data
 app.post('/post-survey', async (req, res) =>{
     try{
         const session = await sessionModel.findOneAndUpdate(
             { user: req.session.email, sid: req.session.id },
-            {
-              $set: { postsurvey: req.body },
-            },
+            { $set: { postsurvey: req.body } },
             { strict: false }
-          );
+        );
         if(session != null){
             req.session.destroy((err) => {
                 if (err) {
                     return res.status(500).json({ message: 'Failed to clear session' });
                 }
-                res.clearCookie('connect.sid'); //Clear session cookie
+                res.clearCookie('connect.sid');
                 res.redirect("/");
             });
             console.log("Test has ended");
@@ -204,7 +199,6 @@ app.post('/post-survey', async (req, res) =>{
 
 // Route for calibration page
 app.get('/calibration', async (req, res) =>{
-
     if(req.session.logged_in) {
         res.sendFile(path.join(__dirname, 'public', 'calibration.html'));
     } else {
@@ -212,6 +206,7 @@ app.get('/calibration', async (req, res) =>{
     }
 });
 
+// Route to receive calibration percentage
 app.post("/calibration", async (req, res) => {
     var calibration = req.body.percent;
     req.session.calibration = calibration;
@@ -247,7 +242,7 @@ app.get('/quiz', async (req, res) =>{
     }
 });
 
-//server side quiz submission
+//Route for server side quiz submission
 app.post('/submit-quiz', async (req, res) => {
     req.session.quizEnd = new Date();
 
@@ -259,8 +254,8 @@ app.post('/submit-quiz', async (req, res) => {
 
     await sessionModel.findOneAndUpdate(
         { user: req.session.email, sid: req.session.id },
-        {
-          $set: { postsurvey : req.body,
+        { $set: { 
+            postsurvey : req.body,
             prediction : req.body.predictions,
             quizanswers : req.body.quiz,
             quizScore : score,
@@ -277,6 +272,7 @@ app.post('/submit-quiz', async (req, res) => {
     return res.status(200).json({ finalScore : score });
 });
 
+// Route to count the number of times user has looked offscreen
 app.post('/off-screen-counter', async (req, res) => {
     if (typeof req.session.offScreenCount === 'undefined') {
         req.session.offScreenCount = 0;
@@ -295,10 +291,11 @@ app.post('/clear-session', (req, res) => {
             return res.status(500).json({ message: 'Failed to clear session' });
         }
         res.clearCookie('connect.sid'); //Clear session cookie
-        return res.redirect(301,"/home");
+        return res.redirect(301, "/home");
     });
 });
 
+// Route to store the user's group letter, then send the pre-survey page
 app.post("/store-group-letter", (req, res) => {
     var group = req.body.group;
     req.session.group = group;
