@@ -245,7 +245,6 @@ app.get('/quiz', async (req, res) =>{
 //Route for server side quiz submission
 app.post('/submit-quiz', async (req, res) => {
     req.session.quizEnd = new Date();
-
     // Process the quiz answers and calculate the score
     let score = 0;
     for (const [key, value] of Object.entries(req.body.quiz)) {
