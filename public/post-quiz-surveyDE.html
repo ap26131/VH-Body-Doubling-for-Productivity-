@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-Quiz Survey For Group D & Group E</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      .question label {
+        display: block;
+        margin-bottom: 5px;
+        color: #666;
+      }
+      
+      .submit-btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      h1 { text-align: center; color: #444; }
+      .question { margin-bottom: 20px; }
+      .question h3 { margin: 0 0 10px; color: #555; }
+      .submit-btn:hover { background-color: #45a049; }
+      </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Post-Quiz Survey</h1>
+      <form action="/post-survey" method="POST">
+        <div class="question">
+          <h3>Did you find the interactive human's presence helpful or distracting during the quiz?</h3>
+          <label><input type="radio" name="helpOrDistract" value="Very helpful"> Very helpful </label>
+          <label><input type="radio" name="helpOrDistract" value="Somewhat helpful"> Somewhat helpful </label>
+          <label><input type="radio" name="helpOrDistract" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="helpOrDistract" value="Somewhat distracting"> Somewhat distracting </label>
+          <label><input type="radio" name="helpOrDistract" value="Very distracting"> Very distracting </label>
+        </div>
+
+        <div class="question">
+          <h3>How did the interactive human’s presence impact your ability to stay focused on the quiz compared to being alone?</h3>
+          <label><input type="radio" name="focusImpact" value="Very helpful"> Very helpful </label>
+          <label><input type="radio" name="focusImpact" value="Somewhat helpful"> Somewhat helpful </label>
+          <label><input type="radio" name="focusImpact" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="focusImpact" value="Somewhat distracting"> Somewhat distracting </label>
+          <label><input type="radio" name="focusImpact" value="Very distracting"> Very distracting </label>
+        </div>
+
+        <div class="question">
+          <h3>How did the interactive human’s presence impact your productivity compared to being alone?</h3>
+          <label><input type="radio" name="productivityImpact" value="Very helpful"> Very helpful </label>
+          <label><input type="radio" name="productivityImpact" value="Somewhat helpful"> Somewhat helpful </label>
+          <label><input type="radio" name="productivityImpact" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="productivityImpact" value="Somewhat distracting"> Somewhat distracting </label>
+          <label><input type="radio" name="productivityImpact" value="Very distracting"> Very distracting </label>
+        </div>
+
+        <div class="question">
+          <h3>Would you say  the interactive human increased your motivation to complete the task compared to being alone, overall?</h3>
+          <label><input type="radio" name="motivationImpact" value="Very motivating"> Very motivating </label>
+          <label><input type="radio" name="motivationImpact" value="Somewhat motivating"> Somewhat motivating </label>
+          <label><input type="radio" name="motivationImpact" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="motivationImpact" value="Somewhat unmotivating"> Somewhat unmotivating </label>
+          <label><input type="radio" name="motivationImpact" value="Very unmotivating"> Very unmotivating </label>
+        </div>
+
+        <div class="question">
+          <h3>How effective were the interactive human’s encouraging messages in maintaining your focus and motivation during the quiz?</h3>
+          <label><input type="radio" name="encourageEffect" value="Very effective"> Very effective </label>
+          <label><input type="radio" name="encourageEffect" value="Somewhat effective"> Somewhat effective </label>
+          <label><input type="radio" name="encourageEffect" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="encourageEffect" value="Ineffective"> Ineffective </label>
+          <label><input type="radio" name="encourageEffect" value="Very ineffective"> Very ineffective </label>
+        </div>
+
+        <div class="question">
+          <h3>How effective were the outlets provided to help you concentrate again after becoming distracted?</h3>
+          <label><input type="radio" name="encourageEffect1" value="Very effective"> Very effective </label>
+          <label><input type="radio" name="encourageEffect1" value="Somewhat effective"> Somewhat effective </label>
+          <label><input type="radio" name="encourageEffect1" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="encourageEffect1" value="Ineffective"> Ineffective </label>
+          <label><input type="radio" name="encourageEffect1" value="Very ineffective"> Very ineffective </label>
+        </div>
+
+        <div class="question">
+          <h3>Was it easy to understand when and how to interact with the interactive human?</h3>
+          <label><input type="radio" name="interactEasy" value="Strongly agree"> Strongly agree </label>
+          <label><input type="radio" name="interactEasy" value="Agree"> Agree </label>
+          <label><input type="radio" name="interactEasy" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="interactEasy" value="Disagree"> Disagree </label>
+          <label><input type="radio" name="interactEasy" value="Strongly disagree"> Strongly disagree </label>
+        </div>
+
+        <div class="question">
+          <h3>If made accessible, how likely are you to use interactive body doubling as a strategy for staying focused in the future?  </h3>
+          <label><input type="radio" name="useAgain" value="Definitely"> Definitely </label>
+          <label><input type="radio" name="useAgain" value="Probably"> Probably </label>
+          <label><input type="radio" name="useAgain" value="Unsure"> Unsure </label>
+          <label><input type="radio" name="useAgain" value="Probably not"> Probably not </label>
+          <label><input type="radio" name="useAgain" value="Definitely not"> Definitely not </label>
+        </div>
+
+        <div class="question">
+          <h3>Would you recommend using an interactive human in similar learning experiences?</h3>
+          <label><input type="radio" name="recommendIH" value="Definitely"> Definitely </label>
+          <label><input type="radio" name="recommendIH" value="Probably"> Probably </label>
+          <label><input type="radio" name="recommendIH" value="Unsure"> Unsure </label>
+          <label><input type="radio" name="recommendIH" value="Probably not"> Probably not </label>
+          <label><input type="radio" name="recommendIH" value="Definitely not"> Definitely not </label>
+        </div>
+
+        <div class="question">
+          <h3>Any additional comments on your overall experience with the interactive human and the quiz</h3>
+          <input type="text" name="userComments" placeholder="Enter your comments here..." style="width: 97%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; height: 30px">
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Survey</button>
+      </form>
+    </div>
+  </body>
+</html>

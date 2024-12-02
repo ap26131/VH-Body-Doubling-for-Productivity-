@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login Page</title>
+    <style>
+        body { display: flex; 
+          justify-content: center; 
+          align-items: center; 
+          height: 100vh; 
+        }
+
+        .container { 
+          padding: 20px; 
+          border-radius: 8px; 
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+          text-align: left; 
+        }
+        
+        input[type="email"], 
+        input[type="password"], 
+        input[type="submit"], 
+        button {
+          width: 100%; 
+          padding: 10px; 
+          border-radius: 4px; 
+          box-sizing: border-box; 
+        }
+
+        input[type="email"], 
+        input[type="password"] { 
+          margin-bottom: 15px; 
+          border: 1px solid #ccc; 
+        }
+
+        input[type="submit"], 
+        button { 
+          border: none; 
+          color: white; 
+          font-size: 16px; 
+          cursor: pointer; 
+        }
+
+        label { display: block; margin: 10px 0 5px; }
+        input[type="submit"] { background-color: #4CAF50; }
+        input[type="submit"]:hover { background-color: #398529; }
+        button { margin-top: 10px; background-color: #008CBA; }
+        button:hover { background-color: #0074A5; }
+    </style>
+</head>
+
+  <body>
+    <!-- SweetAlert Import -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
+
+    <!-- Form to check username and password -->
+    <div class="container">
+        <h2>Login</h2>
+        <form id="login" action="/validate" method="post">
+            <label for="email">E-mail:</label>
+            <input type="email" size="15" id="email" maxlength="40" name="email" placeholder="Enter your e-mail here" required/>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required/>
+            <input type="submit" value="Login">
+        </form>
+        <button onclick="location.href='/register'">Register</button>
+    </div>
+
+    <script>
+      // on submit send login data to server to validate
+      var form=document.getElementById('login')
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault()
+        
+        fetch('/validate', {
+          method: 'POST',
+          redirect: 'follow',
+          body: JSON.stringify({
+            email:document.getElementById('email').value,
+            password:document.getElementById('password').value
+          }),
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+          }
+        })
+        .then(function(response){ 
+          if(response.redirected){
+            // display alert on success
+            swal({
+              title: 'Successfully logged in!',
+              timer: 2000,
+              closeOnClickOutside: false,
+              text: 'Redirecting...',
+              icon: 'success',
+              buttons: false,
+            }).then(() => {
+              window.location.href = response.url;
+            })
+            return;
+          }
+          return response.json();
+        })
+        .then(function(data){
+          swal(data.message);
+        })
+        .catch(error => console.error('Error:', error)); 
+      });
+    </script>
+  </body>
+</html>

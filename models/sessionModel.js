@@ -1,15 +1,24 @@
 const mongoose = require('mongoose');
 const { randomUUID } = require('crypto');
 
-// Current schema for user data (need to implement field for eyetrack position data)
+// Schema for session data
 const sessionSchema = new mongoose.Schema({
+    _id : {
+        type: 'UUID',
+        default: () => randomUUID()
+    },
     sid : String,
-    prediction : [String],
-    user : {type: mongoose.Schema.Types.UUID, ref: 'User'},
+    prediction : Object,
+    user : String,
+    calibration : Number,
+    quizanswers : Object,
     quizScore : Number,
     quizStart : Date,
     quizEnd : Date,
-    quizType : String
+    quizType : String,
+    offscreen : Number,
+    presurvey: Object,
+    postsurvey: Object
 });
 
 module.exports = mongoose.model('Session', sessionSchema);
