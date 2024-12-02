@@ -65,9 +65,6 @@ function startGazeTracking() {
         count = 0;
       }
     }
-    
-    // Optionally, log the data for debugging
-    console.log(`Gaze Point: (${xprediction}, ${yprediction}), Time: ${elapsedTime}`);
   }).begin();
   webgazer.showPredictionPoints(false);
 }
@@ -81,7 +78,6 @@ function getGazePoints() {
 function stopGazeTracking(){
   webgazer.clearGazeListener();
 }
-
 
 window.onload = async function() {
   swal({
