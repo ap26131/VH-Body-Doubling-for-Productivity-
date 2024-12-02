@@ -76,10 +76,10 @@ function calcAccuracy() {
   
                 }).then ( () => {
                   // Check if accurary is greater than 80%
-                        if (precision_measurement >= 80.00){
+                        if (precision_measurement >= 40.00){
                             //clear the calibration & hide the last middle button
                             ClearCanvas();
-                            window.location.href = "/Unity/";
+                            window.location.href = "/home";
                         } else {
                             //use restart function to restart the calibration
                             document.getElementById("Accuracy").innerHTML = "<a>Not yet Calibrated</a>";

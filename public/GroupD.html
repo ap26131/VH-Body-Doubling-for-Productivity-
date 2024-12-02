@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<!--QUIZ W/O VH -->
+<!--Interactive w/ RH-->
+<!--SOUND-->
+
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Work Sheet without Virtual Human and WebGazer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    
+    <style>
+
+    
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        position: center;
+    }
+
+    .panel {
+          
+          height: 100%;
+          overflow-y: scroll; 
+          border: 1px solid #ccc;
+          position: relative; 
+        }
+
+      
+        .panel-right {
+          background-color: #d0e0f0;
+          position: relative;
+          z-index: 10; 
+          width: 100%;
+        }
+
+    button {
+        display: block;
+        margin-top: 20px;
+        padding: 10px 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-bottom: 20px;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    .button-container {
+        display: flex; 
+        justify-content: flex-start; 
+        gap: 10px; 
+    }
+
+    .text-box {
+        border: 2px solid #333; 
+        padding: 20px; 
+        width: 90%; 
+        height: 500px;
+        background-color: #f0f0f0; 
+        font-family: Arial, sans-serif;
+        resize: none; 
+        overflow-y: scroll; 
+        margin-bottom: 20px;
+    }
+
+    .question {
+        margin-bottom: 20px;
+    }
+
+    .question h3 {
+        margin-bottom: 10px;
+    }
+
+    
+
+    .char-count {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+    }
+
+   
+
+     /* UNITY CONTAINER */
+     #unity-container.unity-desktop {
+          width: 100%; 
+          height: 100%; 
+          position: relative; 
+          z-index: 4; 
+        }
+  
+        #unity-canvas {
+          width: 100%;
+          height: 100%;
+          background: #231F20;
+          z-index: 4;
+        }
+  
+        #unity-loading-bar {
+          position: absolute; 
+          left: 50%; 
+          top: 50%; 
+          transform: translate(-50%, -50%);
+          display: none;
+          z-index: 4;
+        }
+  
+        #unity-logo { width: 154px; height: 130px; }
+        #unity-progress-bar-empty { width: 141px; height: 18px; }
+        #unity-progress-bar-full { width: 0%; height: 18px; }
+        #unity-footer { position: relative; z-index: 4; }
+
+    </style>
+  </head>
+
+
+  <body>
+
+    <!-- 
+    <div class="panel panel-left">
+        <div id="unity-container" class="unity-desktop">
+          <canvas id="unity-canvas"></canvas>
+          <div id="unity-loading-bar">
+            <div id="unity-logo"></div>
+            <div id="unity-progress-bar-empty">
+              <div id="unity-progress-bar-full"></div>
+            </div>
+          </div>
+          <div id="unity-footer"></div>
+        </div>
+      </div>
+    -->
+  
+
+     <!-- RIGHT SIDE: Worksheet -->
+     <div class="panel panel-right">
+     
+     
+        <!-- TOP BUTTONS -->
+      <div class="button-container">
+        <button onclick="store_points_variable()">Start Storing Points</button>
+        <button onclick="stop_storing_points_variable()">Stop Storing Points</button>
+      </div>
+
+       <!--The Story-->
+       <div class="text-box">
+        <h4>The Great Bread Revolution </h4>
+        <p> Once upon a time in France, there was a boy named Pierre who lived in a tiny village called Montclair. His family ran the local bakery, famous for their delicious bread. The secret ingredient? "Lots of love and a sprinkle of flour," Pierre’s father would say, though Pierre was pretty sure it was just butter. Anyway, people from all over the village came for the bread—until one day, they stopped. It all started when the price of flour shot up like a rocket. Suddenly, Pierre’s father could barely afford enough flour to make even a baguette. "We’re being taxed more than a fancy cheese at a rich man's party!" his father grumbled, tossing his hat onto the table. The trouble was the king, Louis XVI, and his queen, Marie Antoinette. They lived in a palace so big, it probably had enough rooms to lose an entire herd of cows in there. But what really upset people was that while Pierre’s family couldn’t afford flour, the king and queen were swimming in cakes and pastries. "Let them eat cake," they supposedly said, which made Pierre think, *Hey, I wouldn’t mind some cake right about now.* But that wasn't really the point. One evening, as Pierre was staring sadly at a single loaf of bread (which had to last a week), his father slammed his fist on the table and declared, "Enough is enough! The people are rising up! No more taxes, no more kings! We want... uh, we want... cheaper flour!" Pierre was confused. "Is this really all about flour, Papa?" His father waved him off. "Flour, taxes, unfairness—pick one! The Revolution is happening! I’m going to Paris!" "Wait... now?" Pierre asked. But his father was already packing. "Who's going to bake the bread?" Pierre’s father froze. "Uh... you are." And just like that, Pierre was in charge of the bakery. With his father off to join the revolution, it was up to him and his mother to keep the business running. Except, well, they had no flour. So Pierre, ever the problem-solver, got creative. First, he tried stretching the bread dough with mashed potatoes. "Potato bread’s a thing, right?" It wasn’t. The bread came out looking like a lumpy rock, and tasted even worse. Then he tried baking bread using corn instead of wheat, but all he made was popcorn. "At least we can snack while we starve," his mother said, ever the optimist. Meanwhile, in Paris, Pierre’s father was having the time of his life. The streets were filled with people shouting, "Liberty! Equality! And Bread!" Well, mostly bread. The big event was storming the Bastille, a massive prison that no one liked. Pierre’s father got swept up in the crowd, and though he didn’t really know what was going on, he figured it was a great place to complain about flour prices. "Down with the king! And while we’re at it, could we get a better deal on flour?" Pierre’s father yelled. A few people nodded in agreement. They stormed the gates, and somehow, amidst all the chaos, Pierre’s dad managed to snag a baguette from a vendor. "Finally, some decent bread!" he cheered, munching away. Back in Montclair, Pierre had just about given up. The bakery was empty, and he was staring at a loaf of bread that had fallen on the floor. "Well, at least it can’t get worse," he muttered, right before his mother announced they were out of butter too. "Great," Pierre sighed. But then, his father returned from Paris, waving a flag and carrying a sack of—could it be?—flour! "We did it!" his father shouted. "The king’s been kicked out, and now we’re building a new France. A France where flour is affordable and bread is plentiful!" Pierre raised an eyebrow. "So, uh, is the price of flour really lower?" His father hesitated. "Well... not exactly yet. But the good news is that we’re in charge now! No more kings telling us what to do!" "So... we still can’t make bread?" Pierre asked. His father looked at the sack of flour he brought back. "Okay, so I bought this on the way home with the last of our coins. But freedom! Think of the freedom!" Pierre stared at the flour, then at his father, and finally burst out laughing. "So we went through all that just to have no flour... but at least now we’re free to be broke?" His father grinned. "Exactly! Isn’t it great?" Pierre couldn’t help but laugh. It was all a bit ridiculous, really. They were free, yes, but still struggling. Yet, somehow, things felt different. People were working together, making their voices heard. And even if they were still broke, they were at least broke *together*. As the days went by, the bakery got back on its feet. People started returning, not because the bread was suddenly amazing (it still had a tendency to come out a little lumpy), but because there was hope in the air. And if there was one thing that went well with bread, it was hope. And so, Pierre’s family continued baking, with a little more laughter, a lot more stories about Paris, and a determination that no king—or lack of flour—could ever take away their joy. "Long live the bread!" Pierre’s father would shout every morning, and Pierre would just shake his head, chuckling. "Papa, I think you mean, 'Long live the revolution!'" "Eh, same thing," his father would reply with a wink. </p>
+      </div>
+      <form id="quiz-form">
+        <div class="question" id="question1">
+              <h3>What is the primary pourpose of the passage?</h3>
+              <label><input type="radio" name="q1" value="incorrect"> To highlight the struggles of a small family business during a time of economic hardship.</label><br>
+              <label><input type="radio" name="q1" value="correct"> To depict the humorous side of a serious historical event.</label><br>
+              <label><input type="radio" name="q1" value="incorrect"> To explain the political motivations behind the French Revolution.</label><br>
+              <label><input type="radio" name="q1" value="incorrect"> To criticize the monarchy for its lavish lifestyle.</label><br>
+          </div>
+          
+          <div class="question" id="question2">
+              <h3>Based on the passage, how is Pierre's father portrayed?</h3>
+              <label><input type="radio" name="q2" value="correct"> Humorous but impulsive.</label><br>
+              <label><input type="radio" name="q2" value="incorrect"> Fully dedicated to political change.</label><br>
+              <label><input type="radio" name="q2" value="incorrect"> A practical and logical thinker.</label><br>
+              <label><input type="radio" name="q2" value="incorrect"> Resistant to the idea of revolution.</label><br>
+          </div>
+                   
+          <div class="question" id="question3">
+              <h3>What impact did Pierre’s creative bread experiments have on the bakery’s business?</h3>
+              <label><input type="radio" name="q3" value="incorrect"> They were wildly successful and helped the bakery thrive.</label><br>
+              <label><input type="radio" name="q3" value="incorrect"> They led to a new variety of bread that people preferred.</label><br>
+              <label><input type="radio" name="q3" value="incorrect"> They were appreciated by the community.</label><br>
+              <label><input type="radio" name="q3" value="correct"> They failed but kept the family’s spirits up.</label><br>
+          </div>
+                     
+          <div class="question" id="question4">
+              <h3>What is ironic about Pierre’s family’s situation after the father’s return from Paris?</h3>
+              <label><input type="radio" name="q4" value="incorrect"> They are wealthier but still cannot find affordable flour.</label><br>
+              <label><input type="radio" name="q4" value="correct"> They have a renewed sense of freedom but still face financial hardship.</label><br>
+              <label><input type="radio" name="q4" value="incorrect"> Pierre’s father’s revolutionary actions have made him a political hero.</label><br>
+              <label><input type="radio" name="q4" value="incorrect"> They have an excess of flour but no one to buy their bread.</label><br>
+          </div>
+          
+          <div class="question" id="question5">
+              <h3>What does Pierre’s father mean when he says, "Long live the bread!"?</h3>
+              <label><input type="radio" name="q5" value="correct"> He views bread as a symbol of freedom and hope.</label><br>
+              <label><input type="radio" name="q5" value="incorrect"> He values his bakery business above all else.</label><br>
+              <label><input type="radio" name="q5" value="incorrect"> He has become disillusioned with the revolution.</label><br>
+              <label><input type="radio" name="q5" value="incorrect"> He hopes to return to the old ways of life.</label><br>
+          </div>
+            
+          <div class="question" id="question6">
+              <h3>Which of the following best describes the attitude of Pierre’s father towards the revolution at the end of the passage?</h3>
+              <label><input type="radio" name="q6" value="incorrect"> Disillusioned by the lack of immediate results.</label><br>
+              <label><input type="radio" name="q6" value="incorrect"> Angered by the king’s resistance.</label><br>
+              <label><input type="radio" name="q6" value="correct"> Hopeful, despite the lack of immediate change in their circumstances.</label><br>
+              <label><input type="radio" name="q6" value="incorrect"> Indifferent to the outcomes of the revolution.</label><br>
+          </div>
+            
+          <div class="question" id="question7">
+              <h3>Which of the following best characterizes Pierre’s view on the revolution by the end of the passage?</h3>
+              <label><input type="radio" name="q7" value="incorrect"> Indifferent to the idea of freedom.</label><br>
+              <label><input type="radio" name="q7" value="correct"> Optimistic yet practical about the challenges ahead.</label><br>
+              <label><input type="radio" name="q7" value="incorrect"> Excited about his new role in the revolution.</label><br>
+              <label><input type="radio" name="q7" value="incorrect"> Resentful toward his father’s political views.</label><br>
+          </div>
+          
+          <div class="question" id="question8">
+              <h3>Based on the passage, the story of Pierre and his father suggests that true change:</h3>
+              <label><input type="radio" name="q8" value="incorrect"> Requires complete economic overhaul.</label><br>
+              <label><input type="radio" name="q8" value="correct"> Involves both struggles and hope for a better future.</label><br>
+              <label><input type="radio" name="q8" value="incorrect"> Must begin with political leadership.</label><br>
+              <label><input type="radio" name="q8" value="incorrect"> Is best achieved through personal sacrifice.</label><br>
+          </div>
+
+        <!-- Submit and Exit Buttons -->
+        <div class="button-container">
+          <button type="submit">Submit</button>
+          <button id="exit">Exit</button>
+        </div>
+      </form>
+      <div id="result"></div>
+    </div>
+  
+
+ 
+<!-- JavaScript -->
+
+<!-- Validate quiz -->
+<script src="js/quiz_validation.js"></script>
+
+
+<script>
+  document.getElementById('exit').addEventListener('click', async () => {
+    stopGazeTracking();
+    try {
+      // Send the GazePoints to the server
+      const response = await fetch('/send-gaze-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ data: getGazePoints() })
+      });
+      
+      if (response.ok) {
+        // Redirect to home.html after successful send
+        window.location.href = 'home.html';
+      } else {
+        console.error('Failed to send data', response.status);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
+</script> 
+
+<!--OFFSCREEN TO DETECT -->
+<script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+
+<script>
+  let timer = null; 
+  let isOffScreen = false;
+  
+  // Load the audio file
+  let audio = new Audio('ding-126626.mp3'); 
+  
+  webgazer.setGazeListener(function(data) { 
+    if (data == null) {
+      return;
+    }
+    
+    var xprediction = data.x; 
+    var yprediction = data.y; 
+    
+    
+    var viewportWidth = window.innerWidth;
+    var viewportHeight = window.innerHeight;
+    
+    var minX = viewportWidth * 0.1; 
+    var maxX = viewportWidth * 0.9; 
+    var minY = viewportHeight * 0.1; 
+    var maxY = viewportHeight * 0.9; 
+    
+    // Check if gaze is off-screen
+    if (xprediction < minX || xprediction > maxX || yprediction < minY || yprediction > maxY) {
+      try {
+        // Send notification to server that user looked off screen
+        const response = fetch('/off-screen-counter', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ action: 'off screen' })
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      }
+      
+      if (!isOffScreen) { // Start timer only if not already off-screen
+        isOffScreen = true;
+        audio.play().catch(function(error) {
+          console.error("Audio playback error:", error);
+        });
+        alert("Gaze has been off-screen for 10 seconds.");
+        timer = setTimeout(function() {
+        }, 10000); // 10 seconds
+      }
+    } else {
+      // Clear timer and reset if the gaze is back on-screen
+      if (isOffScreen) {
+        clearTimeout(timer);
+        isOffScreen = false;
+      }
+    }
+  }).begin();
+</script>
+
+<!-- Save group letter to session -->
+<script src="js/send_group_letter.js"></script>
+</body>
+</html>
