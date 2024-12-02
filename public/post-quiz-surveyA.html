@@ -21,27 +21,13 @@
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
-
-      h1 {
-        text-align: center;
-        color: #444;
-      }
-
-      .question {
-        margin-bottom: 20px;
-      }
-
-      .question h3 {
-        margin: 0 0 10px;
-        color: #555;
-      }
-
+      
       .question label {
         display: block;
         margin-bottom: 5px;
         color: #666;
       }
-
+      
       .submit-btn {
         display: block;
         width: 100%;
@@ -53,56 +39,61 @@
         border-radius: 5px;
         cursor: pointer;
       }
-
-      .submit-btn:hover {
-        background-color: #45a049;
-      }
-    </style>
+      
+      h1 { text-align: center; color: #444; }
+      .question { margin-bottom: 20px; }
+      .question h3 {margin: 0 0 10px; color: #555; }
+      .submit-btn:hover {background-color: #45a049; }
+      </style>
   </head>
+  
   <body>
     <div class="container">
       <h1>Post-Quiz Survey</h1>
       <form action="/post-survey" method="POST">
         <div class="question">
-            <h3>Did you find working without aide helpful or distracting during the quiz ?</h3>
-            <label><input type="radio" name="helpOrDistract" value="Very helpful"> Very helpful </label>
-            <label><input type="radio" name="helpOrDistract" value="Somewhat helpful"> Somewhat helpful </label>
-            <label><input type="radio" name="helpOrDistract" value="Neutral"> Neutral </label>
-            <label><input type="radio" name="helpOrDistract" value="Somewhat distracting"> Somewhat distracting </label>
-            <label><input type="radio" name="helpOrDistract" value="Very distracting"> Very distracting </label>
-          </div>
-          <div class="question">
-            <h3>How did working without aide impact your ability to stay focused on the quiz ?</h3>
-            <label><input type="radio" name="focusImpact" value="Very helpful"> Very helpful </label>
-            <label><input type="radio" name="focusImpact" value="Somewhat helpful"> Somewhat helpful </label>
-            <label><input type="radio" name="focusImpact" value="Neutral"> Neutral </label>
-            <label><input type="radio" name="focusImpact" value="Somewhat distracting"> Somewhat distracting </label>
-            <label><input type="radio" name="focusImpact" value="Very distracting"> Very distracting </label>
-          </div>
-          <div class="question">
-              <h3>Would you say working without aide increased your motivation to complete the task?</h3>
-              <label><input type="radio" name="motivationImpact" value="Very motivating"> Very motivating </label>
-              <label><input type="radio" name="motivationImpact" value="Somewhat motivating"> Somewhat motivating </label>
-              <label><input type="radio" name="motivationImpact" value="Neutral"> Neutral </label>
-              <label><input type="radio" name="motivationImpact" value="Somewhat unmotivating"> Somewhat unmotivating </label>
-              <label><input type="radio" name="motivationImpact" value="Very unmotivating"> Very unmotivating </label>
-            </div>
-            <div class="question">
-                <h3>How did working without aide impact your productivity?</h3>
-                <label><input type="radio" name="productivityImpact" value="Very helpful"> Very helpful </label>
-                <label><input type="radio" name="productivityImpact" value="Somewhat helpful"> Somewhat helpful </label>
-                <label><input type="radio" name="productivityImpact" value="Neutral"> Neutral </label>
-                <label><input type="radio" name="productivityImpact" value="Somewhat distracting"> Somewhat distracting </label>
-                <label><input type="radio" name="productivityImpact" value="Very distracting"> Very distracting </label>
-              </div>
+          <h3>Did you find working without aide helpful or distracting during the quiz ?</h3>
+          <label><input type="radio" name="helpOrDistract" value="Very helpful"> Very helpful </label>
+          <label><input type="radio" name="helpOrDistract" value="Somewhat helpful"> Somewhat helpful </label>
+          <label><input type="radio" name="helpOrDistract" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="helpOrDistract" value="Somewhat distracting"> Somewhat distracting </label>
+          <label><input type="radio" name="helpOrDistract" value="Very distracting"> Very distracting </label>
+        </div>
+
+        <div class="question">
+          <h3>How did working without aide impact your ability to stay focused on the quiz ?</h3>
+          <label><input type="radio" name="focusImpact" value="Very helpful"> Very helpful </label>
+          <label><input type="radio" name="focusImpact" value="Somewhat helpful"> Somewhat helpful </label>
+          <label><input type="radio" name="focusImpact" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="focusImpact" value="Somewhat distracting"> Somewhat distracting </label>
+          <label><input type="radio" name="focusImpact" value="Very distracting"> Very distracting </label>
+        </div>
+
+        <div class="question">
+          <h3>Would you say working without aide increased your motivation to complete the task?</h3>
+          <label><input type="radio" name="motivationImpact" value="Very motivating"> Very motivating </label>
+          <label><input type="radio" name="motivationImpact" value="Somewhat motivating"> Somewhat motivating </label>
+          <label><input type="radio" name="motivationImpact" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="motivationImpact" value="Somewhat unmotivating"> Somewhat unmotivating </label>
+          <label><input type="radio" name="motivationImpact" value="Very unmotivating"> Very unmotivating </label>
+        </div>
+
+        <div class="question">
+          <h3>How did working without aide impact your productivity?</h3>
+          <label><input type="radio" name="productivityImpact" value="Very helpful"> Very helpful </label>
+          <label><input type="radio" name="productivityImpact" value="Somewhat helpful"> Somewhat helpful </label>
+          <label><input type="radio" name="productivityImpact" value="Neutral"> Neutral </label>
+          <label><input type="radio" name="productivityImpact" value="Somewhat distracting"> Somewhat distracting </label>
+          <label><input type="radio" name="productivityImpact" value="Very distracting"> Very distracting </label>
+        </div>
     
         <div class="question">
-            <h3>Would you have preferred a different techinque to keep you focused in similar learning experiences?</h3>
-            <label><input type="radio" name="recommendA" value="Definitely"> Definitely </label>
-            <label><input type="radio" name="recommendA" value="Probably"> Probably </label>
-            <label><input type="radio" name="recommendA" value="Unsure"> Unsure </label>
-            <label><input type="radio" name="recommendA" value="Probably not"> Probably not </label>
-            <label><input type="radio" name="recommendA" value="Definitely not"> Definitely not </label>
+          <h3>Would you have preferred a different techinque to keep you focused in similar learning experiences?</h3>
+          <label><input type="radio" name="recommendA" value="Definitely"> Definitely </label>
+          <label><input type="radio" name="recommendA" value="Probably"> Probably </label>
+          <label><input type="radio" name="recommendA" value="Unsure"> Unsure </label>
+          <label><input type="radio" name="recommendA" value="Probably not"> Probably not </label>
+          <label><input type="radio" name="recommendA" value="Definitely not"> Definitely not </label>
         </div>
 
         <div class="question">
@@ -113,10 +104,12 @@
           <label><input type="radio" name="recommendB" value="Probably not"> Probably not </label>
           <label><input type="radio" name="recommendB" value="Definitely not"> Definitely not </label>
         </div>
+
         <div class="question">
           <h3>Any additional comments on your overall experience with the quiz</h3>
           <input type="text" name="userComments" placeholder="Enter your comments here..." style="width: 97%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; height: 30px">
         </div>
+
         <button type="submit" class="submit-btn">Submit Survey</button>
       </form>
     </div>

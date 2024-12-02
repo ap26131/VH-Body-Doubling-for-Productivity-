@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pre-Quiz Survey</title>
+
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -22,26 +23,12 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
 
-      h1 {
-        text-align: center;
-        color: #444;
-      }
-
-      .question {
-        margin-bottom: 20px;
-      }
-
-      .question h3 {
-        margin: 0 0 10px;
-        color: #555;
-      }
-
       .question label {
         display: block;
         margin-bottom: 5px;
         color: #666;
       }
-
+      
       .submit-btn {
         display: block;
         width: 100%;
@@ -53,12 +40,14 @@
         border-radius: 5px;
         cursor: pointer;
       }
-
-      .submit-btn:hover {
-        background-color: #45a049;
-      }
+      
+      h1 { text-align: center; color: #444; }
+      .question { margin-bottom: 20px; }
+      .question h3 { margin: 0 0 10px; color: #555; }
+      .submit-btn:hover { background-color: #45a049; }
     </style>
   </head>
+  
   <body>
     <div class="container">
       <h1>Pre-Quiz Survey</h1>
@@ -71,6 +60,7 @@
           <label><input type="radio" name="focusLevel" value="somewhat-unfocused"> Somewhat not focused </label>
           <label><input type="radio" name="focusLevel" value="not-focused"> Not focused at all </label>
         </div>
+
         <div class="question">
           <h3>How would you rate your productivity in completing tasks?</h3>
           <label><input type="radio" name="productivityLevel" value="very-low"> Very low </label>
@@ -79,6 +69,7 @@
           <label><input type="radio" name="productivityLevel" value="high"> High </label>
           <label><input type="radio" name="productivityLevel" value="very-high"> Very high </label>
         </div>
+
         <div class="question">
           <h3>How easy is it for you to stay focused when working on a task?</h3>
           <label><input type="radio" name="focusEase" value="very-difficult"> Very difficult </label>
@@ -87,6 +78,7 @@
           <label><input type="radio" name="focusEase" value="somewhat-easy"> Somewhat easy </label>
           <label><input type="radio" name="focusEase" value="very-easy"> Very easy </label>
         </div>
+
         <div class="question">
           <h3>Do you find it takes you longer than expected to complete tasks due to focus challenges?</h3>
           <label><input type="radio" name="taskDuration" value="never"> Never </label>
@@ -95,6 +87,7 @@
           <label><input type="radio" name="taskDuration" value="often"> Often </label>
           <label><input type="radio" name="taskDuration" value="always"> Always </label>
         </div>
+
         <div class="question">
           <h3>How long can you typically concentrate on a task before needing a break?</h3>
           <label><input type="radio" name="concentrationDuration" value="under-15"> Less than 15 minutes </label>
@@ -102,16 +95,19 @@
           <label><input type="radio" name="concentrationDuration" value="30-60"> 30 to 60 minutes </label>
           <label><input type="radio" name="concentrationDuration" value="over-60"> More than 60 minutes </label>
         </div>
+
         <div class="question">
           <h3>What habits or routines do you normally use to help you stay focused?</h3>
           <input type="text" name="focus-routines" placeholder="Enter your comments here..." style="width: 97%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; height: 30px">
         </div>
+
         <div class="question">
           <h3>If there were a tool designed to help improve focus and productivity, would you be interested?</h3>
           <label><input type="radio" name="toolInterest" value="interested"> Yes, I would be interested </label>
           <label><input type="radio" name="toolInterest" value="somewhat-interested"> Somewhat interested </label>
           <label><input type="radio" name="toolInterest" value="not-interested"> No, I would not be interested </label>
         </div>
+        
         <button type="submit" class="submit-btn">Submit Survey</button>
       </form>
     </div>

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { randomUUID } = require('crypto');
 
-// Current schema for user data (need to implement field for eyetrack position data)
+// Schema for user data
 const userSchema = new mongoose.Schema({
     _id : {
         type: 'UUID',

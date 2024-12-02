@@ -13,6 +13,7 @@
          margin-bottom: 16px;
          resize: vertical;
          }
+
          input[type=submit] {
          background-color: #04AA6D;
          color: white;
@@ -20,30 +21,30 @@
          border: none;
          border-radius: 4px;
          }
-         input[type=submit]:hover {
-         background-color: #45a049;
-         }
+         
          .container {
-         border-radius: 5px;
-         background-color: #f2f2f2;
-         padding: 20px;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
          }
+         
          button {
-         background-color: #04AA6D;
-         color: white;
-         padding: 12px 20px;
-         border: none;
-         border-radius: 4px;
+            background-color: #04AA6D;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
          }
-         button:hover{
-            background-color: #45a049;
-         }
-
-      </style>
+         
+         input[type=submit]:hover { background-color: #45a049; }
+         button:hover{ background-color: #45a049; }
+         </style>
    </head>
    <body>
-      <h3>Participant Form</h3>
+      <!-- SweetAlert Import -->
       <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
+
+      <h3>Participant Form</h3>
       <div class="container">
          <form id="register" method="POST" >
             <!-- Text input fields -->
@@ -96,33 +97,33 @@
          var form=document.getElementById('register')
          
          form.addEventListener('submit', function(e){
-          e.preventDefault()
-         
-          fetch('/register', {
-           method: 'POST',
-           body: JSON.stringify({
-             fname:document.getElementById('fname').value,
-             lname:document.getElementById('lname').value,
-             email:document.getElementById('email').value,
-             password:document.getElementById('password').value,
-             age:document.getElementById('age').value,
-             gender:document.getElementById('gender').value,
-             disability:document.querySelector("input[type='radio'][name=disabilityOption]:checked").value,
-             glasses:document.querySelector("input[type='radio'][name=glassesOption]:checked").value,
-             medicated:document.querySelector("input[type='radio'][name=medicatedOption]:checked").value,
-           }),
-           headers: {
-             'Content-type': 'application/json'
-           }
-           })
-           .then(function(response){ 
-           return response.json();
-         })
-           .then(function(data)
-           {
-            swal(data.message);
-         }).catch(error => console.error('Error:', error)); 
+            e.preventDefault()
+            
+            fetch('/register', {
+               method: 'POST',
+               body: JSON.stringify({
+                  fname:document.getElementById('fname').value,
+                  lname:document.getElementById('lname').value,
+                  email:document.getElementById('email').value,
+                  password:document.getElementById('password').value,
+                  age:document.getElementById('age').value,
+                  gender:document.getElementById('gender').value,
+                  disability:document.querySelector("input[type='radio'][name=disabilityOption]:checked").value,
+                  glasses:document.querySelector("input[type='radio'][name=glassesOption]:checked").value,
+                  medicated:document.querySelector("input[type='radio'][name=medicatedOption]:checked").value
+               }),
+               headers: {
+                  'Content-type': 'application/json'
+               }
+            })
+            .then(function(response){ 
+            return response.json();
+            })
+            .then(function(data){
+               swal(data.message);
+            })
+            .catch(error => console.error('Error:', error)); 
          });
-         </script>
+      </script>
    </body>
 </html>
